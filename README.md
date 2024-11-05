@@ -1,2 +1,2 @@
-# miniRT
-RayTracing Example with MiniLibX
+# MiniRT
+Ray tracing example with MiniLibX
