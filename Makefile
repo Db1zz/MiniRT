@@ -12,7 +12,7 @@ SRCS = src/minirt.c
 SRCS_DIR = src
 OBJS = $(SRCS:src/%.c=objs/%.o)
 OBJS_DIR = objs
-INCLUDE := -I include -I libft/ft_printf/include -I $(MINILIBX_DIR)
+INCLUDE := -I include -I libft -I libft/get_next_line -I $(MINILIBX_DIR)
 ifeq ($(UNAME_S), Linux)
 	LIB_URL = https://cdn.intra.42.fr/document/document/26192/minilibx-linux.tgz
 	FLAGS_MINILIBX = -I/usr/include -Imlx_linux -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
