@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.c                                           :+:      :+:    :+:   */
+/*   pos.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 08:27:44 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/07 11:58:59 by gonische         ###   ########.fr       */
+/*   Created: 2024/11/07 12:26:26 by gonische          #+#    #+#             */
+/*   Updated: 2024/11/07 12:28:45 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "dependencies.h"
+#ifndef POS_H
+# define POS_H
 
-int	main(int argc, char **argv)
+typedef struct s_pos
 {
-	ft_printf("Test123\n");
-}
+	int	x;
+	int	y;
+	int	z;
+}	t_pos;
+
+void	set_pos(t_pos *pos, int x, int y, int z);
+
+#endif // POS_H

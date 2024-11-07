@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.c                                           :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 08:27:44 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/07 11:58:59 by gonische         ###   ########.fr       */
+/*   Created: 2024/11/07 11:44:09 by gonische          #+#    #+#             */
+/*   Updated: 2024/11/07 12:09:06 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "dependencies.h"
+#ifndef PARSER_H
+# define PARSER_H
 
-int	main(int argc, char **argv)
-{
-	ft_printf("Test123\n");
-}
+
+
+#endif // PARSER_H

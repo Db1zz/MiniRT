@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.c                                           :+:      :+:    :+:   */
+/*   pos.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 08:27:44 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/07 11:58:59 by gonische         ###   ########.fr       */
+/*   Created: 2024/11/07 12:26:18 by gonische          #+#    #+#             */
+/*   Updated: 2024/11/07 12:29:40 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "dependencies.h"
+#include "pos.h"
 
-int	main(int argc, char **argv)
+void	set_pos(t_pos *pos, int x, int y, int z)
 {
-	ft_printf("Test123\n");
+	if (!pos)
+	{
+		printf("Error in %s: pos == NULL\n", __func__);
+		return ;
+	}
+	pos->x = x;
+	pos->y = y;
+	pos->z = z;
 }

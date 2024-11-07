@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.c                                           :+:      :+:    :+:   */
+/*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 08:27:44 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/07 11:58:59 by gonische         ###   ########.fr       */
+/*   Created: 2024/11/07 11:46:08 by gonische          #+#    #+#             */
+/*   Updated: 2024/11/07 11:47:03 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef MINIRT_H
+#define MINIRT_H
+
+#include "parser.h"
 #include "dependencies.h"
 
-int	main(int argc, char **argv)
-{
-	ft_printf("Test123\n");
-}
+#endif //	MINIRT_H

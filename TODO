@@ -10,8 +10,8 @@ Camera -
 Light sources 
 Light management: spot brightness, hard shadows, ambiance lighting (objects are
 never completely in the dark). You must implement Ambient and diffuse lighting.
-RayTracing - https://scratchapixel.com/lessons/3d-basic-rendering/introduction-to-ray-tracing/how-does-it-work.html
 
+RayTracing - https://scratchapixel.com/lessons/3d-basic-rendering/introduction-to-ray-tracing/how-does-it-work.html
 
 
 ## Scene parser
