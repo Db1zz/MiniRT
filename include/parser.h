@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 11:44:09 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/11 15:24:04 by gonische         ###   ########.fr       */
+/*   Updated: 2024/11/11 17:37:49 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "shapes.h"
 #include "scene.h"
 #include "light.h"
+#include <stdlib.h>
 
 #define CYLINDER_ARGS 6
 #define PLANE_ARGS 5

@@ -12,6 +12,7 @@
 
 #include "color.h"
 #include "libft.h"
+#include "minirt.h"
 
 int	set_color(t_color *color, int r, int g, int b)
 {
@@ -41,18 +42,33 @@ bool	validate_colors(int r, int g, int b)
 int		str_to_color(t_color *color, char *str)
 {
 	char	**data;
+	bool	status;
+	int		i;
 
-	if (!color || !str)
+	status = false;
+	while (true)
 	{
-		printf("Error in %s: color | str == NULL\n", __func__);
-		return (-1);
+		// TODO fix this
+		if (!color || !str)
+			printf("Error in %s: color | str == NULL\n", __func__);
+		data = ft_split(str, ',');
+		if (data == NULL || get_2dmatrix_size(data) != RGB_MAX_SIZE)
+			printf("Error in %s: color size != %d\n", __func__, RGB_MAX_SIZE);
+		i = 0;
+		while (i < RGB_MAX_SIZE)
+		{
+			if (!is_string_number(str))
+			{
+				printf("Error in %s: string is not a number\n", __func__);
+				break ;
+			}
+			i++;
+		}
+		status = set_color(color, ft_atoi(data[0]), ft_atoi(data[1]), ft_atoi(data[2]));
+		break ;
 	}
-	data = ft_split(str, ',');
-	if (data == NULL || get_2dmatrix_size(data) != RGB_MAX_SIZE)
-	{
-		printf("Error in %s: color size != %d\n", __func__, RGB_MAX_SIZE);
+	free_2dmatrix(data);
+	if (!status)
 		return (-1);
-	}
-	// what if input will be "0,,"
 	return (0);
 }
