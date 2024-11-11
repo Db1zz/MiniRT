@@ -27,3 +27,12 @@ the scene. [A(Ambient lightning), C(Camera), L(Light), sp(Sphere), pl(Plane), cy
 ◦ Each element first’s information is the type identifier (composed by one or two
 character(s)), followed by all specific information for each object in a strict
 order.
+
+
+## Allowed functions
+open, close, read, write,
+printf, malloc, free, perror,
+strerror, exit
+• All functions of the math
+library (-lm man man 3 math)
+• All functions of the MinilibX

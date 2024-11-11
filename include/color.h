@@ -15,6 +15,7 @@
 
 # define RGB_MIN 0
 # define RGB_MAX 255
+# define RGB_MAX_SIZE 3
 
 # include <stdbool.h>
 
@@ -25,8 +26,10 @@ typedef struct s_color
 	int	b;
 }	t_color;
 
-bool	set_color(t_color *color, int r, int g, int b);
+int		set_color(t_color *color, int r, int g, int b);
 bool	check_color(int c);
 bool	validate_colors(int r, int g, int b);
+int		str_to_color(t_color *color, char *str);
+
 
 #endif // COLOR_H

@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.c                                           :+:      :+:    :+:   */
+/*   camera.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 08:27:44 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/11 16:12:34 by gonische         ###   ########.fr       */
+/*   Created: 2024/11/11 15:40:41 by gonische          #+#    #+#             */
+/*   Updated: 2024/11/11 15:49:11 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "dependencies.h"
+#ifndef CAMERA_H
+#define CAMERA_H
 
-int	main(/*int argc, char **argv*/)
+#include "pos.h"
+#include "scene.h"
+
+typedef struct s_camera
 {
-	char	**data = ft_split("0,,", ',');
-	int		i = 0;
-	while (data[i])
-		i++;
-	printf("%d\n", i);
-}
+	t_pos	view_point;
+	t_pos	orientation_vec;
+	int		fov	; // 0 - 180
+}	t_camera;
+
+int	create_camera(t_scene *scene, const t_pos *view_point,
+			const t_pos *orientation_vec, int fov);
+
+#endif	// CAMERA_H

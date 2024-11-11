@@ -1,22 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 08:27:44 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/11 16:12:34 by gonische         ###   ########.fr       */
+/*   Created: 2024/11/08 17:42:46 by gonische          #+#    #+#             */
+/*   Updated: 2024/11/09 16:09:44 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "dependencies.h"
+#include "minirt.h"
 
-int	main(/*int argc, char **argv*/)
+void	free_2dmatrix(char **matrix)
 {
-	char	**data = ft_split("0,,", ',');
-	int		i = 0;
-	while (data[i])
-		i++;
-	printf("%d\n", i);
+	int	i;
+
+	i = 0;
+	while (matrix[i])
+		free(matrix[i++]);
+	free(matrix);
+}
+
+size_t	get_2dmatrix_size(char **matrix)
+{
+	size_t	size;
+
+	if (matrix == NULL)
+		return (0);
+	size = 0;
+	while (matrix[size])
+		size++;
+	return (size);
 }

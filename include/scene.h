@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.c                                           :+:      :+:    :+:   */
+/*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 08:27:44 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/11 16:12:34 by gonische         ###   ########.fr       */
+/*   Created: 2024/11/08 15:07:22 by gonische          #+#    #+#             */
+/*   Updated: 2024/11/08 15:12:20 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "dependencies.h"
+#ifndef SCENE_H
+# define SCENE_H
 
-int	main(/*int argc, char **argv*/)
+# include "shapes.h"
+
+typedef struct s_scene
 {
-	char	**data = ft_split("0,,", ',');
-	int		i = 0;
-	while (data[i])
-		i++;
-	printf("%d\n", i);
-}
+	/*camera*/
+	/*ambient light*/
+	/*light sources*/
+	t_sphere	*spheres;
+	t_plane		*planes;
+	t_cylinder	*cylinders;
+}	t_scene;
+
+#endif	// SCENE_H

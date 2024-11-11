@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 15:08:35 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/27 23:00:30 by gonische         ###   ########.fr       */
+/*   Updated: 2024/11/08 19:14:31 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ int	ft_dprintf(int fd, const char *str, ...)
 	va_end(data);
 	return (printed_c);
 }
-
 
 // int main(void)
 // {

@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.c                                           :+:      :+:    :+:   */
+/*   parser_math.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 08:27:44 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/11 16:12:34 by gonische         ###   ########.fr       */
+/*   Created: 2024/11/11 14:31:03 by gonische          #+#    #+#             */
+/*   Updated: 2024/11/11 14:35:55 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "dependencies.h"
+#include "parser.h"
 
-int	main(/*int argc, char **argv*/)
+int	normalize_vector(t_pos *vector)
 {
-	char	**data = ft_split("0,,", ',');
-	int		i = 0;
-	while (data[i])
-		i++;
-	printf("%d\n", i);
+	double	magnitude;
+
+	if (!vector)
+	{
+		printf("Error in %s: vector == NULL\n", __func__);
+		return (-1);
+	}
+	magnitude = sqrt(vector->x * vector->x + vector->y * vector->y + vector->z * vector->z);
+	vector->x = vector->x / magnitude;
+	vector->y = vector->y / magnitude;
+	vector->z = vector->z / magnitude;
+	return (0);
 }
