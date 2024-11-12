@@ -1,12 +1,12 @@
 #ifndef LIGHT_H
-#define LIGHT_H
+# define LIGHT_H
 
-#include "vector.h"
-#include "color.h"
-#include "scene.h"
+# include "vector.h"
+# include "color.h"
+# include "scene.h"
 
-#define RATIO_MIN 0
-#define RATIO_MAX 1
+# define RATIO_MIN 0
+# define RATIO_MAX 1
 
 typedef struct s_amb_lighting
 {

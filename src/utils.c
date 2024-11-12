@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/08 17:42:46 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/11 22:42:27 by gonische         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minirt.h"
 
 void	free_2dmatrix(char **matrix)
@@ -67,14 +55,4 @@ size_t	get_2dmatrix_size(char **matrix)
 	while (matrix[size])
 		size++;
 	return (size);
-}
-
-void	*ft_malloc(size_t size)
-{
-	void	*return_val;
-
-	return_val = malloc(size);
-	if (return_val == NULL)
-		printf("Error in %s: malloc failed\n", __func__);
-	return (return_val);
 }

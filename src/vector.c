@@ -1,53 +1,32 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   vector.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 12:26:18 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/11 21:15:27 by gonische         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libft.h"
 #include "vector.h"
 #include "minirt.h"
 
-int	set_vector(t_vector *vector, float x, float y, float z)
+t_error	set_vector(t_vector *vector, float x, float y, float z)
 {
 	if (!vector)
-	{
-		printf("Error in %s: vector == NULL\n", __func__);
-		return (-1);
-	}
+		return (ERR_NULL_PARAMETER);
 	vector->x = x;
 	vector->y = y;
 	vector->z = z;
-	return (0);
+	return (ERR_NO_ERROR);
 }
 
-int		str_to_vector(t_vector *vector, const char *vector_str)
+t_error	str_to_vector(t_vector *vector, const char *vector_str)
 {
+	t_error	errorn;
 	char	**data;
-	int		status;
 
 	if (!vector || !vector_str)
-	{
-		printf("Error in %s: vector | vector_str == NULL\n", __func__);
-		return (-1);
-	}
-	status = 0;
+		return (ERR_NULL_PARAMETER);
+	errorn = ERR_NO_ERROR;
 	data = ft_split(vector_str, ',');
+	if (!data)
+		return (ERR_SPLIT_FAILED);
 	if (!check_str_numbers(data, VECTOR_MAX_SIZE))
-	{
-		printf("Error in %s: Cannot convert non-numeric string to vector.\n",
-				__func__);
-		status = -1;
-	}
-	if (!status && set_vector(vector, ft_atof(data[0]),
-				ft_atof(data[1]), ft_atof(data[2])))
-		status = -1;
+		errorn = ERR_STRING_IS_NOT_NUM;
+	if (!errorn)
+		set_vector(vector, ft_atof(data[0]), ft_atof(data[1]), ft_atof(data[2]));
 	free_2dmatrix(data);
-	return (status);
+	return (errorn);
 }

@@ -1,11 +1,11 @@
 #ifndef CAMERA_H
-#define CAMERA_H
+# define CAMERA_H
 
-#include "vector.h"
-#include "scene.h"
+# include "vector.h"
+# include "scene.h"
 
-#define FOV_MIN 0
-#define FOV_MAX 180
+# define FOV_MIN 0
+# define FOV_MAX 180
 
 typedef struct s_camera
 {
