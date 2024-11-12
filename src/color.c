@@ -22,7 +22,10 @@ int	set_color(t_color *color, int r, int g, int b)
 		return (-1);
 	}
 	if (!validate_colors(r, g, b))
+	{
+		printf("Error in %s: Incorrect color values\n", __func__);
 		return (-1);
+	}
 	color->r = r;
 	color->g = g;
 	color->b = b;
@@ -31,7 +34,7 @@ int	set_color(t_color *color, int r, int g, int b)
 
 bool	check_color(int c)
 {
-	return (c >= RGB_MIN && c <= RGB_MAX);
+	return (c >= COLOR_MIN && c <= COLOR_MAX);
 }
 
 bool	validate_colors(int r, int g, int b)
@@ -39,36 +42,27 @@ bool	validate_colors(int r, int g, int b)
 	return (check_color(r) && check_color(g) && check_color(b));
 }
 
-int		str_to_color(t_color *color, char *str)
+int		str_to_color(t_color *color, const char *str)
 {
 	char	**data;
-	bool	status;
-	int		i;
+	int		status;
 
-	status = false;
-	while (true)
+	status = 0;
+	if (!color || !str)
 	{
-		// TODO fix this
-		if (!color || !str)
-			printf("Error in %s: color | str == NULL\n", __func__);
-		data = ft_split(str, ',');
-		if (data == NULL || get_2dmatrix_size(data) != RGB_MAX_SIZE)
-			printf("Error in %s: color size != %d\n", __func__, RGB_MAX_SIZE);
-		i = 0;
-		while (i < RGB_MAX_SIZE)
-		{
-			if (!is_string_number(str))
-			{
-				printf("Error in %s: string is not a number\n", __func__);
-				break ;
-			}
-			i++;
-		}
-		status = set_color(color, ft_atoi(data[0]), ft_atoi(data[1]), ft_atoi(data[2]));
-		break ;
-	}
-	free_2dmatrix(data);
-	if (!status)
+		printf("Error in %s: color | str == NULL\n", __func__);
 		return (-1);
-	return (0);
+	}
+	data = ft_split(str, ',');
+	if (check_str_numbers(data, COLOR_MAX_SIZE))
+	{
+		printf("Error in %s: Cannot convert non-numeric string to color.\n",
+				__func__);
+		status = -1;
+	}
+	if (!status && set_color(color, ft_atoi(data[0]),
+				ft_atoi(data[1]), ft_atoi(data[2])))
+		status = -1;
+	free_2dmatrix(data);
+	return (status);
 }

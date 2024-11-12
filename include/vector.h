@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pos.h                                              :+:      :+:    :+:   */
+/*   vector.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 12:26:26 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/08 18:05:20 by gonische         ###   ########.fr       */
+/*   Updated: 2024/11/11 21:15:21 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef POS_H
-# define POS_H
+#ifndef VECTOR_H
+# define VECTOR_H
 
-typedef struct s_pos
+#define VECTOR_MAX_SIZE 3
+
+typedef struct s_vector
 {
 	float	x;
 	float	y;
 	float	z;
-}	t_pos;
+}	t_vector;
 
-void	init_pos(t_pos *pos, char *pos_str);
-void	set_pos(t_pos *pos, float x, float y, float z);
+void	set_vector(t_vector *vector, float x, float y, float z);
+int		str_to_vector(t_vector *vector, const char *vector_str);
 
-#endif // POS_H
+#endif // VECTOR_H

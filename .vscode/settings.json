@@ -1,0 +1,21 @@
+{
+	"files.associations": {
+		"__availability": "c",
+		"__verbose_abort": "c",
+		"cstdlib": "c",
+		"ios": "c",
+		"new": "c",
+		"stdexcept": "c",
+		"typeinfo": "c",
+		"variant": "c",
+		"parser.h": "c",
+		"scene.h": "c",
+		"shapes.h": "c",
+		"vector.h": "c",
+		"light.h": "c",
+		"stdlib.h": "c",
+		"minirt.h": "c",
+		"dependencies.h": "c",
+		"stdio.h": "c"
+	}
+}

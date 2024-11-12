@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 08:27:44 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/11 17:28:03 by gonische         ###   ########.fr       */
+/*   Updated: 2024/11/11 22:11:55 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 int	main(/*int argc, char **argv*/)
 {
-	char	**data = ft_split("0,,", ',');
-	int		i = 0;
-	while (data[i])
-		i++;
-	printf("%d\n", i);
+	goto cleanup;
+cleanup:
+	return (0);
 }
