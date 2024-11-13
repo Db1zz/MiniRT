@@ -65,7 +65,7 @@ t_scene	*parse_input(int argc, char **argv)
 	if (errorn == ERR_NO_ERROR)
 		errorn = scene_parser(scene, fd);
 	if (errorn)
-		ft_perror(errorn, __func__);
+		(ft_perror(errorn, __func__), free(scene));
 	close(fd);
 	return (scene);
 }

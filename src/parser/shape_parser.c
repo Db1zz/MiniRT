@@ -20,7 +20,7 @@ t_error	parse_sphere(t_scene *scene, const char **line_data)
 	if (errorn)
 		free(sphere);
 	else
-		// TODO: add sphere to the list in scene->sphere
+		shape_add_back((void **)&scene->spheres, (void *)sphere);
 	return (errorn);
 }
 
@@ -50,7 +50,7 @@ t_error	parse_cylinder(t_scene *scene, const char **line_data)
 	if (errorn)
 		free(cylinder);
 	else
-		// TODO: add cylinder to the list in scene->cylinders
+		shape_add_back((void **)&scene->cylinders, (void *)cylinder);
 	return (errorn);
 }
 
@@ -74,6 +74,6 @@ t_error	parse_plane(t_scene *scene, char **line_data)
 	if (errorn)
 		free(plane);
 	else
-		// TODO: add plane to the list in scene->plane
+		shape_add_back((void **)&scene->planes, (void *)plane);
 	return (errorn);	
 }

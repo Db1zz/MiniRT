@@ -6,6 +6,8 @@ t_error	parse_light(t_scene *scene, const char **line_data)
 	t_error	errorn;
 	t_light	*light;
 
+	if (scene->light != NULL)
+		return (ERR_MULTIPLE_OBJECTS_INSTANCES);
 	errorn = ERR_NO_ERROR;
 	light = malloc(sizeof(light));
 	if (!light)
@@ -25,7 +27,7 @@ t_error	parse_light(t_scene *scene, const char **line_data)
 	if (errorn)
 		free(light);
 	else
-		// TODO: add this to the scene var
+		scene->light = light;
 	return (errorn);
 }
 
@@ -34,6 +36,8 @@ t_error	parse_ambient(t_scene *scene, const char **line_data)
 	t_error			errorn;
 	t_amb_lighting	*amb_lighting;
 
+	if (scene->amb_light != NULL)
+		return (ERR_MULTIPLE_OBJECTS_INSTANCES);
 	errorn = ERR_NO_ERROR;
 	amb_lighting = malloc(sizeof(t_amb_lighting));
 	if (!amb_lighting)
@@ -48,7 +52,7 @@ t_error	parse_ambient(t_scene *scene, const char **line_data)
 	if (errorn)
 		free(amb_lighting);
 	else
-		// TODO: add this)
+		scene->amb_light = amb_lighting;
 	return (errorn);
 }
 
@@ -57,6 +61,8 @@ t_error	parse_camera(t_scene *scene, const char **line_data)
 	t_error		errorn;
 	t_camera	*camera;
 	
+	if (scene->camera != NULL)
+		return (ERR_MULTIPLE_OBJECTS_INSTANCES);
 	errorn = ERR_NO_ERROR;
 	camera = malloc(sizeof(t_camera));
 	if (camera)
@@ -74,6 +80,6 @@ t_error	parse_camera(t_scene *scene, const char **line_data)
 	if (errorn)
 		free(camera);
 	else
-		// TODO: add this)
+		scene->camera = camera;
 	return (errorn);
 }

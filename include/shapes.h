@@ -13,29 +13,29 @@ typedef enum e_shape_type
 
 typedef struct s_sphere
 {
+	t_sphere	*next;
 	float		diameter;
 	t_vector	vector;
 	t_color		color;
-	t_sphere	*next;
 }	t_sphere;
 
 typedef struct s_plane
 {
+	t_plane		*next;
 	t_vector	vector;
 	t_vector	point;
 	t_vector	axis;
 	t_color		color;
-	t_plane		*next;
 }	t_plane;
 
 typedef struct s_cylinder
 {
+	t_cylinder	*next;
 	t_vector	vector;
 	t_vector	axis;
 	t_color		color;
 	float		diameter;
 	float		height;
-	t_cylinder	*next;
 }	t_cylinder;
 
 void	create_sphere(t_scene *scene, const t_vector *vector,
