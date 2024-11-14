@@ -26,7 +26,7 @@ t_error	scene_parser(t_scene *scene, int scene_fd)
 {
 	t_error	errorn;
 	char	*line;
-	char	**line_data;
+	char	**splitted_line;
 
 	errorn = ERR_NO_ERROR;
 	while (errorn == ERR_NO_ERROR)
@@ -34,9 +34,13 @@ t_error	scene_parser(t_scene *scene, int scene_fd)
 		line = get_next_line(scene_fd);
 		if (!line)
 			break ;
-		line_data = ft_split(line_data, ' ');
-		errorn = line_parser(scene, line_data);
-		free_2dmatrix(line_data);
+		splitted_line = ft_split(line, ' ');
+		// printf("%s\n", splitted_line[0]);
+		// printf("%s\n", splitted_line[1]);
+		// printf("%s\n", splitted_line[2]);
+		// printf("%s\n", splitted_line[3]);
+		errorn = line_parser(scene, splitted_line);
+		free_2dmatrix(splitted_line);
 		free(line);
 	}
 	return (errorn);
@@ -48,6 +52,7 @@ t_scene	*parse_input(int argc, char **argv)
 	int		fd;
 	t_scene	*scene;
 
+	errorn = ERR_NO_ERROR;
 	if (argc != 2)
 	{
 		ft_perror(ERR_ARGC_ERROR, __func__);
@@ -59,7 +64,7 @@ t_scene	*parse_input(int argc, char **argv)
 		ft_perror(ERR_FAILED_TO_OPEN_FILE, __func__);
 		return (NULL);
 	}
-	scene = malloc(sizeof(t_scene));
+	scene = ft_calloc(1, sizeof(t_scene));
 	if (!scene)
 		errorn = ERR_MALLOC_FAILED;
 	if (errorn == ERR_NO_ERROR)

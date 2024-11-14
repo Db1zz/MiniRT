@@ -20,17 +20,17 @@ bool	is_string_number(char *line)
 		return (false);
 	}
 	i = 0;
-	while (line[i])
+	while (line[i] && line[i] != '\n')
 	{
 		if (!ft_isdigit(line[i]) && line[i] != '-' && line[i] != '+'
-				&& line[i] != '.')
+				&& line[i] != '.' && line[i])
 			return (false);
 		i++;
 	}
 	return (true);
 }
 
-bool	check_str_numbers(const char **numbers, int expected_size)
+bool	check_str_numbers(char **numbers, int expected_size)
 {
 	int	i;
 
@@ -39,10 +39,13 @@ bool	check_str_numbers(const char **numbers, int expected_size)
 	i = 0;
 	while (numbers[i] != NULL)
 	{
-		if (i >= expected_size || !is_string_number(numbers[i]))
+		if (i > expected_size || !is_string_number(numbers[i]))
 			return (false);
+		i++;
 	}
-	return (true);
+	if (i == expected_size)
+		return (true);
+	return (false);
 }
 
 size_t	get_2dmatrix_size(char **matrix)

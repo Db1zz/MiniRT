@@ -1,8 +1,9 @@
 #include "ft_error.h"
+#include <stdio.h>
 
 static const char	*parser_errorn_to_msg(t_error errorn)
 {
-	static const char	*msgs = {
+	static const char	*msgs[] = {
 		"Light->ratio should be in range 0 - 1.0",
 		"Type converstion failed",
 		"Cannot convert non-numeric string to vector",
@@ -20,7 +21,7 @@ static const char	*parser_errorn_to_msg(t_error errorn)
 
 static const char	*minirt_errorn_to_msg(t_error errorn)
 {
-	static const char	*msgs = {
+	static const char	*msgs[] = {
 		"Color values should be in range 0 - 255",
 		"FOV value should be in range 0 - 180",
 	};
@@ -30,7 +31,7 @@ static const char	*minirt_errorn_to_msg(t_error errorn)
 
 static const char	*standard_error_to_msg(t_error errorn)
 {
-	static const char	*msgs = {
+	static const char	*msgs[] = {
 		"Function parameter == NULL",
 		"Malloc failed",
 	};

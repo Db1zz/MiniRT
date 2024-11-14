@@ -35,7 +35,7 @@ t_error	str_to_color(t_color *color, const char *str)
 	data = ft_split(str, ',');
 	if (!data)
 		return (ERR_SPLIT_FAILED);
-	if (check_str_numbers(data, COLOR_MAX_SIZE))
+	if (!check_str_numbers(data, COLOR_MAX_SIZE))
 		errorn = ERR_STR_TO_COLOR_FAILED;
 	if (!errorn)
 		errorn = set_color(color, ft_atoi(data[0]), ft_atoi(data[1]), ft_atoi(data[2]));

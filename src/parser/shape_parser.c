@@ -1,13 +1,13 @@
 #include "parser.h"
 #include "minirt.h"
 
-t_error	parse_sphere(t_scene *scene, const char **line_data)
+t_error	parse_sphere(t_scene *scene, char **line_data)
 {
 	t_error		errorn;
 	t_sphere	*sphere;
 
 	errorn = ERR_NO_ERROR;
-	sphere = malloc(sizeof(t_sphere));
+	sphere = ft_calloc(1, sizeof(t_sphere));
 	if (!sphere)
 		return (ERR_MALLOC_FAILED);
 	errorn = str_to_vector(&sphere->vector, line_data[1]);
@@ -24,13 +24,13 @@ t_error	parse_sphere(t_scene *scene, const char **line_data)
 	return (errorn);
 }
 
-t_error	parse_cylinder(t_scene *scene, const char **line_data)
+t_error	parse_cylinder(t_scene *scene, char **line_data)
 {
 	t_error		errorn;
 	t_cylinder	*cylinder;
 
 	errorn = ERR_NO_ERROR;
-	cylinder = malloc(sizeof(cylinder));
+	cylinder = ft_calloc(1, sizeof(t_cylinder));
 	if (!cylinder)
 		return (ERR_MALLOC_FAILED);
 	errorn = str_to_vector(&cylinder->vector, line_data[1]);
@@ -60,7 +60,7 @@ t_error	parse_plane(t_scene *scene, char **line_data)
 	t_plane	*plane;
 
 	errorn = ERR_NO_ERROR;
-	plane = malloc(sizeof(plane));
+	plane = ft_calloc(1, sizeof(t_plane));
 	if (!plane)
 		return (ERR_MALLOC_FAILED);
 	errorn = str_to_vector(&plane->vector, line_data[1]);
@@ -68,8 +68,8 @@ t_error	parse_plane(t_scene *scene, char **line_data)
 		errorn = str_to_vector((&plane->axis), line_data[2]);
 	if (errorn == ERR_NO_ERROR)
 		errorn = str_to_color((&plane->color), line_data[3]);
-	if (!normalize_vector(&plane->axis)
-			|| !normalize_vector(&plane->vector))
+	if (!errorn && (normalize_vector(&plane->axis)
+				|| normalize_vector(&plane->vector)))
 		errorn = ERR_FAILED_TO_NORM_VECTOR;
 	if (errorn)
 		free(plane);

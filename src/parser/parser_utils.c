@@ -1,4 +1,5 @@
 #include "parser.h"
+#include <math.h>
 
 t_error	normalize_vector(t_vector *vector)
 {

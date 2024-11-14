@@ -21,11 +21,4 @@ typedef struct s_light
 	t_color	color;
 }	t_light;
 
-
-
-void	create_light(t_scene *scene, const t_vector *vector,
-			double ratio, const t_color *color);
-void	create_amb_lightning(t_scene *scene,
-			double ratio, const t_color *color);
-
 #endif	// LIGHT_H

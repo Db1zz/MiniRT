@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 17:05:07 by gonische          #+#    #+#             */
-/*   Updated: 2024/07/30 13:21:06 by gonische         ###   ########.fr       */
+/*   Updated: 2024/11/14 22:54:31 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,14 @@ char	*ft_get_result(t_node_list *line)
 	t_node_list	*tail;
 
 	tail = line;
-	line_len = 0;
+	line_len = 1;
 	while (tail)
 	{
 		line_len += ft_strlen(tail->data);
 		tail = tail->next;
 	}
 	tail = line;
-	result = ft_calloc(line_len + 1, sizeof(char));
+	result = ft_calloc(line_len, sizeof(char));
 	if (!result)
 		return (NULL);
 	i = 0;
@@ -94,9 +94,9 @@ char	*ft_get_result(t_node_list *line)
 
 char	*get_next_line(int fd)
 {
-	static t_data		data;
-	t_node_list			*line;
-	char				*result;
+	static t_data	data;
+	t_node_list		*line;
+	char			*result;
 
 	result = NULL;
 	line = ft_get_new_node(NULL);

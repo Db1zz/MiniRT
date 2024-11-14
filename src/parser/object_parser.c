@@ -1,7 +1,7 @@
 #include "parser.h"
 #include "minirt.h"
 
-t_error	parse_light(t_scene *scene, const char **line_data)
+t_error	parse_light(t_scene *scene, char **line_data)
 {
 	t_error	errorn;
 	t_light	*light;
@@ -9,7 +9,7 @@ t_error	parse_light(t_scene *scene, const char **line_data)
 	if (scene->light != NULL)
 		return (ERR_MULTIPLE_OBJECTS_INSTANCES);
 	errorn = ERR_NO_ERROR;
-	light = malloc(sizeof(light));
+	light = ft_calloc(1, sizeof(t_light));
 	if (!light)
 		return (ERR_MALLOC_FAILED);
 	if (str_to_vector(&light->vector, line_data[1]))
@@ -22,8 +22,8 @@ t_error	parse_light(t_scene *scene, const char **line_data)
 	}
 	else
 		errorn = ERR_TYPE_CONVERSION_FAILED;
-	if (!errorn && str_to_color(&light->color, line_data[3]))
-		errorn = ERR_TYPE_CONVERSION_FAILED;
+	if (errorn == ERR_NO_ERROR)
+		errorn = str_to_color(&light->color, line_data[3]);
 	if (errorn)
 		free(light);
 	else
@@ -31,7 +31,7 @@ t_error	parse_light(t_scene *scene, const char **line_data)
 	return (errorn);
 }
 
-t_error	parse_ambient(t_scene *scene, const char **line_data)
+t_error	parse_ambient(t_scene *scene, char **line_data)
 {
 	t_error			errorn;
 	t_amb_lighting	*amb_lighting;
@@ -39,7 +39,7 @@ t_error	parse_ambient(t_scene *scene, const char **line_data)
 	if (scene->amb_light != NULL)
 		return (ERR_MULTIPLE_OBJECTS_INSTANCES);
 	errorn = ERR_NO_ERROR;
-	amb_lighting = malloc(sizeof(t_amb_lighting));
+	amb_lighting = ft_calloc(1, sizeof(t_amb_lighting));
 	if (!amb_lighting)
 		return (ERR_MALLOC_FAILED);
 	amb_lighting->ratio = ft_atof(line_data[1]);
@@ -47,8 +47,8 @@ t_error	parse_ambient(t_scene *scene, const char **line_data)
 		errorn = ERR_TYPE_CONVERSION_FAILED;
 	else if (amb_lighting->ratio < RATIO_MIN || amb_lighting->ratio > RATIO_MAX)
 		errorn = ERR_RATIO_RANGE_ERROR;
-	else if (str_to_color(&amb_lighting->color, line_data[2]))
-		errorn = ERR_TYPE_CONVERSION_FAILED;
+	else if (errorn == ERR_NO_ERROR)
+		errorn = str_to_color(&amb_lighting->color, line_data[2]);
 	if (errorn)
 		free(amb_lighting);
 	else
@@ -56,7 +56,7 @@ t_error	parse_ambient(t_scene *scene, const char **line_data)
 	return (errorn);
 }
 
-t_error	parse_camera(t_scene *scene, const char **line_data)
+t_error	parse_camera(t_scene *scene, char **line_data)
 {
 	t_error		errorn;
 	t_camera	*camera;
@@ -64,8 +64,8 @@ t_error	parse_camera(t_scene *scene, const char **line_data)
 	if (scene->camera != NULL)
 		return (ERR_MULTIPLE_OBJECTS_INSTANCES);
 	errorn = ERR_NO_ERROR;
-	camera = malloc(sizeof(t_camera));
-	if (camera)
+	camera = ft_calloc(1, sizeof(t_camera));
+	if (!camera)
 		return (ERR_MALLOC_FAILED);
 	errorn = str_to_vector(&camera->view_point, line_data[1]);
 	if (!errorn)
