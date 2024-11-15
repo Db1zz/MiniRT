@@ -35,10 +35,6 @@ t_error	scene_parser(t_scene *scene, int scene_fd)
 		if (!line)
 			break ;
 		splitted_line = ft_split(line, ' ');
-		// printf("%s\n", splitted_line[0]);
-		// printf("%s\n", splitted_line[1]);
-		// printf("%s\n", splitted_line[2]);
-		// printf("%s\n", splitted_line[3]);
 		errorn = line_parser(scene, splitted_line);
 		free_2dmatrix(splitted_line);
 		free(line);

@@ -11,7 +11,8 @@ static const char	*parser_errorn_to_msg(t_error errorn)
 		"Cannot convert string to color",
 		"ft_atoi failed to convert string to a number",
 		"Failed to normalize vector",
-		"Unknown object specifier"
+		"Unknown object specifier",
+		"Multiple instances if an object"
 	};
 
 	if (errorn < PARSER_ERRN_MIN || errorn > PARSER_ERRN_MAX)
@@ -22,6 +23,7 @@ static const char	*parser_errorn_to_msg(t_error errorn)
 static const char	*minirt_errorn_to_msg(t_error errorn)
 {
 	static const char	*msgs[] = {
+		"Incorrect amount of arguments. Try: ./miniRT scenes/test.rt",
 		"Color values should be in range 0 - 255",
 		"FOV value should be in range 0 - 180",
 	};
@@ -34,6 +36,7 @@ static const char	*standard_error_to_msg(t_error errorn)
 	static const char	*msgs[] = {
 		"Function parameter == NULL",
 		"Malloc failed",
+		"Failed to obtain FD from open()"
 	};
 
 	return (msgs[errorn - STANDARD_ERROR_MIN]);

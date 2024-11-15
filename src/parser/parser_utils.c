@@ -22,7 +22,10 @@ void	shape_add_back(void	**shape_list, void	*shape)
 	t_sphere	*temp;
 
 	if (*(t_sphere **)shape_list == NULL)
+	{
 		*(t_sphere **)shape_list = (t_sphere *)shape;
+		return ;
+	}
 	temp = *(t_sphere **)shape_list;
 	while (temp->next)
 		temp = temp->next;
