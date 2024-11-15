@@ -41,6 +41,7 @@ SRCS =	ft_atoi.c 							\
 		ft_isalpha.c 						\
 		ft_memset.c 						\
 		ft_strchr.c 						\
+		ft_strcmp.c							\
 		ft_strlen.c 						\
 		ft_substr.c 						\
 		ft_isascii.c 						\

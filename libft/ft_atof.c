@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/08 18:11:49 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/11 16:11:56 by gonische         ###   ########.fr       */
+/*   Created: 2024/11/14 21:04:01 by gonische          #+#    #+#             */
+/*   Updated: 2024/11/14 21:04:02 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,14 @@ double	ft_atof(const char *str)
 	neg = 0;
 	i = 0;
 	result = ft_atoi(str);
+	point_val = 0;
 	if (result < 0)
 		neg = -1;
 	while (str[i] && str[i] != '.')
 		i++;
-	point_val = ft_atoi(str + i + 1);
+	if (!str[i])
+		return (result * neg);
+	point_val += ft_atoi(str + i + 1);
 	if (point_val < 0 || (point_val == 0 && !ft_isdigit(str[i + 1])))
 		return (0);
 	if (!ft_isdigit(str[i + 1]))

@@ -1,21 +1,12 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   light.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 14:42:57 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/11 15:36:11 by gonische         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef LIGHT_H
-#define LIGHT_H
+# define LIGHT_H
 
-#include "pos.h"
-#include "color.h"
-#include "scene.h"
+# include "vector.h"
+# include "color.h"
+# include "scene.h"
+
+# define RATIO_MIN 0
+# define RATIO_MAX 1
 
 typedef struct s_amb_lighting
 {
@@ -25,14 +16,9 @@ typedef struct s_amb_lighting
 
 typedef struct s_light
 {
-	t_pos	pos;
+	t_vector	vector;
 	double	ratio;
 	t_color	color;
-}	t_amb_lighting;
-
-void	create_light(t_scene *scene, const t_pos *pos,
-			double ratio, const t_color *color);
-void	create_amb_lightning(t_scene *scene,
-			double ratio, const t_color *color);
+}	t_light;
 
 #endif	// LIGHT_H

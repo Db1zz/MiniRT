@@ -1,22 +1,9 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minirt.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 08:27:44 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/11 16:12:34 by gonische         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "dependencies.h"
+#include "minirt.h"
 
-int	main(/*int argc, char **argv*/)
+int	main(int argc, char **argv)
 {
-	char	**data = ft_split("0,,", ',');
-	int		i = 0;
-	while (data[i])
-		i++;
-	printf("%d\n", i);
+	t_scene	*scene = parse_input(argc, argv);
+	scene = NULL;
+	return (0);
 }
