@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 16:45:20 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/14 22:54:43 by gonische         ###   ########.fr       */
+/*   Updated: 2024/11/18 17:00:07 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # endif // BUFFER_SIZE
 
 # ifndef LINE_DATA_SIZE
-#  define LINE_DATA_SIZE 1024
+#  define LINE_DATA_SIZE 5
 # endif // LINE_DATA_SIZE
 
 # include <stdlib.h>

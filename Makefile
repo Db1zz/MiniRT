@@ -18,7 +18,8 @@ SRCS =	src/minirt.c					\
 		src/parser/object_parser.c		\
 		src/parser/parser_utils.c		\
 		src/parser/parser.c				\
-		src/parser/shape_parser.c
+		src/parser/shape_parser.c		\
+		src/render/pixel.c
 SRCS_DIR = src
 OBJS = $(SRCS:src/%.c=objs/%.o)
 OBJS_DIR = objs
@@ -50,6 +51,7 @@ $(LIBFT):
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	@mkdir -p $(OBJS_DIR)
 	@mkdir -p $(OBJS_DIR)/parser
+	@mkdir -p $(OBJS_DIR)/render
 	$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@
 
 $(NAME): $(OBJS)
