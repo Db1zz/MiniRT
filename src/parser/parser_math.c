@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_math.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: gwagner <gwagner@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 14:31:03 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/11 14:35:55 by gonische         ###   ########.fr       */
+/*   Updated: 2024/11/14 14:11:58 by gwagner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

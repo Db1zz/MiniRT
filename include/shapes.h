@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shapes.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: gwagner <gwagner@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 11:49:28 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/11 14:18:18 by gonische         ###   ########.fr       */
+/*   Updated: 2024/11/11 18:08:42 by gwagner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -36,3 +36,36 @@ strerror, exit
 • All functions of the math
 library (-lm man man 3 math)
 • All functions of the MinilibX
+
+
+## Mathematical equations to use
+
+◦Equation for the ray:
+
+		R(t) = O + t * D
+			O is the origin point.
+			D is the direction vector.
+			t is the scalar parameter.
+
+		The further the t the further along the ray we are.
+
+◦Equation for sphere:
+
+		L = O - C
+		b = L ⋅ D
+		c = L ⋅ L − r^2
+		t = −b ± √b^2−c
+			C is the center of the sphere.
+			
+		If the discriminant b^2 − c is:
+    		Positive: There are two intersections (the ray enters and exits the sphere).
+    		Zero: There is one intersection (the ray just touches the sphere).
+    		egative: There is no intersection (the ray misses the sphere).
+
+◦Equation for planes:
+
+		some bs idk
+
+◦Equation for cylinders:
+
+		some bs fk this bs math i hate this project
