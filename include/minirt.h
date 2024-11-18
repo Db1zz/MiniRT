@@ -4,6 +4,13 @@
 # include "ft_error.h"
 # include "parser.h"
 # include "dependencies.h"
+# include <stdlib.h>
+
+#ifdef __APPLE__
+	# include "keu_macos.h"
+#elif __linux__
+	# include "key_linux.h"
+#endif
 
 void	free_2dmatrix(char **matrix);
 bool	is_string_number(char *line);

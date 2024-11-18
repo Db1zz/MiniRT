@@ -13,6 +13,7 @@ t_error	scene_parser(t_scene *scene, int scene_fd);
 
 t_error	normalize_vector(t_vector *vector);
 void	shape_add_back(void	**shape_list, void	*shape);
+void	free_list(void *list);
 
 t_scene	*parse_input(int argc, char **argv);
 t_error	parse_sphere(t_scene *scene, char **line_data);

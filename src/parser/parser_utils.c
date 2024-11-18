@@ -1,4 +1,5 @@
 #include "parser.h"
+#include "mlx.h"
 #include <math.h>
 
 t_error	normalize_vector(t_vector *vector)
@@ -30,4 +31,43 @@ void	shape_add_back(void	**shape_list, void	*shape)
 	while (temp->next)
 		temp = temp->next;
 	temp->next = (t_sphere *)shape;
+}
+
+void	free_list(void *list)
+{
+	t_sphere *tmp;
+	t_sphere *to_free;
+
+	if (!list)
+		return ;
+	tmp = (t_sphere *)list;
+	while (tmp) {
+		to_free = tmp;
+		tmp = tmp->next;
+		free(to_free);
+	}
+}
+
+void	free_scene(t_scene **scene)
+{
+	if (!scene || !*scene)
+		return ;
+	free_list((void *)(*scene)->spheres);
+	free_list((void *)(*scene)->cylinders);
+	free_list((void *)(*scene)->planes);
+	if ((*scene)->light)
+		free((*scene)->light);
+	if ((*scene)->amb_light)
+		free((*scene)->amb_light);
+	if ((*scene)->camera)
+		free((*scene)->camera);
+	if ((*scene)->win)
+		mlx_destroy_window((*scene)->mlx, (*scene)->win);
+	if ((*scene)->mlx)
+	{
+		mlx_destroy_display((*scene)->mlx);
+		free((*scene)->mlx);
+	}
+	free(*scene);
+	*scene = NULL;
 }
