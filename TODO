@@ -60,12 +60,10 @@ library (-lm man man 3 math)
 		If the discriminant b^2 − c is:
     		Positive: There are two intersections (the ray enters and exits the sphere).
     		Zero: There is one intersection (the ray just touches the sphere).
-    		egative: There is no intersection (the ray misses the sphere).
+    		Negative: There is no intersection (the ray misses the sphere).
 
 ◦Equation for planes:
 
-		some bs idk
 
 ◦Equation for cylinders:
 
-		some bs fk this bs math i hate this project
