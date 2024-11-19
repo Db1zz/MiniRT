@@ -2,7 +2,7 @@
 NAME = miniRT
 CC = cc
 UNAME_S := $(shell uname -s)
-FLAGS = -Wall -Wextra -g #-Werror
+FLAGS = -Wall -Wextra -g -fsanitize=address #-Werror
 MINILIBX_TGZ_NAME = MiniLibX.tgz
 MINILIBX_DIR = minilibx
 MINILIBX := $(MINILIBX_DIR)/libmlx.a
@@ -14,12 +14,14 @@ SRCS =	src/minirt.c					\
 		src/error.c						\
 		src/light.c						\
 		src/utils.c						\
-		src/vector.c					\
 		src/parser/object_parser.c		\
 		src/parser/parser_utils.c		\
 		src/parser/parser.c				\
 		src/parser/shape_parser.c		\
-		src/render/pixel.c
+		src/render/pixel.c				\
+		src/vector/vector.c				\
+		src/vector/vector_math1.c		\
+		src/vector/vector_math2.c
 SRCS_DIR = src
 OBJS = $(SRCS:src/%.c=objs/%.o)
 OBJS_DIR = objs
@@ -49,9 +51,7 @@ $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
-	@mkdir -p $(OBJS_DIR)
-	@mkdir -p $(OBJS_DIR)/parser
-	@mkdir -p $(OBJS_DIR)/render
+	@mkdir -p $(OBJS_DIR) $(OBJS_DIR)/render $(OBJS_DIR)/parser $(OBJS_DIR)/vector
 	$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@
 
 $(NAME): $(OBJS)

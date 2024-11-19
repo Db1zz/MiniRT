@@ -3,7 +3,8 @@
 
 #include "vector.h"
 
-typedef struct t_scene;
+typedef struct s_scene 	t_scene;
+typedef struct s_camera t_camera;
 
 typedef	struct s_viewport
 {

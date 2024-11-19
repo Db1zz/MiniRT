@@ -2,19 +2,6 @@
 #include "mlx.h"
 #include <math.h>
 
-t_error	normalize_vector(t_vector *vector)
-{
-	double	magnitude;
-
-	if (!vector)
-		return (ERR_NULL_PARAMETER);
-	magnitude = sqrt(vector->x * vector->x + vector->y * vector->y + vector->z * vector->z);
-	vector->x = vector->x / magnitude;
-	vector->y = vector->y / magnitude;
-	vector->z = vector->z / magnitude;
-	return (ERR_NO_ERROR);
-}
-
 /*
 	THIS IS THE BEST GENERIC FUNCTION IN MY LIFE
 */
