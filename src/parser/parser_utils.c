@@ -52,7 +52,9 @@ void	free_scene(t_scene **scene)
 		mlx_destroy_window((*scene)->mlx, (*scene)->win);
 	if ((*scene)->mlx)
 	{
-		mlx_destroy_display((*scene)->mlx);
+		#ifndef __APPLE__
+			mlx_destroy_display((*scene)->mlx);
+		#endif	// __APPLE__
 		free((*scene)->mlx);
 	}
 	free(*scene);
