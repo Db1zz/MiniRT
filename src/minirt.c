@@ -17,7 +17,7 @@ void	draw_line(t_scene *scene, int x, int y)
 {
 	for (int i = 0; i < x; i++) {
 		for (int j = 0; j < y; j++) {
-			draw_pixel(scene, i, j, &(t_color){255, 0, 255});
+			draw_pixel(scene, i, j, &(t_color){60, 95, 60});
 		}
 	}
 }
@@ -42,7 +42,7 @@ int	main(int argc, char **argv)
 	}
 	mlx_hook(scene->win, 2, 1, input_handler, scene);
 	mlx_hook(scene->win, 17, 1L << 17, exit_minirt, scene);
-	draw_line(scene, 100, 100);
+	draw_line(scene, 200, 200);
 	mlx_loop(scene->mlx);
 	return (EXIT_SUCCESS);
 }
