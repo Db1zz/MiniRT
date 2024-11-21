@@ -15,7 +15,7 @@ t_ray	ray(t_vector origin, t_vector direction)
 	return (ray);
 }
 
-bool	hit_sphere(t_sphere *spheres, t_ray *ray)
+double	hit_sphere(t_sphere *spheres, t_ray *ray)
 {
 	t_sphere	*sphere;
 	t_vector	oc;
@@ -31,53 +31,53 @@ bool	hit_sphere(t_sphere *spheres, t_ray *ray)
 		oc = vec3_sub_vec3(sphere->vector, ray->origin);
 		a = vec3_dot(ray->direction, ray->direction);
 		b = -2.0 * vec3_dot(oc, ray->direction);
-		c = vec3_dot(oc, oc) - (sphere->diameter / 2.0) * (sphere->diameter / 2.0);
+		c = vec3_dot(oc, oc) - sphere->radius * sphere->radius;
 		discriminant = b * b - 4 * a * c;
-		printf("discriminant: %f\n", discriminant);
 		if (discriminant >= 0.0)
 		{
-			// t = (-b - sqrt(discriminant)) / (2.0 * a);
-			// if (t > 0.0)
-			// {
-			// 	ray->color = sphere->color;
-			// 	return (true);
-			// }
-			// t = (-b + sqrt(discriminant)) / (2.0 * a);
-			// if (t > 0.0)
-			// {
-			// 	
-			// }
 			ray->color = sphere->color;
-			return (true);
+			return (-b - sqrt(discriminant)) / (2.0 * a);
 		}
 		sphere = sphere->next;
 	}
-	return (false);
+	return (-1.0);
 }
 
-t_color ray_color(t_ray *r) {
-    t_vector unit_direction = r->direction;
-    double a = 1.0 - 0.5 * (unit_direction.y + 1.0);
-	t_vector res = vec3_add_vec3(
-			vec3_mult((t_vector){1.0, 1.0, 1.0}, a), 
-			vec3_mult((t_vector){0.5, 0.7, 1}, a));
-	print_vec3(&res);
-    return ((t_color){res.x, res.y, res.z});
-}
-
-t_color	hit_checker(t_scene *scene, t_ray rray)
+t_color ray_color(t_ray *r, double discriminant)
 {
-	if (hit_sphere(scene->spheres, &rray))
-		return (rray.color);
+	t_vector	u_vec;
+	t_vector	result;
+
+	if (discriminant)
+	{
+		u_vec = vec3_add_vec3(r->origin, vec3_mult(r->direction, discriminant));
+		u_vec = vec3_sub_vec3(u_vec, (t_vector){0, 0, -1});
+		u_vec = vec3_normalize(u_vec);
+		result = vec3_mult(vec3_add(u_vec, 1), 0.5);
+		return ((t_color){result.x, result.y, result.z});
+	}
+}
+
+t_color	hit_checker(t_scene *scene, t_ray ray)
+{
+	double	discriminant;
+
+	discriminant = hit_sphere(scene->spheres, &ray);
+	printf("%f\n", discriminant);
+	if (discriminant >= 0)
+	{
+		printf("found\n");
+		return (ray_color(&ray, discriminant));
+	}
 	// check_plane(scene->planes, ray);
 	// check_cylinder(scene->cylinders, ray);
-	return (ray_color(&rray));
+	return ((t_color){255, 0, 255});
 }
 
 void		ray_tracing(t_scene *scene)
 {
-	int			i; // == x
-	int			j; // == y
+	int			x;
+	int			y;
 	t_vector	pixel_center;
 	t_vector	direction;
 	t_ray		rray;
@@ -86,20 +86,22 @@ void		ray_tracing(t_scene *scene)
 
 	camera = scene->camera;
 	viewport = camera->viewport;
-	i = 0;
-	while (i < WIN_HEIGHT)
+	x = 0;
+	while (x < WIN_HEIGHT)
 	{
-		j = 0;
-		while (j < WIN_WIDTH)
+		y = 0;
+		while (y < WIN_WIDTH)
 		{
 			pixel_center = vec3_add_vec3(viewport.first_pixel,
-					vec3_add_vec3(vec3_mult(viewport.pdelta_x, j),
-						vec3_mult(viewport.pdelta_y, i)));
+							vec3_add_vec3(
+								vec3_mult(viewport.pdelta_x, y),
+								vec3_mult(viewport.pdelta_y, x)));
 			direction = vec3_sub_vec3(pixel_center, camera->view_point);
 			rray = ray(camera->view_point, vec3_normalize(direction));
 			rray.color = hit_checker(scene, rray);
-			draw_pixel(scene, j++, i, rray.color);
+			print_color(&rray.color);
+			draw_pixel(scene, y++, x, rray.color);
 		}
-		i++;
+		x++;
 	}
 }
