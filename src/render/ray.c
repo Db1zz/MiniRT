@@ -33,20 +33,22 @@ bool	hit_sphere(t_sphere *spheres, t_ray *ray)
 		b = -2.0 * vec3_dot(oc, ray->direction);
 		c = vec3_dot(oc, oc) - (sphere->diameter / 2.0) * (sphere->diameter / 2.0);
 		discriminant = b * b - 4 * a * c;
+		printf("discriminant: %f\n", discriminant);
 		if (discriminant >= 0.0)
 		{
-			t = (-b - sqrt(discriminant)) / (2.0 * a);
-			if (t > 0.0)
-			{
-				ray->color = sphere->color;
-				return (true);
-			}
-			t = (-b + sqrt(discriminant)) / (2.0 * a);
-			if (t > 0.0)
-			{
-				ray->color = sphere->color;
-				return (true);
-			}
+			// t = (-b - sqrt(discriminant)) / (2.0 * a);
+			// if (t > 0.0)
+			// {
+			// 	ray->color = sphere->color;
+			// 	return (true);
+			// }
+			// t = (-b + sqrt(discriminant)) / (2.0 * a);
+			// if (t > 0.0)
+			// {
+			// 	
+			// }
+			ray->color = sphere->color;
+			return (true);
 		}
 		sphere = sphere->next;
 	}
@@ -84,7 +86,7 @@ void	ray_tracing(t_scene *scene)
 					vec3_add_vec3(vec3_mult(viewport.pdelta_x, j),
 						vec3_mult(viewport.pdelta_y, i)));
 			direction = vec3_sub_vec3(pixel_center, camera->view_point);
-			rray = ray(camera->view_point, direction);
+			rray = ray(camera->view_point, vec3_normalize(direction));
 			rray.color = hit_checker(scene, rray);
 			draw_pixel(scene, j++, i, rray.color);
 		}
