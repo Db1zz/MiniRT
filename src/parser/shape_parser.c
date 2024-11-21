@@ -37,7 +37,7 @@ t_error	parse_cylinder(t_scene *scene, char **line_data)
 	if (errorn == ERR_NO_ERROR)
 		errorn = str_to_vector(&cylinder->axis, line_data[2]);
 	if (errorn == ERR_NO_ERROR)
-		errorn = normalize_vector(&cylinder->axis);
+		cylinder->axis = vec3_normalize(cylinder->axis);
 	if (is_string_number(line_data[3]) && is_string_number(line_data[4]))
 	{
 		cylinder->diameter = ft_atof(line_data[3]);
@@ -68,9 +68,11 @@ t_error	parse_plane(t_scene *scene, char **line_data)
 		errorn = str_to_vector((&plane->axis), line_data[2]);
 	if (errorn == ERR_NO_ERROR)
 		errorn = str_to_color((&plane->color), line_data[3]);
-	if (!errorn && (normalize_vector(&plane->axis)
-				|| normalize_vector(&plane->vector)))
-		errorn = ERR_FAILED_TO_NORM_VECTOR;
+	if (!errorn)
+	{
+		plane->axis = vec3_normalize(plane->axis);
+		plane->vector = vec3_normalize(plane->vector);
+	}
 	if (errorn)
 		free(plane);
 	else

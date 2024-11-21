@@ -7,7 +7,7 @@
 # include <stdlib.h>
 
 # ifdef __APPLE__
-	#  include "keu_macos.h"
+	#  include "key_macos.h"
 # elif __linux__
 	#  include "key_linux.h"
 # endif
