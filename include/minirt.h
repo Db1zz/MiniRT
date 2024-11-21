@@ -23,9 +23,10 @@ size_t	get_2dmatrix_size(char **matrix);
 bool	check_str_numbers(char **numbers, int expected_size);
 
 // Converters
-int		rgb_to_int(t_color *color);
+int		rgb_to_int(t_color color);
 
 // Pixel-related functions
-void	draw_pixel(t_scene *scene, int x, int y, t_color *color);
+void	draw_pixel(t_scene *scene, int x, int y, t_color color);
+void	ray_tracing(t_scene *scene);
 
 #endif //	MINIRT_H

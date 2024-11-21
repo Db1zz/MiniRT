@@ -2,7 +2,7 @@
 #include "vector.h"
 #include "minirt.h"
 
-t_error	set_vector(t_vector *vector, float x, float y, float z)
+t_error	set_vector(t_vector *vector, double x, double y, double z)
 {
 	if (!vector)
 		return (ERR_NULL_PARAMETER);
@@ -29,4 +29,9 @@ t_error	str_to_vector(t_vector *vector, const char *vector_str)
 		set_vector(vector, ft_atof(data[0]), ft_atof(data[1]), ft_atof(data[2]));
 	free_2dmatrix(data);
 	return (errorn);
+}
+
+void	print_vec3(t_vector *vec)
+{
+	printf("Vector: [%f, %f, %f]\n", vec->x, vec->y, vec->z);
 }

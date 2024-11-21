@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 21:04:01 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/14 21:04:02 by gonische         ###   ########.fr       */
+/*   Updated: 2024/11/21 18:35:51 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ double	ft_atof(const char *str)
 	int		i;
 	int		neg;
 
-	neg = 0;
+	neg = 1;
 	i = 0;
 	result = ft_atoi(str);
 	point_val = 0;

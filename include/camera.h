@@ -16,4 +16,4 @@ typedef struct s_camera
 }	t_camera;
 
 #endif	// CAMERA_H
-	
+		
