@@ -35,3 +35,8 @@ double	vec3_dot(t_vector v1, t_vector v2)
 {
 	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
 }
+
+void	print_vec3(t_vector *vec)
+{
+	printf("Vector: [%f, %f, %f]\n", vec->x, vec->y, vec->z);
+}

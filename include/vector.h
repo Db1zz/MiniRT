@@ -33,4 +33,7 @@ t_vector	vec3_add(t_vector vector, float val);
 t_vector	vec3_normalize(t_vector vector);
 double		vec3_dot(t_vector v1, t_vector v2);
 
+// debug functions
+void	print_vec3(t_vector *vec);
+
 #endif // VECTOR_H

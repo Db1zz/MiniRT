@@ -55,19 +55,29 @@ bool	hit_sphere(t_sphere *spheres, t_ray *ray)
 	return (false);
 }
 
+t_color ray_color(t_ray *r) {
+    t_vector unit_direction = r->direction;
+    double a = 1.0 - 0.5 * (unit_direction.y + 1.0);
+	t_vector res = vec3_add_vec3(
+			vec3_mult((t_vector){1.0, 1.0, 1.0}, a), 
+			vec3_mult((t_vector){0.5, 0.7, 1}, a));
+	print_vec3(&res);
+    return ((t_color){res.x, res.y, res.z});
+}
+
 t_color	hit_checker(t_scene *scene, t_ray rray)
 {
 	if (hit_sphere(scene->spheres, &rray))
 		return (rray.color);
 	// check_plane(scene->planes, ray);
 	// check_cylinder(scene->cylinders, ray);
-	return (rray.color);
+	return (ray_color(&rray));
 }
 
-void	ray_tracing(t_scene *scene)
+void		ray_tracing(t_scene *scene)
 {
-	int			i;
-	int			j;
+	int			i; // == x
+	int			j; // == y
 	t_vector	pixel_center;
 	t_vector	direction;
 	t_ray		rray;

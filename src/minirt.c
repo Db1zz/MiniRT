@@ -17,7 +17,7 @@ int	input_handler(int key, t_scene *scene)
 int	main(int argc, char **argv)
 {
 	t_scene	*scene = parse_input(argc, argv);
-
+	t_sphere *sphere = scene->spheres;
 	if (!scene)
 		return (EXIT_FAILURE);
 	scene->mlx = mlx_init();
