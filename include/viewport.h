@@ -10,6 +10,9 @@ typedef	struct s_viewport
 {
 	double		height;
 	double		width;
+	t_vector	first_pixel;
+	t_vector	pdelta_x;
+	t_vector	pdelta_y;
 	t_vector	upper_left;
 	t_vector	horizontal_vec;
 	t_vector	verical_vec;

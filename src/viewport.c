@@ -22,7 +22,11 @@ t_error	update_viewport(t_camera *cam)
 		auto viewport_upper_left = camera_center
                             - vec3(0, 0, focal_length) - viewport_u/2 - viewport_v/2;
 	*/
-	vp->upper_left = vec3_sub_vec3(vec3_div(vp->horizontal_vec, 2), vec3_div(vp->horizontal_vec, 2));
-	vp->upper_left = vec3_sub_vec3((t_vector){0, 0, cam->orientation_vec.z}, vp->upper_left);
+	vp->upper_left = vec3_sub_vec3(vec3_div(vp->horizontal_vec, 2.0), vec3_div(vp->horizontal_vec, 2.0));
+	vp->upper_left = vec3_sub_vec3((t_vector){0.0, 0.0, cam->orientation_vec.z}, vp->upper_left);
 	vp->upper_left = vec3_sub_vec3(cam->view_point, vp->upper_left);
+	vp->pdelta_x = vec3_div(vp->horizontal_vec, WIN_WIDTH);
+	vp->pdelta_y = vec3_div(vp->verical_vec, WIN_HEIGHT);
+	vp->first_pixel = vec3_add_vec3(vp->upper_left,
+		vec3_div(vec3_add_vec3(vp->pdelta_x, vp->pdelta_y), 2.0));
 }

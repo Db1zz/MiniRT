@@ -30,3 +30,8 @@ t_error	str_to_vector(t_vector *vector, const char *vector_str)
 	free_2dmatrix(data);
 	return (errorn);
 }
+
+double	vec3_dot(t_vector v1, t_vector v2)
+{
+	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
+}
