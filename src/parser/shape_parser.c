@@ -12,7 +12,10 @@ t_error	parse_sphere(t_scene *scene, char **line_data)
 		return (ERR_MALLOC_FAILED);
 	errorn = str_to_vector(&sphere->vector, line_data[1]);
 	if (errorn == ERR_NO_ERROR && is_string_number(line_data[2]))
+	{
 		sphere->diameter = ft_atof(line_data[2]);
+		sphere->radius = sphere->diameter * 0.5;
+	}
 	else
 		errorn = ERR_ATOI_FAILED;
 	if (errorn == ERR_NO_ERROR)

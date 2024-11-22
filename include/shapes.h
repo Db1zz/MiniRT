@@ -15,6 +15,7 @@ typedef struct s_sphere
 {
 	struct s_sphere	*next;
 	float			diameter;
+	float			radius;
 	t_vector		vector;
 	t_color			color;
 }	t_sphere;

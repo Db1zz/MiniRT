@@ -60,7 +60,7 @@ t_error	parse_camera(t_scene *scene, char **line_data)
 {
 	t_error		errorn;
 	t_camera	*camera;
-	
+
 	if (scene->camera != NULL)
 		return (ERR_MULTIPLE_OBJECTS_INSTANCES);
 	errorn = ERR_NO_ERROR;

@@ -42,3 +42,8 @@ t_error	str_to_color(t_color *color, const char *str)
 	free_2dmatrix(data);
 	return (errorn);
 }
+
+void	print_color(t_color *c)
+{
+	printf("Color: [%f, %f, %f]\n", c->r, c->g, c->b);
+}

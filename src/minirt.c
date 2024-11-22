@@ -17,21 +17,11 @@ int	input_handler(int key, t_scene *scene)
 int	main(int argc, char **argv)
 {
 	t_scene	*scene = parse_input(argc, argv);
-	t_sphere *sphere = scene->spheres;
+
 	if (!scene)
 		return (EXIT_FAILURE);
 	scene->mlx = mlx_init();
-	if (!scene->mlx)
-	{
-		printf("Mlx failed\n");
-		return (EXIT_FAILURE);
-	}
 	scene->win = mlx_new_window(scene->mlx, WIN_WIDTH, WIN_HEIGHT, "I was crazy once");
-	if (!scene->win)
-	{
-		printf("Mlx failed\n");
-		return (EXIT_FAILURE);
-	}
 	update_viewport(scene->camera);
 	ray_tracing(scene);
 	mlx_hook(scene->win, 2, 1, input_handler, scene);
