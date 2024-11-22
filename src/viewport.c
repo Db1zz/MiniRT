@@ -18,6 +18,6 @@ t_error	update_viewport(t_camera *cam)
 	vp->pdelta_x = vec3_div(vp->horizontal_vec, WIN_WIDTH);
 	vp->pdelta_y = vec3_div(vp->verical_vec, WIN_HEIGHT);
 	vp->first_pixel = vec3_add_vec3(vp->upper_left,
-		vec3_div(vec3_add_vec3(vp->pdelta_x, vp->pdelta_y), 2.0));
+		vec3_mult(vec3_add_vec3(vp->pdelta_x, vp->pdelta_y), 0.5));
 	return (0);
 }

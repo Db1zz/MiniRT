@@ -2,7 +2,7 @@
 NAME = miniRT
 CC = cc
 UNAME_S := $(shell uname -s)
-FLAGS = -Wall -Wextra -g #-fsanitize=address #-Werror
+FLAGS = -Wall -Wextra -O3 -g #-fsanitize=address #-Werror
 MINILIBX_TGZ_NAME = MiniLibX.tgz
 MINILIBX_DIR = minilibx
 MINILIBX := $(MINILIBX_DIR)/libmlx.a
@@ -10,6 +10,7 @@ LIBFT = libft/libft.a
 LIBFT_DIR = libft
 SRCS =	src/minirt.c					\
 		src/camera.c					\
+		src/viewport.c					\
 		src/color.c						\
 		src/error.c						\
 		src/light.c						\
@@ -22,8 +23,10 @@ SRCS =	src/minirt.c					\
 		src/vector/vector.c				\
 		src/vector/vector_math1.c		\
 		src/vector/vector_math2.c		\
+		src/vector/vector_math3.c		\
 		src/render/ray.c				\
-		src/viewport.c
+		src/render/ray_hit_checkers.c
+
 SRCS_DIR = src
 OBJS = $(SRCS:src/%.c=objs/%.o)
 OBJS_DIR = objs

@@ -13,13 +13,6 @@ typedef struct s_vector
 	double	z;
 }	t_vector;
 
-typedef struct s_ray
-{
-	t_vector	origin;
-	t_vector	direction;
-	t_color		color;
-}	t_ray;
-
 t_error		set_vector(t_vector *vector, double x, double y, double z);
 t_error		str_to_vector(t_vector *vector, const char *vector_str);
 t_vector	vec3_div_vec3(t_vector v1, t_vector v2);
@@ -32,7 +25,8 @@ t_vector	vec3_sub(t_vector vector, double val);
 t_vector	vec3_add(t_vector vector, double val);
 t_vector	vec3_normalize(t_vector vector);
 double		vec3_dot(t_vector v1, t_vector v2);
-
+double		vec3_lenght_squared(const t_vector *v);
+double		vec3_lenght(const t_vector *v);
 // debug functions
 void	print_vec3(t_vector *vec);
 
