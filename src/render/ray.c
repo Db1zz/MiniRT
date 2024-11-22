@@ -48,14 +48,11 @@ t_color ray_color(t_ray *r, double discriminant)
 	t_vector	u_vec;
 	t_vector	result;
 
-	if (discriminant)
-	{
-		u_vec = vec3_add_vec3(r->origin, vec3_mult(r->direction, discriminant));
-		u_vec = vec3_sub_vec3(u_vec, (t_vector){0, 0, -1});
-		u_vec = vec3_normalize(u_vec);
-		result = vec3_mult(vec3_add(u_vec, 1), 0.5);
-		return ((t_color){result.x, result.y, result.z});
-	}
+	u_vec = vec3_add_vec3(r->origin, vec3_mult(r->direction, discriminant));
+	u_vec = vec3_sub_vec3(u_vec, (t_vector){0, 0, -1});
+	u_vec = vec3_normalize(u_vec);
+	result = vec3_mult(vec3_add(u_vec, 1), 0.5);
+	return ((t_color){result.x, result.y, result.z});
 }
 
 t_color	hit_checker(t_scene *scene, t_ray ray)
@@ -63,12 +60,8 @@ t_color	hit_checker(t_scene *scene, t_ray ray)
 	double	discriminant;
 
 	discriminant = hit_sphere(scene->spheres, &ray);
-	printf("%f\n", discriminant);
-	if (discriminant >= 0)
-	{
-		printf("found\n");
+	if (discriminant > 0.0)
 		return (ray_color(&ray, discriminant));
-	}
 	// check_plane(scene->planes, ray);
 	// check_cylinder(scene->cylinders, ray);
 	return ((t_color){255, 0, 255});
