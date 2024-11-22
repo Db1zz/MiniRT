@@ -35,11 +35,8 @@ t_vector	vec3_add_vec3(t_vector v1, t_vector v2)
 
 t_vector	vec3_normalize(t_vector vector)
 {
-	double	magnitude;
+	double	mag;
 
-	magnitude = sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
-	vector.x = vector.x / magnitude;
-	vector.y = vector.y / magnitude;
-	vector.z = vector.z / magnitude;
-	return (vector);
+	mag = vec3_lenght(&vector);
+	return ((t_vector){vector.x / mag, vector.y / mag, vector.z / mag});
 }
