@@ -17,7 +17,7 @@ static t_color ray_color(const t_ray *r, double discriminant)
 		u_vec = vec3_add_vec3(r->origin, vec3_mult(r->direction, discriminant));
 		u_vec = vec3_sub_vec3(u_vec, (t_vector){0, 0, -1});
 		u_vec = vec3_normalize(u_vec);
-		color_vec = vec3_mult(vec3_add(u_vec, 1), 0.5);
+		color_vec = vec3_mult(vec3_mult(vec3_add(u_vec, 1), 0.5), 255);
 		return ((t_color){color_vec.x, color_vec.y, color_vec.z});
 	}
 	return ((t_color){255, 255, 255});
