@@ -43,7 +43,16 @@ t_error	str_to_color(t_color *color, const char *str)
 	return (errorn);
 }
 
+/*
+    We cannot use bit shifting because of big-endian and little-endian systems.
+*/
+int rgb_to_int(t_color color)
+{
+	return (65536 * color.r + 256 * color.g + color.b);
+}
+
+/* Debug functions */
 void	print_color(t_color *c)
 {
-	printf("Color: [%f, %f, %f]\n", c->r, c->g, c->b);
+	printf("Color: [%d, %d, %d]\n", c->r, c->g, c->b);
 }

@@ -3,11 +3,21 @@
 #include "color.h"
 #include "scene.h"
 
-void	ray_tracing(t_scene *scene)
+void	hit_record_set_face_normal(const t_ray *ray,
+			const t_vector *outward_normal, t_hit_record *rec)
 {
-	int			x;
-	int			y;
-	t_color		ray_color;
+	rec->front_face = vec3_dot(ray->direction, *outward_normal) < 0;
+	if (rec->front_face)
+		rec->normal = *outward_normal;
+	else
+		rec->normal = vec3_mult(*outward_normal, -1);
+}
+
+void	render(t_scene *scene)
+{
+	int		x;
+	int		y;
+	t_color	ray_color;
 
 	x = 0;
 	while (x < WIN_HEIGHT)
