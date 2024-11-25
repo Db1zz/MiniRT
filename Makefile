@@ -25,7 +25,7 @@ SRCS =	src/minirt.c					\
 		src/vector/vector_math2.c		\
 		src/vector/vector_math3.c		\
 		src/render/math_utils.c			\
-		src/render/ray.c				\
+		src/render/render.c				\
 		src/render/sphere_math.c
 
 SRCS_DIR = src

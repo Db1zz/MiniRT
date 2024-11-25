@@ -27,18 +27,24 @@ bool	ray_hit_sphere(const t_sphere *sphere, const t_ray *ray,
 	double		disc;
 	t_vector	outward_normal;
 
-	oc = vec3_sub_vec3(sphere->vector, ray->origin);
-	qf[0] = vec3_lenght_squared(&ray->direction);
-	qf[1] = vec3_dot(ray->direction, oc);
-	qf[2] = vec3_lenght_squared(&oc) - sphere->radius * sphere->radius;
-	disc = qf[1] * qf[1] - qf[0] * qf[2];
-	if (disc < 0)
-		return (false);
-	rec->t = sphere_solve_qf(disc, qf, ray_t_min_max[0], ray_t_min_max[1]);
-	if (rec->t < 0)
-		return (false);
-	rec->p = vec3_add_vec3(ray->origin, vec3_mult(ray->direction, disc));
-	outward_normal = vec3_div(vec3_sub_vec3(rec->p, sphere->vector), sphere->radius);
-	hit_record_set_face_normal(ray, &outward_normal, rec);
-	return (true);
+	while (sphere)
+	{
+		oc = vec3_sub_vec3(sphere->vector, ray->origin);
+		qf[0] = vec3_lenght_squared(&ray->direction);
+		qf[1] = vec3_dot(ray->direction, oc);
+		qf[2] = vec3_lenght_squared(&oc) - sphere->radius * sphere->radius;
+		disc = qf[1] * qf[1] - qf[0] * qf[2];
+		rec->t = sphere_solve_qf(disc, qf, ray_t_min_max[0], ray_t_min_max[1]);
+		if (disc < 0 || rec->t < 0)
+		{
+			sphere = sphere->next;
+			continue ;	
+		}
+		rec->p = vec3_add_vec3(ray->origin, vec3_mult(ray->direction, disc));
+		outward_normal = vec3_div(vec3_sub_vec3(rec->p, sphere->vector), sphere->radius);
+		hit_record_set_face_normal(ray, &outward_normal, rec);
+		sphere = sphere->next;
+		return (true);
+	}
+	return (false);
 }

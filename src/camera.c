@@ -2,13 +2,14 @@
 #include "vector.h"
 #include "scene.h"
 #include "minirt_math.h"
+#include "minirt.h"
 
 static t_ray	create_ray(t_vector origin, t_vector direction)
 {
 	return ((t_ray){origin, direction, (t_color){0, 0, 0}});
 }
 
-static t_color ray_color(const t_ray *r, const t_hit_record *hit_rec)
+static t_color	ray_color(const t_ray *r, const t_hit_record *hit_rec)
 {
 	t_vector	u_vec;
 	t_vector	color_vec;
@@ -40,7 +41,6 @@ static t_color	camera_hit_ray(const t_scene *scene, const t_ray *ray)
 {
 	t_hit_record	rec;
 
-	// FIXME
 	if (ray_hit_sphere(scene->spheres, ray, (double[2]){0, M_INFINITY}, &rec))
 		return (ray_color(ray, &rec));
 	return (ray_color(ray, NULL));

@@ -6,9 +6,10 @@
 
 typedef enum e_shape_type
 {
-	S_CYLINDER,
 	S_SPHERE,
-	S_PLANE
+	S_CYLINDER,
+	S_PLANE,
+	S_TOTAL_SHAPES
 }	t_shape_type;
 
 typedef struct s_sphere

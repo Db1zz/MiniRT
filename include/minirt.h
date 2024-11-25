@@ -3,7 +3,9 @@
 
 # include "ft_error.h"
 # include "parser.h"
+# include "shapes.h"
 # include "dependencies.h"
+# include <stdbool.h>
 # include <stdlib.h>
 # include <math.h>
 
