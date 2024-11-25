@@ -17,8 +17,14 @@
 # define WIN_HEIGHT 720
 # define WIN_ASPECT_RATIO 1.42
 
-// Rendering functions
+/* Rendering functions */
 void	draw_pixel(t_scene *scene, int x, int y, t_color color);
 void	render(t_scene *scene);
+
+/* Utility functions */
+void	free_2dmatrix(char **matrix);
+bool	is_string_number(char *line);
+bool	check_str_numbers(char **numbers, int expected_size);
+size_t	get_2dmatrix_size(char **matrix);
 
 #endif //	MINIRT_H
