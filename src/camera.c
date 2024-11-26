@@ -22,7 +22,12 @@ static t_color	ray_color(const t_ray *r, const t_hit_record *hit_rec)
 		color_vec = vec3_mult(vec3_mult(vec3_add(u_vec, 1), 0.5), 255);
 		return ((t_color){color_vec.x, color_vec.y, color_vec.z});
 	}
-	return ((t_color){255, 255, 255});
+	u_vec = r->direction;
+    double a = 0.5 * (u_vec.y + 1.0);
+	t_vector res = vec3_mult(vec3_add_vec3(
+			vec3_mult((t_vector){1.0, 1.0, 1.0}, 1.0 - a), 
+			vec3_mult((t_vector){0.5, 0.7, 1}, a)), 255);
+	return ((t_color){res.x, res.y, res.z});
 }
 
 static t_vector	camera_get_pixel_center(const t_camera *camera, int x, int y)
