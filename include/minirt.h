@@ -18,6 +18,7 @@
 # define WIN_WIDTH 1024
 # define WIN_HEIGHT 720
 # define WIN_ASPECT_RATIO 1.42
+# define ANTIALIASING_SAMPLES 10
 
 /* Rendering functions */
 void	draw_pixel(t_scene *scene, int x, int y, t_color color);

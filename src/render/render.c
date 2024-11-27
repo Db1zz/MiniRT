@@ -15,17 +15,31 @@ void	hit_record_set_face_normal(const t_ray *ray,
 
 void	render(t_scene *scene)
 {
-	int		x;
-	int		y;
-	t_color	ray_color;
+	const double	color_scale = 1.0 / ANTIALIASING_SAMPLES;
+	int				x;
+	int				y;
+	int				pixel_samples;
+	t_color			ray_color;
 
 	x = 0;
+	ray_color = (t_color){0,0,0};
 	while (x < WIN_HEIGHT)
 	{
 		y = 0;
 		while (y < WIN_WIDTH)
 		{
-			ray_color = camera_send_ray(scene->camera, scene, x, y);
+			/*
+				double color_k = 1.0;
+				const int color_samples = 2;
+				color_k = color_k / color_samples;
+				t_color ray_color(0,0,0);
+				ray_color += camera_send_ray():
+				return ((t_color)vec3_mult(ray_color, (t_vector)t_color));
+			*/
+			pixel_samples = 0;
+			while (pixel_samples++ < ANTIALIASING_SAMPLES)
+				ray_color = clr_add_clr(ray_color, camera_send_ray(scene->camera, scene, x, y));
+			ray_color = color_mult(ray_color, color_scale);
 			draw_pixel(scene, y, x, ray_color);
 			y++;
 		}

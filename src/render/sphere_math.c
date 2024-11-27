@@ -1,5 +1,6 @@
 #include "camera.h"
 #include "shapes.h"
+#include "minirt_math.h"
 #include <math.h>
 
 static double	sphere_solve_qf(double discriminant, double qf[3],
@@ -10,10 +11,10 @@ static double	sphere_solve_qf(double discriminant, double qf[3],
 
 	sqrtd = sqrt(discriminant);
 	root = (qf[1] - sqrtd) / qf[0];
-	if (root <= t_min || t_max <= root)
+	if (!interval_contains(root, t_min, t_max))
 	{
 		root = (qf[1] + sqrtd) / qf[0];
-		if (root <= t_min || t_max <= root)
+		if (!interval_contains(root, t_min, t_max))
 			return (-1.0);
 	}
 	return (root);
@@ -29,7 +30,7 @@ bool	ray_hit_sphere(const t_sphere *sphere, const t_ray *ray,
 
 	while (sphere)
 	{
-		oc = vec3_sub_vec3(sphere->vector, ray->origin);
+		oc = aboba(sphere->vector, ray->origin);
 		qf[0] = vec3_lenght_squared(&ray->direction);
 		qf[1] = vec3_dot(ray->direction, oc);
 		qf[2] = vec3_lenght_squared(&oc) - sphere->radius * sphere->radius;
@@ -41,7 +42,7 @@ bool	ray_hit_sphere(const t_sphere *sphere, const t_ray *ray,
 			continue ;	
 		}
 		rec->p = vec3_add_vec3(ray->origin, vec3_mult(ray->direction, disc));
-		outward_normal = vec3_div(vec3_sub_vec3(rec->p, sphere->vector), sphere->radius);
+		outward_normal = vec3_div(aboba(rec->p, sphere->vector), sphere->radius);
 		hit_record_set_face_normal(ray, &outward_normal, rec);
 		sphere = sphere->next;
 		return (true);

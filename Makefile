@@ -11,7 +11,6 @@ LIBFT_DIR = libft
 SRCS =	src/minirt.c					\
 		src/camera.c					\
 		src/viewport.c					\
-		src/color.c						\
 		src/error.c						\
 		src/light.c						\
 		src/utils.c						\
@@ -20,6 +19,9 @@ SRCS =	src/minirt.c					\
 		src/parser/parser.c				\
 		src/parser/shape_parser.c		\
 		src/render/pixel.c				\
+		src/color/color.c				\
+		src/color/color_math1.c			\
+		src/color/color_math2.c			\
 		src/vector/vector.c				\
 		src/vector/vector_math1.c		\
 		src/vector/vector_math2.c		\
@@ -57,7 +59,7 @@ $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
-	@mkdir -p $(OBJS_DIR) $(OBJS_DIR)/render $(OBJS_DIR)/parser $(OBJS_DIR)/vector
+	@mkdir -p $(OBJS_DIR) $(OBJS_DIR)/render $(OBJS_DIR)/parser $(OBJS_DIR)/vector $(OBJS_DIR)/color
 	$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@
 
 $(NAME): $(OBJS)

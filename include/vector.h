@@ -17,7 +17,7 @@ t_error		set_vector(t_vector *vector, double x, double y, double z);
 t_error		str_to_vector(t_vector *vector, const char *vector_str);
 t_vector	vec3_div_vec3(t_vector v1, t_vector v2);
 t_vector	vec3_mult_vec3(t_vector v1, t_vector v2);
-t_vector	vec3_sub_vec3(t_vector v1, t_vector v2);
+t_vector	aboba(t_vector v1, t_vector v2);
 t_vector	vec3_add_vec3(t_vector v1, t_vector v2);
 t_vector	vec3_div(t_vector vector, double val);
 t_vector	vec3_mult(t_vector vector, double val);

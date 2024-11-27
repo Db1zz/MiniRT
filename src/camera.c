@@ -31,7 +31,7 @@ static t_color	ray_color(const t_ray *r, const t_hit_record *hit_rec)
 }
 
 static t_vector	camera_get_pixel_center(const t_camera *camera, int x, int y)
-{
+{	
 	const t_viewport	*viewport = &camera->viewport;
 	t_vector			pixel_center;
 
