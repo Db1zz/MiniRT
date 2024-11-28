@@ -1,22 +1,18 @@
 #include "minirt_math.h"
 #include "color.h"
+#include "libft.h"
 
 double	degrees_to_radians(double degrees)
 {
-	return ((M_PI / 180) * degrees);
+	return ((FT_PI / 180) * degrees);
 }
 
-double	interval_size(double v1, double v2)
+double	random_double(void)
 {
-	return (v1 - v2);
+	return (rand() / (RAND_MAX + 1.0));
 }
 
-bool	interval_contains(double val, double min, double max)
+double	random_double_range(double min, double max)
 {
-	return (min <= val && max >= val);
-}
-
-bool	interval_surrounds(double val, double min, double max)
-{
-	return (min < val && max > val);
+	return (min + (max - min) * random_double());
 }

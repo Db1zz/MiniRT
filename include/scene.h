@@ -10,6 +10,7 @@ typedef struct s_scene
 {
 	void			*win;
 	void			*mlx;
+	bool			antialiasing;
 	t_camera		*camera;
 	t_amb_lighting	*amb_light;
 	t_light			*light;

@@ -30,7 +30,7 @@ bool	ray_hit_sphere(const t_sphere *sphere, const t_ray *ray,
 
 	while (sphere)
 	{
-		oc = aboba(sphere->vector, ray->origin);
+		oc = vec3_sub_vec3(sphere->vector, ray->origin);
 		qf[0] = vec3_lenght_squared(&ray->direction);
 		qf[1] = vec3_dot(ray->direction, oc);
 		qf[2] = vec3_lenght_squared(&oc) - sphere->radius * sphere->radius;
@@ -39,10 +39,10 @@ bool	ray_hit_sphere(const t_sphere *sphere, const t_ray *ray,
 		if (disc < 0 || rec->t < 0)
 		{
 			sphere = sphere->next;
-			continue ;	
+			continue ;
 		}
 		rec->p = vec3_add_vec3(ray->origin, vec3_mult(ray->direction, disc));
-		outward_normal = vec3_div(aboba(rec->p, sphere->vector), sphere->radius);
+		outward_normal = vec3_div(vec3_sub_vec3(rec->p, sphere->vector), sphere->radius);
 		hit_record_set_face_normal(ray, &outward_normal, rec);
 		sphere = sphere->next;
 		return (true);

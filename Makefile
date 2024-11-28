@@ -2,7 +2,7 @@
 NAME = miniRT
 CC = cc
 UNAME_S := $(shell uname -s)
-FLAGS = -Wall -Wextra -O3 -g #-fsanitize=address #-Werror
+FLAGS = -Wall -Wextra -g #-fsanitize=address #-Werror
 MINILIBX_TGZ_NAME = MiniLibX.tgz
 MINILIBX_DIR = minilibx
 MINILIBX := $(MINILIBX_DIR)/libmlx.a
@@ -26,6 +26,7 @@ SRCS =	src/minirt.c					\
 		src/vector/vector_math1.c		\
 		src/vector/vector_math2.c		\
 		src/vector/vector_math3.c		\
+		src/render/interval.c			\
 		src/render/math_utils.c			\
 		src/render/render.c				\
 		src/render/sphere_math.c

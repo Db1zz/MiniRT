@@ -19,6 +19,7 @@ int	main(int argc, char **argv)
 
 	if (!scene)
 		return (EXIT_FAILURE);
+	scene->antialiasing = true;
 	scene->mlx = mlx_init();
 	scene->win = mlx_new_window(scene->mlx, WIN_WIDTH, WIN_HEIGHT, "I was crazy once");
 	update_viewport(scene->camera);
