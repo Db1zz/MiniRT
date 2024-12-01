@@ -3,6 +3,11 @@
 #include "minirt.h"
 #include "libft.h"
 
+t_vector	vec3_invert(const t_vector *vec)
+{
+	return ((t_vector){-vec->x, -vec->y, -vec->z});
+}
+
 t_error	set_vector(t_vector *vector, double x, double y, double z)
 {
 	if (!vector)

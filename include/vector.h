@@ -13,6 +13,7 @@ typedef struct s_vector
 	double	z;
 }	t_vector;
 
+t_vector	vec3_invert(const t_vector *vec);
 t_error		set_vector(t_vector *vector, double x, double y, double z);
 t_vector	get_random_vector_offset(void);
 t_error		str_to_vector(t_vector *vector, const char *vector_str);
@@ -28,6 +29,11 @@ t_vector	vec3_normalize(t_vector vector);
 double		vec3_dot(t_vector v1, t_vector v2);
 double		vec3_lenght_squared(const t_vector *v);
 double		vec3_lenght(const t_vector *v);
+t_vector	vec3_random(void);
+t_vector	vec3_random_range(double min, double max);
+t_vector	vec3_random_unit_vec(void);
+t_vector	vec3_random_on_hemisphere(const t_vector *sphere_normal_vec);
+
 // debug functions
 void	print_vec3(t_vector *vec);
 
