@@ -1,21 +1,30 @@
-#ifndef SHAPES_H
-# define SHAPES_H
+#ifndef OBJECTS_H
+# define OBJECTS_H
 
-# include "color.h"
-# include "vector.h"
-
-typedef enum e_shape_type
+typedef enum e_object_type
 {
-	S_SPHERE,
-	S_CYLINDER,
-	S_PLANE,
-	S_TOTAL_SHAPES
-}	t_shape_type;
+	E_SPHERE,
+	E_CYLINDER,
+	E_PLANE,
+	E_LIGHT,
+	E_AMBIENT_LIGHT,
+	E_TOTAL_OBJECTS
+}	t_object_type;
+
+typedef	struct	s_object_list
+{
+	void			*data;
+	t_object_type	type;
+	t_object_list	*next;
+}	t_object_list;
+
+/*
+	Objects
+*/
+# include "light.h"
 
 typedef struct s_sphere
 {
-	struct s_sphere	*next;
-	t_shape_type	obj_type;
 	double			diameter;
 	double			radius;
 	t_vector		vector;
@@ -24,8 +33,6 @@ typedef struct s_sphere
 
 typedef struct s_plane
 {
-	struct s_plane	*next;
-	t_shape_type	obj_type;
 	t_vector		vector;
 	t_vector		point;
 	t_vector		axis;
@@ -34,8 +41,6 @@ typedef struct s_plane
 
 typedef struct s_cylinder
 {
-	struct s_cylinder	*next;
-	t_shape_type		obj_type;
 	t_vector			vector;
 	t_vector			axis;
 	t_color				color;
@@ -43,4 +48,4 @@ typedef struct s_cylinder
 	double				height;
 }	t_cylinder;
 
-#endif // SHAPES_H
+#endif	// OBJECTS_H

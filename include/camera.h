@@ -3,7 +3,8 @@
 
 # include "vector.h"
 # include "viewport.h"
-# include "shapes.h"
+# include "object.h"
+# include "ray.h"
 # include <math.h> 
 
 # define FOV_MIN 0
@@ -20,24 +21,6 @@ typedef struct s_camera
 /*
 	Ray hit record related functions and typedefs
 */
-typedef struct s_hit_record
-{
-	t_vector	p;
-	t_vector	normal;
-	double		t;
-	bool		front_face;
-}	t_hit_record;
-
-/*
-	Ray related functions and typedefs
-*/
-typedef struct s_ray
-{
-	t_vector	origin;
-	t_vector	direction;
-	t_color		color;
-}	t_ray;
-
 t_color	camera_send_ray(const t_camera *camera, const t_scene *scene,
 			int x, int y);
 bool	ray_hit_sphere(const t_sphere *sphere, const t_ray *ray,

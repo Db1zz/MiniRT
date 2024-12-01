@@ -1,25 +1,30 @@
-#include "minirt_math.h"
+#include "interval.h"
 
-double	interval_size(double v1, double v2)
+t_interval	create_interval(double min, double max)
 {
-	return (v1 - v2);
+	return ((t_interval){min, max});
 }
 
-bool	interval_contains(double val, double min, double max)
+double	interval_size(t_interval interval)
 {
-	return (min <= val && max >= val);
+	return (interval.min - interval.max);
 }
 
-bool	interval_surrounds(double val, double min, double max)
+bool	interval_contains(double val, t_interval interval)
 {
-	return (min < val && max > val);
+	return (interval.min <= val && interval.max >= val);
 }
 
-double	interval_bound(double val, double min, double max)
+bool	interval_surrounds(double val, t_interval interval)
 {
-	if (val < min)
-		return (min);
-	else if (val > max)
-		return (max);
+	return (interval.min < val && interval.max > val);
+}
+
+double	interval_bound(double val, t_interval interval)
+{
+	if (val < interval.min)
+		return (interval.min);
+	else if (val > interval.max)
+		return (interval.max);
 	return (val);
 }

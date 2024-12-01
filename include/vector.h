@@ -14,6 +14,7 @@ typedef struct s_vector
 }	t_vector;
 
 t_error		set_vector(t_vector *vector, double x, double y, double z);
+t_vector	get_random_vector_offset(void);
 t_error		str_to_vector(t_vector *vector, const char *vector_str);
 t_vector	vec3_div_vec3(t_vector v1, t_vector v2);
 t_vector	vec3_mult_vec3(t_vector v1, t_vector v2);

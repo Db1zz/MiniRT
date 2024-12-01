@@ -12,6 +12,11 @@ t_error	set_vector(t_vector *vector, double x, double y, double z)
 	return (ERR_NO_ERROR);
 }
 
+t_vector	get_random_vector_offset(void)
+{
+	return ((t_vector){random_double() - 0.5, random_double() - 0.5, 0});
+}
+
 t_error	str_to_vector(t_vector *vector, const char *vector_str)
 {
 	t_error	errorn;
