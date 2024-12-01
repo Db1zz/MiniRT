@@ -1,4 +1,5 @@
 #include "dependencies.h"
+#include "object.h"
 #include "parser.h"
 #include "minirt.h"
 #include <fcntl.h>
@@ -20,6 +21,17 @@ static t_error	line_parser(t_scene *scene, char **line_data)
 		return (parse_camera(scene, line_data));
 	else
 		return (ERR_UNKNOWN_OBJECT_SPECIFIER);
+}
+
+t_error	scene_add_object(void *data, t_object_type type, t_scene *scene)
+{
+	t_object_list	*new_object;
+
+	if (!data || !scene)
+		return (ERR_NULL_PARAMETER);
+	new_object = alloc_new_object(data, type, NULL);
+	object_add_back(new_object, &scene->objects);
+	return (ERR_NO_ERROR);
 }
 
 t_error	scene_parser(t_scene *scene, int scene_fd)
@@ -47,9 +59,9 @@ t_error	scene_parser(t_scene *scene, int scene_fd)
 
 t_scene	*parse_input(int argc, char **argv)
 {
-	t_error	errorn;
-	int		fd;
-	t_scene	*scene;
+	t_error			errorn;
+	int				fd;
+	t_scene			*scene;
 
 	errorn = ERR_NO_ERROR;
 	if (argc != 2)
@@ -64,7 +76,7 @@ t_scene	*parse_input(int argc, char **argv)
 		return (NULL);
 	}
 	scene = ft_calloc(1, sizeof(t_scene));
-	if (!scene)
+	if (scene == NULL)
 		errorn = ERR_MALLOC_FAILED;
 	if (errorn == ERR_NO_ERROR)
 		errorn = scene_parser(scene, fd);

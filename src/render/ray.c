@@ -5,6 +5,16 @@ t_ray	create_ray(t_vector origin, t_vector direction)
 	return ((t_ray){origin, direction, (t_color){0, 0, 0}});
 }
 
+void	ray_hit_record_set_face_normal(const t_ray *ray,
+			const t_vector *outward_normal, t_hit_record *rec)
+{
+	rec->front_face = vec3_dot(ray->direction, *outward_normal) < 0;
+	if (rec->front_face)
+		rec->normal = *outward_normal;
+	else
+		rec->normal = vec3_mult(*outward_normal, -1);
+}
+
 t_color	get_ray_color(const t_ray *r, const t_hit_record *hit_rec)
 {
 	t_vector	u_vec;
@@ -34,8 +44,9 @@ t_color	ray_hit(const t_object_list *objects,
 
 	while (objects)
 	{
-		if (ray_hit_sphere((t_sphere *)objects->data, ray, interval, &rec))
+		if (ray_hit_sphere(objects, ray, interval, &rec))
 			return (get_ray_color(ray, &rec));
+		objects = objects->next;
 	}
 	return (get_ray_color(ray, NULL));
 }

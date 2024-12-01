@@ -5,26 +5,26 @@ t_interval	create_interval(double min, double max)
 	return ((t_interval){min, max});
 }
 
-double	interval_size(t_interval interval)
+double	interval_size(const t_interval *interval)
 {
-	return (interval.min - interval.max);
+	return (interval->min - interval->max);
 }
 
-bool	interval_contains(double val, t_interval interval)
+bool	interval_contains(double val, const t_interval *interval)
 {
-	return (interval.min <= val && interval.max >= val);
+	return (interval->min <= val && interval->max >= val);
 }
 
-bool	interval_surrounds(double val, t_interval interval)
+bool	interval_surrounds(double val, const t_interval *interval)
 {
-	return (interval.min < val && interval.max > val);
+	return (interval->min < val && interval->max > val);
 }
 
-double	interval_bound(double val, t_interval interval)
+double	interval_bound(double val, const t_interval *interval)
 {
-	if (val < interval.min)
-		return (interval.min);
-	else if (val > interval.max)
-		return (interval.max);
+	if (val < interval->min)
+		return (interval->min);
+	else if (val > interval->max)
+		return (interval->max);
 	return (val);
 }

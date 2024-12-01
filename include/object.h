@@ -1,6 +1,9 @@
 #ifndef OBJECTS_H
 # define OBJECTS_H
 
+/*
+	Typedefs
+*/
 typedef enum e_object_type
 {
 	E_SPHERE,
@@ -13,10 +16,18 @@ typedef enum e_object_type
 
 typedef	struct	s_object_list
 {
-	void			*data;
-	t_object_type	type;
-	t_object_list	*next;
+	void					*data;
+	t_object_type			type;
+	struct s_object_list	*next;
 }	t_object_list;
+
+/*
+	Functions
+*/
+t_object_list	*alloc_new_object(void *data, t_object_type type, t_object_list *next);
+void			object_add_back(t_object_list *new, t_object_list **list);
+void			free_object(t_object_list **object);
+void			free_object_list(t_object_list **list);
 
 /*
 	Objects

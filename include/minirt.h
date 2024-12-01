@@ -3,7 +3,7 @@
 
 # include "ft_error.h"
 # include "parser.h"
-# include "shapes.h"
+# include "object.h"
 # include "dependencies.h"
 # include <stdbool.h>
 # include <stdlib.h>
@@ -15,8 +15,8 @@
 	#  include "key_linux.h"
 # endif
 
-# define WIN_WIDTH 1920
-# define WIN_HEIGHT 1024
+# define WIN_WIDTH 1024
+# define WIN_HEIGHT 720
 # define WIN_ASPECT_RATIO 1.42
 # define ANTIALIASING_SAMPLES 10
 

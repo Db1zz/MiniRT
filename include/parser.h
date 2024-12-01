@@ -10,7 +10,7 @@
 # define SPHERE_ARGS 3
 
 t_error	scene_parser(t_scene *scene, int scene_fd);
-void	shape_add_back(void	**shape_list, void	*shape);
+t_error	scene_add_object(void *data, t_object_type type, t_scene *scene);
 
 t_scene	*parse_input(int argc, char **argv);
 t_error	parse_sphere(t_scene *scene, char **line_data);

@@ -1,6 +1,7 @@
-#include "libft.h"
 #include "vector.h"
+#include "minirt_math.h"
 #include "minirt.h"
+#include "libft.h"
 
 t_error	set_vector(t_vector *vector, double x, double y, double z)
 {

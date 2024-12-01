@@ -1,12 +1,14 @@
 #include "parser.h"
+#include "object.h"
 #include "minirt.h"
 
 t_error	parse_light(t_scene *scene, char **line_data)
 {
-	t_error	errorn;
-	t_light	*light;
+	t_error			errorn;
+	t_light			*light;
+	static size_t	parsed_times = 0;
 
-	if (scene->light != NULL)
+	if (parsed_times > 1)
 		return (ERR_MULTIPLE_OBJECTS_INSTANCES);
 	errorn = ERR_NO_ERROR;
 	light = ft_calloc(1, sizeof(t_light));
@@ -25,18 +27,18 @@ t_error	parse_light(t_scene *scene, char **line_data)
 	if (errorn == ERR_NO_ERROR)
 		errorn = str_to_color(&light->color, line_data[3]);
 	if (errorn)
-		free(light);
-	else
-		scene->light = light;
-	return (errorn);
+		return (free(light), errorn);
+	parsed_times++;
+	return (scene_add_object(light, E_LIGHT, scene));
 }
 
 t_error	parse_ambient(t_scene *scene, char **line_data)
 {
 	t_error			errorn;
 	t_amb_lighting	*amb_lighting;
+	static size_t	parsed_times = 0;
 
-	if (scene->amb_light != NULL)
+	if (parsed_times > 1)
 		return (ERR_MULTIPLE_OBJECTS_INSTANCES);
 	errorn = ERR_NO_ERROR;
 	amb_lighting = ft_calloc(1, sizeof(t_amb_lighting));
@@ -50,10 +52,9 @@ t_error	parse_ambient(t_scene *scene, char **line_data)
 	else if (errorn == ERR_NO_ERROR)
 		errorn = str_to_color(&amb_lighting->color, line_data[2]);
 	if (errorn)
-		free(amb_lighting);
-	else
-		scene->amb_light = amb_lighting;
-	return (errorn);
+		return (free(amb_lighting), errorn);
+	parsed_times++;
+	return (scene_add_object(amb_lighting, E_AMBIENT_LIGHT, scene));
 }
 
 t_error	parse_camera(t_scene *scene, char **line_data)
@@ -70,16 +71,12 @@ t_error	parse_camera(t_scene *scene, char **line_data)
 	errorn = str_to_vector(&camera->view_point, line_data[1]);
 	if (!errorn)
 		errorn = str_to_vector(&camera->orientation_vec, line_data[2]);
-	if (!errorn && !is_string_number(line_data[3]))
-	{
+	if (!errorn && is_string_number(line_data[3]))
 		camera->fov = ft_atoi(line_data[3]);
-		errorn = ERR_ATOI_FAILED;
-	}
 	else if (!errorn && (camera->fov < FOV_MIN || camera->fov > FOV_MAX))
 		errorn = ERR_INCORRECT_FOV_VALUE;
 	if (errorn)
-		free(camera);
-	else
-		scene->camera = camera;
+		return (free(camera), errorn);
+	scene->camera = camera;
 	return (errorn);
 }
