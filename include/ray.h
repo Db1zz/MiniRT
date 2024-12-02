@@ -30,8 +30,9 @@ typedef struct s_hit_record
 t_ray	create_ray(t_vector origin, t_vector direction);
 void	ray_hit_record_set_face_normal(const t_ray *ray,
 			const t_vector *outward_normal, t_hit_record *rec);
-t_color	get_ray_color(const t_ray *r, const t_hit_record *hit_rec);
-t_color	ray_hit(const t_object_list *objects, const t_ray *ray,
+t_color	ray_color(const t_object_list *objects, const t_ray *ray,
+			const t_interval *interval);
+bool	ray_hit(const t_object_list *objects, const t_ray *ray,
 			const t_interval *interval, t_hit_record *rec);
 bool	ray_hit_sphere(const t_object_list *sphere_object, const t_ray *ray,
 			const t_interval *interval, t_hit_record *rec);
@@ -40,7 +41,7 @@ bool	ray_hit_sphere(const t_object_list *sphere_object, const t_ray *ray,
     Sets the hit record normal vector.
     NOTE: the parameter `outward_normal` is assumed to have unit length.
 */
-void	hit_record_set_face_normal(const t_ray *ray,
+void	ray_hit_record_set_face_normal(const t_ray *ray,
 			const t_vector *outward_normal, t_hit_record *rec);
 
 #endif	// RAY_H
