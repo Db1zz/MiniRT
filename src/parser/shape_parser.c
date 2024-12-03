@@ -21,16 +21,14 @@ t_error	parse_sphere(t_scene *scene, char **line_data)
 	if (errorn == ERR_NO_ERROR)
 		errorn = str_to_color(&sphere->color, line_data[3]);
 	if (errorn)
-		free(sphere);
-	else
-		shape_add_back((void **)&scene->spheres, (void *)sphere);
-	return (errorn);
+		return (free(sphere), errorn);
+	return (scene_add_object(sphere, E_SPHERE, scene));
 }
 
 t_error	parse_cylinder(t_scene *scene, char **line_data)
 {
-	t_error		errorn;
-	t_cylinder	*cylinder;
+	t_error			errorn;
+	t_cylinder		*cylinder;
 
 	errorn = ERR_NO_ERROR;
 	cylinder = ft_calloc(1, sizeof(t_cylinder));
@@ -51,10 +49,8 @@ t_error	parse_cylinder(t_scene *scene, char **line_data)
 	if (errorn == ERR_NO_ERROR)
 		errorn = str_to_color(&cylinder->color, line_data[5]);
 	if (errorn)
-		free(cylinder);
-	else
-		shape_add_back((void **)&scene->cylinders, (void *)cylinder);
-	return (errorn);
+		return (free(cylinder), errorn);
+	return (scene_add_object(cylinder, E_CYLINDER, scene));
 }
 
 t_error	parse_plane(t_scene *scene, char **line_data)
@@ -77,8 +73,6 @@ t_error	parse_plane(t_scene *scene, char **line_data)
 		plane->vector = vec3_normalize(plane->vector);
 	}
 	if (errorn)
-		free(plane);
-	else
-		shape_add_back((void **)&scene->planes, (void *)plane);
-	return (errorn);	
+		return (free(plane), errorn);
+	return (scene_add_object(plane, E_PLANE, scene));
 }

@@ -2,8 +2,8 @@
 # define SCENE_H
 
 # include "camera.h"
-# include "shapes.h"
 # include "light.h"
+# include "object.h"
 # include "viewport.h"
 
 typedef struct s_scene
@@ -12,11 +12,7 @@ typedef struct s_scene
 	void			*mlx;
 	bool			antialiasing;
 	t_camera		*camera;
-	t_amb_lighting	*amb_light;
-	t_light			*light;
-	t_sphere		*spheres;
-	t_plane			*planes;
-	t_cylinder		*cylinders;
+	t_object_list	*objects;
 }	t_scene;
 
 void	free_scene(t_scene **scene);

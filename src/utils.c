@@ -59,3 +59,23 @@ size_t	get_2dmatrix_size(char **matrix)
 		size++;
 	return (size);
 }
+
+void	free_scene(t_scene **scene)
+{
+	if (!scene || !*scene)
+		return ;
+	free_object_list(&(*scene)->objects);
+	if ((*scene)->camera)
+		free((*scene)->camera);
+	if ((*scene)->win)
+		mlx_destroy_window((*scene)->mlx, (*scene)->win);
+	if ((*scene)->mlx)
+	{
+		#ifndef __APPLE__	// Temp macro
+			mlx_destroy_display((*scene)->mlx);
+		#endif	// __APPLE__
+		free((*scene)->mlx);
+	}
+	free(*scene);
+	*scene = NULL;
+}

@@ -3,7 +3,6 @@
 
 # include "vector.h"
 # include "color.h"
-# include "scene.h"
 
 # define RATIO_MIN 0
 # define RATIO_MAX 1
