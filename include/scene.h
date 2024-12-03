@@ -12,6 +12,8 @@ typedef struct s_scene
 	void			*mlx;
 	bool			antialiasing;
 	t_camera		*camera;
+	t_object_list	*lights;
+	t_object_list	*ambient_lightings;
 	t_object_list	*objects;
 }	t_scene;
 

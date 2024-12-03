@@ -26,11 +26,18 @@ static t_error	line_parser(t_scene *scene, char **line_data)
 t_error	scene_add_object(void *data, t_object_type type, t_scene *scene)
 {
 	t_object_list	*new_object;
+	t_object_list	**object_list;
 
 	if (!data || !scene)
 		return (ERR_NULL_PARAMETER);
 	new_object = alloc_new_object(data, type, NULL);
-	object_add_back(new_object, &scene->objects);
+	if (type == E_LIGHT)
+		object_list = &scene->lights;
+	else if (type == E_AMBIENT_LIGHT)
+		object_list = &scene->ambient_lightings;
+	else
+		object_list = &scene->objects;
+	object_add_back(new_object, object_list);
 	return (ERR_NO_ERROR);
 }
 

@@ -40,3 +40,12 @@ strerror, exit
 • All functions of the math
 library (-lm man man 3 math)
 • All functions of the MinilibX
+
+
+## Light implementation
+1. Hit the object with ray_hit()
+2. If ray_hit == true
+3. Send another ray to light source
+4. If ray intersects with object before hitting the light
+	- shadow should be returned
+5. Else return light_color
