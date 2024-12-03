@@ -1,4 +1,5 @@
 #include "camera.h"
+#include "scene.h"
 #include "vector.h"
 #include "ray.h"
 #include "minirt_math.h"
@@ -19,17 +20,16 @@ static t_vector	camera_get_pixel_center(const t_scene *scene, int x, int y)
 	return (pixel_center);
 }
 
+
 t_color	camera_send_ray(const t_camera *camera, const t_scene *scene,
-		int x, int y)
+			int x, int y)
 {
 	t_vector	ray_direction;
 	t_vector	pixel_center;
 	t_ray		ray;
-	t_interval	interval;
 
 	pixel_center = camera_get_pixel_center(scene, x, y);
 	ray_direction = vec3_sub_vec3(pixel_center, camera->view_point);
 	ray = create_ray(camera->view_point, ray_direction);
-	interval = create_interval(0, FT_INFINITY);
-	return (ray_color(scene->objects, &ray, &interval));
+	return (ray_color(scene->objects, &ray, &camera->ray_prop));
 }
