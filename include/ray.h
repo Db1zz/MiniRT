@@ -11,8 +11,10 @@
 
 typedef struct	s_ray_properties
 {
-	int			max_diffusion_depth;
-	t_interval	ray_interval;
+	int				max_diffusion_depth;
+	t_interval		ray_interval;
+	t_object_list	*light;
+	t_object_list	*amb_lighting;
 }	t_ray_properties;
 
 typedef struct s_ray
@@ -24,10 +26,12 @@ typedef struct s_ray
 
 typedef struct s_hit_record
 {
-	t_vector	p;
-	t_vector	normal;
-	double		t;
-	bool		front_face;
+	t_vector		p;			// Point of itersection
+	t_vector		normal;
+	double			t;			// ray(𝑡)
+	bool			front_face;
+	t_color			color;
+	t_object_type	obj_type;
 }	t_hit_record;
 
 /*
@@ -47,13 +51,16 @@ bool	ray_hit(const t_object_list *objects, const t_ray *ray,
 			const t_ray_properties *prop, t_hit_record *rec);
 
 t_color	ray_send(const t_object_list *objects, const t_ray *ray,
-			t_ray_properties *prop, t_hit_record *rec);
+			const t_ray_properties *prop, t_hit_record *rec);
 
 t_color	ray_color(const t_object_list *objects, const t_ray *ray,
 			const t_ray_properties *prop);
 
 bool	ray_hit_sphere(const t_object_list *sphere_object, const t_ray *ray,
 			const t_interval *interval, t_hit_record *rec);
+
+bool	ray_hit_light(const t_object_list *objects, const t_ray *shadow_ray,
+			const t_ray_properties *prop, t_hit_record *rec);
 
 /*
     Sets the hit record normal vector.

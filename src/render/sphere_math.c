@@ -52,5 +52,6 @@ bool	ray_hit_sphere(const t_object_list *sphere_object, const t_ray *ray,
 		return (false);
 	outward_normal = vec3_div(vec3_sub_vec3(rec->p, sphere->vector), sphere->radius);
 	ray_hit_record_set_face_normal(ray, &outward_normal, rec);
+	rec->color = sphere->color;
 	return (true);
 }
