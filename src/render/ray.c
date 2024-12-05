@@ -8,20 +8,33 @@ t_ray	create_ray(t_vector origin, t_vector direction)
 bool	ray_hit(const t_object_list *objects, const t_ray *ray,
 			const t_ray_properties *prop, t_hit_record *rec)
 {
+	t_hit_record	temp_rec;
+	bool			found;
+
+	found = false;
 	while (objects)
 	{
-		if (ray_hit_sphere(objects, ray, &prop->ray_interval, rec))
-			return (true);
-		// if (ray_hit_light(objects, ray, prop, rec))
-		// 	return (true);
+		if (ray_hit_sphere(objects, ray, &prop->ray_interval, &temp_rec)
+				&& temp_rec.t < rec->t)
+		{
+			rec->t = temp_rec.t;
+			rec->normal = temp_rec.normal;
+			rec->front_face = temp_rec.front_face;
+			rec->obj_type = temp_rec.obj_type;
+			rec->p = temp_rec.p;
+			rec->color = temp_rec.color;
+			found = true;
+		}
 		objects = objects->next;
 	}
-	return (false);
+	return (found);
 }
 
 /*
 	TODO: add a bright spot from a light object to the surface of an object
 */
+// TODO: delete this
+#include "minirt_math.h"
 t_color	process_ray_hit(const t_object_list *objects,
 			const t_ray_properties *prop, const t_hit_record *rec)
 {
@@ -39,14 +52,16 @@ t_color	process_ray_hit(const t_object_list *objects,
 	{
 		t_light			*light = prop->light->data;
 		t_vector		ray_intersection;
-		const double	epsilon = 1e-2;
+		const double	epsilon = 1e-3;
 
 		ray_intersection = vec3_add_vec3(rec->p, vec3_mult(rec->normal, epsilon));
 		ray_direction = vec3_normalize(vec3_sub_vec3(light->vector, ray_intersection));
 		shadow_ray = create_ray(ray_intersection, ray_direction);
 		t_hit_record	shadow_rec;
+		shadow_rec.t = FT_INFINITY;
 
-		bool obj_intersected = ray_hit_light(objects, &shadow_ray, prop, &shadow_rec);
+		bool obj_intersected = ray_hit_light(objects, &shadow_ray,
+					prop, &shadow_rec);
 		if (obj_intersected)
 			return (clr_mult(ray_color, 1.3));
 		else
@@ -70,5 +85,6 @@ t_color	ray_color(const t_object_list *objects, const t_ray *ray,
 	t_ray_properties	prop_copy;
 
 	prop_copy = *prop;
+	rec.t = FT_INFINITY;
 	return (ray_send(objects, ray, &prop_copy, &rec));
 }

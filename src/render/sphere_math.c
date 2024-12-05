@@ -35,7 +35,7 @@ static bool	sphere_find_solutions(const t_sphere *sphere, const t_ray *ray,
 		rec->t = sphere_solve_qf(discriminant, qf, interval);
 	else
 		return (false);
-	rec->p = vec3_add_vec3(ray->origin, vec3_mult(ray->direction, discriminant));
+	rec->p = vec3_add_vec3(ray->origin, vec3_mult(ray->direction, rec->t));
 	return (rec->t >= 0);
 }
 
