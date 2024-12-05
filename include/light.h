@@ -3,6 +3,7 @@
 
 # include "vector.h"
 # include "color.h"
+# include "ray.h"
 
 # define RATIO_MIN 0
 # define RATIO_MAX 1
@@ -19,5 +20,8 @@ typedef struct s_light
 	double	ratio;
 	t_color	color;
 }	t_light;
+
+double	send_shadow_ray(const t_object_list *objects,
+			const t_ray_properties *prop, const t_hit_record *shape_rec);
 
 #endif	// LIGHT_H
