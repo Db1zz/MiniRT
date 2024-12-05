@@ -1,5 +1,6 @@
 # include "light.h"
 # include "ray.h"
+# include "math.h"
 
 bool	ray_hit_light(const t_object_list *objects, const t_ray *shadow_ray,
 			const t_ray_properties *prop, t_hit_record *rec)
@@ -15,22 +16,24 @@ bool	ray_hit_light(const t_object_list *objects, const t_ray *shadow_ray,
 	return (true);
 }
 
-bool	apply_ambient_light(const t_object_list *amb_object, t_color **color)
+t_color	apply_ambient_light(const t_object_list *amb_object, const t_color *color)
 {
 	const t_amb_lighting	*amb_light;
 	t_color					amb_color;
 
-	if (!amb_object || !amb_object->data || amb_object->type != E_AMBIENT_LIGHT)
-		return (false);
-	if (!color || !*color)
-		return (false);
+	if (!amb_object || !amb_object->data
+		|| amb_object->type != E_AMBIENT_LIGHT || !color)
+	{
+		ft_perror(ERR_INVALID_FUNC_ARGS, __func__);
+		return ((t_color){0, 0, 0});
+	}
 	amb_light = (const t_amb_lighting *)amb_object->data;
 	amb_color = clr_mult(amb_light->color, amb_light->ratio);
-	**color = normalize_color(clr_add_clr(**color, amb_color));
-	return (true);
+	return (normalize_color(clr_add_clr(*color, amb_color)));
 }
 
-t_ray	calculate_create_shadow_ray(const t_hit_record *shape_rec, const t_light *light)
+static t_ray	calculate_create_shadow_ray(
+			const t_hit_record *shape_rec, const t_light *light)
 {
 	const double	epsilon = 1e-4;
 	t_vector		ray_intersection;
@@ -44,7 +47,9 @@ t_ray	calculate_create_shadow_ray(const t_hit_record *shape_rec, const t_light *
 	return (new_shadow_ray);
 }
 
-#include "minirt_math.h"
+/*
+	TODO: Refactor this function ;)
+*/
 double	send_shadow_ray(const t_object_list *objects,
 			const t_ray_properties *prop, const t_hit_record *shape_rec)
 {
@@ -54,11 +59,12 @@ double	send_shadow_ray(const t_object_list *objects,
 	double			diffuse_intensity;
 	t_vector		cossin_angle_vectors[2];
 
-	if (!prop || !prop->light || prop->light->type != E_LIGHT)
-		return (0); 
+	if (!prop || !prop->light || prop->light->type != E_LIGHT
+		|| !objects || !shape_rec)
+		return (ft_perror(ERR_INVALID_FUNC_ARGS, __func__), 0);
 	light_source = prop->light->data;
 	shadow_ray = calculate_create_shadow_ray(shape_rec, light_source);
-	shadow_ray_rec.t = FT_INFINITY;
+	init_hit_record(&shadow_ray_rec);
 	if (!ray_hit_light(objects, &shadow_ray, prop, &shadow_ray_rec))
 		return (0);
 	cossin_angle_vectors[0] = vec3_normalize(vec3_sub_vec3(light_source->vector, shape_rec->p));

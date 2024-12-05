@@ -20,6 +20,8 @@
 # define ERR_NULL_PARAMETER 1
 # define ERR_MALLOC_FAILED 2
 # define ERR_FAILED_TO_OPEN_FILE 3
+# define ERR_INVALID_FUNC_ARGS 4
+
 
 /*
 	Parser error codes

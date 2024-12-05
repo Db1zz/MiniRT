@@ -69,4 +69,10 @@ bool	ray_hit_light(const t_object_list *objects, const t_ray *shadow_ray,
 void	ray_hit_record_set_face_normal(const t_ray *ray,
 			const t_vector *outward_normal, t_hit_record *rec);
 
+#include "libft.h"
+
+void			init_hit_record(t_hit_record *rec);
+t_hit_record	get_closest_hit(const t_hit_record *first,
+			const t_hit_record *second);
+
 #endif	// RAY_H

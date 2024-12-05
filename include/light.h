@@ -21,6 +21,8 @@ typedef struct s_light
 	t_color	color;
 }	t_light;
 
+t_color	apply_ambient_light(const t_object_list *amb_object, const t_color *color);
+
 double	send_shadow_ray(const t_object_list *objects,
 			const t_ray_properties *prop, const t_hit_record *shape_rec);
 

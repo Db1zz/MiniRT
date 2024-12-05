@@ -1,6 +1,18 @@
 #include "ft_error.h"
 #include <stdio.h>
 
+static const char	*standard_error_to_msg(t_error errorn)
+{
+	static const char	*msgs[] = {
+		"Function parameter == NULL",
+		"Malloc failed",
+		"Failed to obtain FD from open()",
+		"Invalid function arguments"
+	};
+
+	return (msgs[errorn - STANDARD_ERROR_MIN]);
+}
+
 static const char	*parser_errorn_to_msg(t_error errorn)
 {
 	static const char	*msgs[] = {
@@ -31,17 +43,6 @@ static const char	*minirt_errorn_to_msg(t_error errorn)
 	return (msgs[errorn - MINIRT_ERRORN_MIN]);
 }
 
-static const char	*standard_error_to_msg(t_error errorn)
-{
-	static const char	*msgs[] = {
-		"Function parameter == NULL",
-		"Malloc failed",
-		"Failed to obtain FD from open()"
-	};
-
-	return (msgs[errorn - STANDARD_ERROR_MIN]);
-}
-
 void	ft_perror(t_error errorn, const char *func)
 {
 	const char	*msg;
@@ -49,12 +50,12 @@ void	ft_perror(t_error errorn, const char *func)
 	if (errorn == ERR_NO_ERROR)
 		return ;
 	msg = NULL;
-	if (errorn >= MINIRT_ERRORN_MIN && errorn <= MINIRT_ERRORN_MAX)
-		msg = minirt_errorn_to_msg(errorn);
+	if (errorn >= STANDARD_ERROR_MIN && errorn <= STANDARD_ERROR_MAX)
+		msg = standard_error_to_msg(errorn);
 	else if (errorn >= PARSER_ERRN_MIN && errorn <= PARSER_ERRN_MAX)
 		msg = parser_errorn_to_msg(errorn);
-	else if (errorn >= STANDARD_ERROR_MIN && errorn <= STANDARD_ERROR_MAX)
-		msg = standard_error_to_msg(errorn);
+	else if (errorn >= MINIRT_ERRORN_MIN && errorn <= MINIRT_ERRORN_MAX)
+		msg = minirt_errorn_to_msg(errorn);
 	if (msg == NULL)
 		printf("Error in %s: incorrect error number\n", __func__);
 	else
