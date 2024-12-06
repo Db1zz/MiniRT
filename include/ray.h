@@ -59,6 +59,8 @@ t_color	ray_color(const t_object_list *objects, const t_ray *ray,
 bool	ray_hit_sphere(const t_object_list *sphere_object, const t_ray *ray,
 			const t_interval *interval, t_hit_record *rec);
 
+bool	ray_hit_plane(const t_object_list *plane_object, const t_ray *ray, t_hit_record *rec);
+
 bool	ray_hit_light(const t_object_list *objects, const t_ray *shadow_ray,
 			const t_ray_properties *prop, t_hit_record *rec);
 
