@@ -37,6 +37,7 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 
 	// Camera settings
+	t_plane	*plane = (t_plane *)scene->objects;
 	scene->camera->ray_prop.max_diffusion_depth = 1;
 	scene->camera->ray_prop.ray_interval = create_interval(0.01, FT_INFINITY);
 	scene->camera->ray_prop.amb_lighting = scene->ambient_lightings;
