@@ -4,11 +4,10 @@
 
 t_error	parse_light(t_scene *scene, char **line_data)
 {
-	t_error			errorn;
-	t_light			*light;
-	static size_t	parsed_times = 0;
+	t_error	errorn;
+	t_light	*light;
 
-	if (parsed_times > 1)
+	if (scene->lights)
 		return (ERR_MULTIPLE_OBJECTS_INSTANCES);
 	errorn = ERR_NO_ERROR;
 	light = ft_calloc(1, sizeof(t_light));
@@ -28,7 +27,6 @@ t_error	parse_light(t_scene *scene, char **line_data)
 		errorn = str_to_color(&light->color, line_data[3]);
 	if (errorn)
 		return (free(light), errorn);
-	parsed_times++;
 	return (scene_add_object(light, E_LIGHT, scene));
 }
 
@@ -36,9 +34,8 @@ t_error	parse_ambient(t_scene *scene, char **line_data)
 {
 	t_error			errorn;
 	t_amb_lighting	*amb_lighting;
-	static size_t	parsed_times = 0;
 
-	if (parsed_times > 1)
+	if (scene->ambient_lightings)
 		return (ERR_MULTIPLE_OBJECTS_INSTANCES);
 	errorn = ERR_NO_ERROR;
 	amb_lighting = ft_calloc(1, sizeof(t_amb_lighting));
@@ -53,7 +50,6 @@ t_error	parse_ambient(t_scene *scene, char **line_data)
 		errorn = str_to_color(&amb_lighting->color, line_data[2]);
 	if (errorn)
 		return (free(amb_lighting), errorn);
-	parsed_times++;
 	return (scene_add_object(amb_lighting, E_AMBIENT_LIGHT, scene));
 }
 

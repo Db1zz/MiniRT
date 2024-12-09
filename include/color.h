@@ -22,14 +22,15 @@ bool	validate_colors(int r, int g, int b);
 t_error	str_to_color(t_color *color, const char *str);
 void	print_color(t_color *c);
 
-t_color	clr_div(t_color color, double val);
-t_color	clr_mult(t_color color, double val);
-t_color	clr_sub(t_color color, int val);
-t_color	clr_add(t_color color, int val);
-
 t_color	clr_div_clr(t_color c1, t_color c2);
 t_color	clr_mult_clr(t_color c1, t_color c2);
 t_color	clr_sub_clr(t_color c1, t_color c2);
 t_color	clr_add_clr(t_color c1, t_color c2);
+
+t_color	clr_div(t_color color, double val);
+t_color	clr_mult(t_color color, double val);
+t_color	clr_sub(t_color color, int val);
+t_color	clr_add(t_color color, int val);
+t_color	normalize_color(t_color color);
 
 #endif // COLOR_H

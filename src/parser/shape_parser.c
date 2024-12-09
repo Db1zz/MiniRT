@@ -62,16 +62,13 @@ t_error	parse_plane(t_scene *scene, char **line_data)
 	plane = ft_calloc(1, sizeof(t_plane));
 	if (!plane)
 		return (ERR_MALLOC_FAILED);
-	errorn = str_to_vector(&plane->vector, line_data[1]);
+	errorn = str_to_vector(&plane->normal_vec, line_data[1]);
 	if (errorn == ERR_NO_ERROR)
-		errorn = str_to_vector((&plane->axis), line_data[2]);
+		errorn = str_to_vector((&plane->point), line_data[2]);
 	if (errorn == ERR_NO_ERROR)
 		errorn = str_to_color((&plane->color), line_data[3]);
 	if (!errorn)
-	{
-		plane->axis = vec3_normalize(plane->axis);
-		plane->vector = vec3_normalize(plane->vector);
-	}
+		plane->normal_vec = vec3_normalize(plane->normal_vec);
 	if (errorn)
 		return (free(plane), errorn);
 	return (scene_add_object(plane, E_PLANE, scene));

@@ -27,11 +27,13 @@ SRCS =	src/minirt.c					\
 		src/vector/vector_math2.c		\
 		src/vector/vector_math3.c		\
 		src/render/ray.c				\
+		src/render/ray_utils.c			\
 		src/render/ray_math.c			\
 		src/render/interval.c			\
 		src/render/math_utils.c			\
 		src/render/render.c				\
-		src/render/sphere_math.c
+		src/render/sphere_math.c		\
+		src/render/plane_math.c
 
 SRCS_DIR = src
 OBJS = $(SRCS:src/%.c=objs/%.o)

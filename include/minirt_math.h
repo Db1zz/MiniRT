@@ -12,5 +12,6 @@
 double	degrees_to_radians(double degrees);
 double	random_double(void);
 double	random_double_range(double min, double max);
+double	clamp_value(double val, double min, double max);
 
 #endif // MINIRT_MATH_H

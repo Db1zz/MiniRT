@@ -1,6 +1,8 @@
 #ifndef OBJECTS_H
 # define OBJECTS_H
 
+# include "vector.h"
+
 /*
 	Typedefs
 */
@@ -32,8 +34,6 @@ void			free_object_list(t_object_list **list);
 /*
 	Objects
 */
-# include "light.h"
-
 typedef struct s_sphere
 {
 	double			diameter;
@@ -44,9 +44,8 @@ typedef struct s_sphere
 
 typedef struct s_plane
 {
-	t_vector		vector;
 	t_vector		point;
-	t_vector		axis;
+	t_vector		normal_vec;
 	t_color			color;
 }	t_plane;
 

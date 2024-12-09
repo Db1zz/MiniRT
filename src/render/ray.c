@@ -18,7 +18,7 @@ bool	ray_hit(const t_object_list *objects, const t_ray *ray,
 	{
 		if (ray_hit_sphere(objects, ray, &prop->ray_interval, &current_rec))
 			found = true;
-		if (ray_hit_plane(ray, objects, &current_rec))
+		else if (ray_hit_plane(objects, ray, &current_rec))
 			found = true;
 		if (found)
 			*result_rec = get_closest_hit(&current_rec, result_rec);

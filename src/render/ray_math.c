@@ -28,10 +28,19 @@ t_color	diffuse_material(const t_object_list *objects,
 	t_ray		new_ray;
 	t_vector	ray_direction;
 	t_color		final_ray_color;
+	t_color		ambient_light;
+	double		ambient_light_intensity;
 
+	ambient_light_intensity = 0.4;
 	ray_direction = vec3_random_on_hemisphere(&rec->normal);
 	new_ray = create_ray(rec->p, ray_direction);
 	prop->max_diffusion_depth--;
 	final_ray_color = ray_send(objects, &new_ray, prop, rec);
-	return (clr_mult(final_ray_color, 0.5));
+	final_ray_color = clr_mult(final_ray_color, 0.01);
+	set_color(&ambient_light, 195, 52, 235);
+	ambient_light = clr_mult(ambient_light, ambient_light_intensity);
+	final_ray_color = clr_add_clr(final_ray_color, rec->color);
+	final_ray_color = clr_add_clr(final_ray_color, ambient_light);
+	final_ray_color = normalize_color(final_ray_color);
+	return (final_ray_color);
 }

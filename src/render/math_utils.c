@@ -16,3 +16,12 @@ double	random_double_range(double min, double max)
 {
 	return (min + (max - min) * random_double());
 }
+
+double	clamp_value(double val, double min, double max)
+{
+	if (val > max)
+		return (max);
+	else if (val < min)
+		return (min);
+	return (val);
+}
