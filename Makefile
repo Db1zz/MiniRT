@@ -2,7 +2,7 @@
 NAME = miniRT
 CC = cc
 UNAME_S := $(shell uname -s)
-FLAGS = -Wall -Wextra -g #-fsanitize=address #-Werror
+FLAGS := -Wall -Wextra -g #-fsanitize=address #-Werror
 MINILIBX_TGZ_NAME = MiniLibX.tgz
 MINILIBX_DIR = minilibx
 MINILIBX := $(MINILIBX_DIR)/libmlx.a
@@ -81,4 +81,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+bonus:
+	$(MAKE) FLAGS+="-D BONUS" all
+
+.PHONY: all clean fclean re bonus
