@@ -34,10 +34,7 @@ t_color	process_ray_hit(const t_object_list *objects,
 	double	light_intensity;
 	
 	if (prop->light)
-	{
-		light_intensity = send_shadow_ray(objects, prop, rec);
-		ray_color = clr_mult(rec->color, light_intensity);
-	}
+		ray_color = send_shadow_ray(objects, prop, rec);
 	if (prop->amb_lighting)
 		ray_color = apply_ambient_light(prop->amb_lighting, &ray_color);
 	return (ray_color);

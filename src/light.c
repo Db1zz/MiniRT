@@ -50,7 +50,9 @@ static t_ray	calculate_create_shadow_ray(
 /*
 	TODO: Refactor this function ;)
 */
-double	send_shadow_ray(const t_object_list *objects,
+#ifndef BONUS
+
+t_color	send_shadow_ray(const t_object_list *objects,
 			const t_ray_properties *prop, const t_hit_record *shape_rec)
 {
 	t_light			*light_source;
@@ -61,14 +63,55 @@ double	send_shadow_ray(const t_object_list *objects,
 
 	if (!prop || !prop->light || prop->light->type != E_LIGHT
 		|| !objects || !shape_rec)
-		return (ft_perror(ERR_INVALID_FUNC_ARGS, __func__), 0);
+		return (ft_perror(ERR_INVALID_FUNC_ARGS, __func__), (t_color){0,0,0});
 	light_source = prop->light->data;
 	shadow_ray = calculate_create_shadow_ray(shape_rec, light_source);
 	init_hit_record(&shadow_ray_rec);
 	if (!ray_hit_light(objects, &shadow_ray, prop, &shadow_ray_rec))
-		return (0);
+		return ((t_color){0,0,0});
 	cossin_angle_vectors[0] = vec3_normalize(vec3_sub_vec3(light_source->vector, shape_rec->p));
 	cossin_angle_vectors[1] = vec3_normalize(shape_rec->normal);
 	diffuse_intensity = vec3_dot(cossin_angle_vectors[0], cossin_angle_vectors[1]);
-	return (fmax(0, diffuse_intensity));
+	diffuse_intensity = fmax(0, diffuse_intensity);
+	return (clr_mult(shape_rec->color, diffuse_intensity));
 }
+#else
+
+t_color	send_shadow_ray(const t_object_list *objects,
+			const t_ray_properties *prop, const t_hit_record *shape_rec)
+{
+	t_object_list	*light_sources;
+	t_light			*light_source;
+	t_ray			shadow_ray;
+	t_hit_record	shadow_ray_rec;
+	double			diffuse_intensity;
+	t_vector		cossin_angle_vectors[2];
+	t_color			result_color;
+
+	if (!prop || !prop->light || prop->light->type != E_LIGHT
+		|| !objects || !shape_rec)
+	{
+		ft_perror(ERR_INVALID_FUNC_ARGS, __func__);
+		return ((t_color){0,0,0});
+	}
+	set_color(&result_color, 0, 0, 0);
+	light_sources = prop->light;
+	while (light_sources)
+	{
+		light_source = light_sources->data;
+		shadow_ray = calculate_create_shadow_ray(shape_rec, light_source);
+		init_hit_record(&shadow_ray_rec);
+		if (ray_hit_light(objects, &shadow_ray, prop, &shadow_ray_rec))
+		{
+			cossin_angle_vectors[0] = vec3_normalize(vec3_sub_vec3(light_source->vector, shape_rec->p));
+			cossin_angle_vectors[1] = vec3_normalize(shape_rec->normal);
+			diffuse_intensity = vec3_dot(cossin_angle_vectors[0], cossin_angle_vectors[1]);
+			diffuse_intensity = fmax(0, diffuse_intensity);
+			result_color = clr_add_clr(result_color, clr_mult(light_source->color, diffuse_intensity));
+		}
+		light_sources = light_sources->next;
+	}
+	result_color = normalize_color(clr_sub_clr(result_color, shape_rec->color));
+	return (result_color);
+}
+#endif
