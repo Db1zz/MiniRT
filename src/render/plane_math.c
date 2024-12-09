@@ -1,5 +1,4 @@
 #include "minirt.h"
-
 #include "ray.h"
 #include <math.h>
 
