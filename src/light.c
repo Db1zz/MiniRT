@@ -47,9 +47,6 @@ static t_ray	calculate_create_shadow_ray(
 	return (new_shadow_ray);
 }
 
-/*
-	TODO: Refactor this function ;)
-*/
 #ifndef BONUS
 
 t_color	send_shadow_ray(const t_object_list *objects,
@@ -106,12 +103,12 @@ t_color	send_shadow_ray(const t_object_list *objects,
 			cossin_angle_vectors[0] = vec3_normalize(vec3_sub_vec3(light_source->vector, shape_rec->p));
 			cossin_angle_vectors[1] = vec3_normalize(shape_rec->normal);
 			diffuse_intensity = vec3_dot(cossin_angle_vectors[0], cossin_angle_vectors[1]);
-			diffuse_intensity = fmax(0, diffuse_intensity);
-			result_color = clr_add_clr(result_color, clr_mult(light_source->color, diffuse_intensity));
+			diffuse_intensity = fmax(0, diffuse_intensity) * light_source->ratio;
+			result_color = clr_add_clr(clr_mult(filter_color(shape_rec->color, light_source->color), diffuse_intensity), result_color);
 		}
 		light_sources = light_sources->next;
 	}
-	result_color = normalize_color(clr_sub_clr(result_color, shape_rec->color));
+	result_color = normalize_color(result_color);
 	return (result_color);
 }
 #endif

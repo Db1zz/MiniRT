@@ -56,3 +56,8 @@ void	print_color(t_color *c)
 {
 	printf("Color: [%d, %d, %d]\n", c->r, c->g, c->b);
 }
+
+t_color	color(int r, int g, int b)
+{
+	return ((t_color){r, g, b});
+}

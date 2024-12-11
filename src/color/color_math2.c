@@ -1,6 +1,5 @@
 #include "color.h"
 #include "minirt_math.h"
-#include "minirt.h"
 
 t_color	clr_div(t_color color, double val)
 {

@@ -22,6 +22,7 @@ SRCS =	src/minirt.c					\
 		src/color/color.c				\
 		src/color/color_math1.c			\
 		src/color/color_math2.c			\
+		src/color/color_math3.c			\
 		src/vector/vector.c				\
 		src/vector/vector_math1.c		\
 		src/vector/vector_math2.c		\
