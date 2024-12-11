@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 21:04:01 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/25 17:18:20 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/11 22:01:13 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ double	ft_atof(const char *str)
 	i = 0;
 	result = ft_atoi(str);
 	point_val = 0;
-	if (result < 0)
+	if (result < 0 || str[0] == '-')
 		neg = -1;
 	while (str[i] && str[i] != '.')
 		i++;

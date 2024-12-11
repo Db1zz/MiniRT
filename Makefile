@@ -83,6 +83,6 @@ fclean: clean
 re: fclean all
 
 bonus:
-	$(MAKE) FLAGS+="-D BONUS" all
+	$(MAKE) FLAGS="$(FLAGS) -D BONUS" all
 
 .PHONY: all clean fclean re bonus

@@ -12,9 +12,9 @@ double	fabs(double x)
 bool	ray_hit_plane(const t_object_list *plane_object, const t_ray *ray, t_hit_record *rec)
 {
 	const double	epsilon = 1e-4;
-	double denom;
-	double t;
-    t_plane *plane;
+	double 			denom;
+	double 			t;
+    t_plane 		*plane;
 
     if (plane_object->type != E_PLANE || plane_object->data == NULL)
 		return (false);
