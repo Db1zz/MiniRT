@@ -26,18 +26,19 @@ typedef struct s_ray
 
 typedef struct s_hit_record
 {
-	t_vector		p;			// Point of itersection
+	t_vector		intersection_p;
 	t_vector		normal;
-	double			t;			// ray(𝑡)
+	double			ray_distance;
 	bool			front_face;
 	t_color			color;
 	t_object_type	obj_type;
+	t_vector		ray_direction;
 }	t_hit_record;
 
 /*
 	Functions
 */
-t_ray	create_ray(t_vector origin, t_vector direction);
+t_ray	create_ray(t_vector origin, t_vector direction, t_color color);
 
 void	ray_hit_record_set_face_normal(const t_ray *ray,
 			const t_vector *outward_normal, t_hit_record *rec);
@@ -64,6 +65,8 @@ bool	ray_hit_plane(const t_object_list *plane_object, const t_ray *ray, t_hit_re
 bool	ray_hit_light(const t_object_list *objects, const t_ray *shadow_ray,
 			const t_ray_properties *prop, t_hit_record *rec);
 
+t_vector	get_ray_direction(t_vector origin, t_vector endpoint);
+
 /*
     Sets the hit record normal vector.
     NOTE: the parameter `outward_normal` is assumed to have unit length.
@@ -76,5 +79,5 @@ void	ray_hit_record_set_face_normal(const t_ray *ray,
 void			init_hit_record(t_hit_record *rec);
 t_hit_record	get_closest_hit(const t_hit_record *first,
 			const t_hit_record *second);
-
+t_vector		hit_record_to_ray_origin(const t_hit_record *rec);
 #endif	// RAY_H

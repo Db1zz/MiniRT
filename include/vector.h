@@ -5,7 +5,6 @@
 #include "color.h"
 
 # define VECTOR_MAX_SIZE 3
-
 typedef struct s_vector
 {
 	double	x;
@@ -13,6 +12,7 @@ typedef struct s_vector
 	double	z;
 }	t_vector;
 
+t_vector	create_vector(double x, double y, double z);
 t_vector	vec3_invert(const t_vector *vec);
 t_error		set_vector(t_vector *vector, double x, double y, double z);
 t_vector	get_random_vector_offset(void);
@@ -33,6 +33,7 @@ t_vector	vec3_random(void);
 t_vector	vec3_random_range(double min, double max);
 t_vector	vec3_random_unit_vec(void);
 t_vector	vec3_random_on_hemisphere(const t_vector *sphere_normal_vec);
+t_vector	vec3_cross(t_vector a, t_vector b);
 
 // debug functions
 void	print_vec3(t_vector *vec);

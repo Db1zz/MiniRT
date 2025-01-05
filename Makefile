@@ -13,9 +13,11 @@ SRCS =	src/minirt.c					\
 		src/viewport.c					\
 		src/error.c						\
 		src/light.c						\
+		src/light_utils.c				\
 		src/utils.c						\
 		src/object.c					\
 		src/parser/object_parser.c		\
+		src/reflections.c				\
 		src/parser/parser.c				\
 		src/parser/shape_parser.c		\
 		src/render/pixel.c				\
@@ -27,6 +29,7 @@ SRCS =	src/minirt.c					\
 		src/vector/vector_math1.c		\
 		src/vector/vector_math2.c		\
 		src/vector/vector_math3.c		\
+		src/vector/vector_math4.c		\
 		src/render/ray.c				\
 		src/render/ray_utils.c			\
 		src/render/ray_math.c			\

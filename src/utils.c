@@ -79,3 +79,10 @@ void	free_scene(t_scene **scene)
 	free(*scene);
 	*scene = NULL;
 }
+
+double	div_c(double v1, double v2)
+{
+	if (v2 == 0)
+		return (0);
+	return (v1 / v2);
+}

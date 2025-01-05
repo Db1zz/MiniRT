@@ -1,114 +1,87 @@
-# include "light.h"
-# include "ray.h"
-# include "math.h"
+#include "minirt.h"
+#include "light.h"
+#include "ray.h"
+#include "math.h"
+#include "minirt_math.h"
 
-bool	ray_hit_light(const t_object_list *objects, const t_ray *shadow_ray,
-			const t_ray_properties *prop, t_hit_record *rec)
-{
-	const double	epsilon = 1e-4;
-	t_light			*light;
-	double			light_intersect;
-
-	light = (t_light *)prop->light->data;
-	light_intersect = vec3_lenght(&shadow_ray->direction);
-	if (ray_hit(objects, shadow_ray, prop, rec))
-		return (light_intersect <= rec->t - epsilon);
-	return (true);
-}
-
-t_color	apply_ambient_light(const t_object_list *amb_object, const t_color *color)
-{
-	const t_amb_lighting	*amb_light;
-	t_color					amb_color;
-
-	if (!amb_object || !amb_object->data
-		|| amb_object->type != E_AMBIENT_LIGHT || !color)
-	{
-		ft_perror(ERR_INVALID_FUNC_ARGS, __func__);
-		return ((t_color){0, 0, 0});
-	}
-	amb_light = (const t_amb_lighting *)amb_object->data;
-	amb_color = clr_mult(amb_light->color, amb_light->ratio);
-	return (normalize_color(clr_add_clr(*color, amb_color)));
-}
-
-static t_ray	calculate_create_shadow_ray(
-			const t_hit_record *shape_rec, const t_light *light)
-{
-	const double	epsilon = 1e-4;
-	t_vector		ray_intersection;
-	t_vector		ray_direction;
-	t_ray			new_shadow_ray;
-
-	ray_intersection = vec3_add_vec3(shape_rec->p,
-				vec3_mult(shape_rec->normal, epsilon));
-	ray_direction = vec3_sub_vec3(light->vector, ray_intersection);
-	new_shadow_ray = create_ray(ray_intersection, ray_direction);
-	return (new_shadow_ray);
-}
-
-#ifndef BONUS
-
-t_color	send_shadow_ray(const t_object_list *objects,
-			const t_ray_properties *prop, const t_hit_record *shape_rec)
-{
-	t_light			*light_source;
-	t_ray			shadow_ray;
-	t_hit_record	shadow_ray_rec;
-	double			diffuse_intensity;
-	t_vector		cossin_angle_vectors[2];
-
-	if (!prop || !prop->light || prop->light->type != E_LIGHT
-		|| !objects || !shape_rec)
-		return (ft_perror(ERR_INVALID_FUNC_ARGS, __func__), (t_color){0,0,0});
-	light_source = prop->light->data;
-	shadow_ray = calculate_create_shadow_ray(shape_rec, light_source);
-	init_hit_record(&shadow_ray_rec);
-	if (!ray_hit_light(objects, &shadow_ray, prop, &shadow_ray_rec))
-		return ((t_color){0,0,0});
-	cossin_angle_vectors[0] = vec3_normalize(vec3_sub_vec3(light_source->vector, shape_rec->p));
-	cossin_angle_vectors[1] = vec3_normalize(shape_rec->normal);
-	diffuse_intensity = vec3_dot(cossin_angle_vectors[0], cossin_angle_vectors[1]);
-	diffuse_intensity = fmax(0, diffuse_intensity);
-	return (clr_mult(shape_rec->color, diffuse_intensity));
-}
-#else
-
-t_color	send_shadow_ray(const t_object_list *objects,
-			const t_ray_properties *prop, const t_hit_record *shape_rec)
+t_color	get_diffuse_light(
+	const t_object_list		*objects,
+	const t_ray_properties	*prop,
+	const t_hit_record		*shape_rec)
 {
 	t_object_list	*light_sources;
-	t_light			*light_source;
+	t_light			*light;
 	t_ray			shadow_ray;
 	t_hit_record	shadow_ray_rec;
-	double			diffuse_intensity;
-	t_vector		cossin_angle_vectors[2];
 	t_color			result_color;
 
-	if (!prop || !prop->light || prop->light->type != E_LIGHT
-		|| !objects || !shape_rec)
-	{
-		ft_perror(ERR_INVALID_FUNC_ARGS, __func__);
-		return ((t_color){0,0,0});
-	}
-	set_color(&result_color, 0, 0, 0);
 	light_sources = prop->light;
+	result_color = create_color(0,0,0);
 	while (light_sources)
 	{
-		light_source = light_sources->data;
-		shadow_ray = calculate_create_shadow_ray(shape_rec, light_source);
+		light = light_sources->data;
 		init_hit_record(&shadow_ray_rec);
+		shadow_ray = calculate_create_shadow_ray(shape_rec, light);
 		if (ray_hit_light(objects, &shadow_ray, prop, &shadow_ray_rec))
 		{
-			cossin_angle_vectors[0] = vec3_normalize(vec3_sub_vec3(light_source->vector, shape_rec->p));
-			cossin_angle_vectors[1] = vec3_normalize(shape_rec->normal);
-			diffuse_intensity = vec3_dot(cossin_angle_vectors[0], cossin_angle_vectors[1]);
-			diffuse_intensity = fmax(0, diffuse_intensity) * light_source->ratio;
-			result_color = clr_add_clr(clr_mult(filter_color(shape_rec->color, light_source->color), diffuse_intensity), result_color);
+			result_color = clr_add_clr(
+				clr_mult(
+					filter_color(shape_rec->color, light->color),
+					get_diffuse_intensity(light, shape_rec)), result_color);
 		}
+		light_sources = light_sources->next;
+	}
+	return (result_color);
+}
+
+t_color	get_specular_light(
+	const t_ray_properties	*prop,
+	const t_hit_record		*hit_rec,
+	const t_ray				*camera_ray)
+{
+	double			specular;
+	t_object_list	*light_sources;
+	t_light			*light;
+	t_color			result_color;
+
+	light_sources = prop->light;
+	result_color = create_color(0,0,0);
+	while (light_sources)
+	{
+		light = light_sources->data;
+		specular = calculate_specular_light(light, camera_ray, hit_rec, 1);
+		result_color = clr_add_clr(result_color, clr_mult(light->color, specular));
 		light_sources = light_sources->next;
 	}
 	result_color = normalize_color(result_color);
 	return (result_color);
 }
-#endif
+
+t_color	get_ambient_light(
+	const t_object_list	*amb_object,
+	const t_color		*color)
+{
+	const t_amb_lighting	*amb_light;
+	t_color					amb_color;
+
+	amb_light = (const t_amb_lighting *)amb_object->data;
+	amb_color = clr_mult(amb_light->color, amb_light->ratio);
+	return (normalize_color(clr_add_clr(*color, amb_color)));
+}
+
+t_color	apply_light(
+	const t_object_list		*objects,
+	const t_ray				*camera_ray,
+	const t_ray_properties	*prop,
+	const t_hit_record		*rec)
+{
+	t_color	result;
+
+	result = create_color(0,0,0);
+	if (prop->light)
+		result = get_diffuse_light(objects, prop, rec);
+	if (prop->amb_lighting)
+		result = get_ambient_light(prop->amb_lighting, &result);
+	result = clr_add_clr(result, get_specular_light(prop, rec, camera_ray));
+	return (result);
+}

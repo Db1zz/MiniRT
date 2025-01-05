@@ -15,7 +15,7 @@ t_error	parse_light(t_scene *scene, char **line_data)
 	light = ft_calloc(1, sizeof(t_light));
 	if (!light)
 		return (ERR_MALLOC_FAILED);
-	if (str_to_vector(&light->vector, line_data[1]))
+	if (str_to_vector(&light->pos, line_data[1]))
 		errorn = ERR_TYPE_CONVERSION_FAILED;
 	else if (is_string_number(line_data[2]))
 	{
@@ -42,7 +42,7 @@ t_error	parse_light(t_scene *scene, char **line_data)
 	light = ft_calloc(1, sizeof(t_light));
 	if (!light)
 		return (ERR_MALLOC_FAILED);
-	if (str_to_vector(&light->vector, line_data[1]))
+	if (str_to_vector(&light->pos, line_data[1]))
 		errorn = ERR_TYPE_CONVERSION_FAILED;
 	else if (is_string_number(line_data[2]))
 	{

@@ -18,6 +18,6 @@ typedef	struct s_viewport
 	t_vector	verical_vec;
 }	t_viewport;
 
-t_error	update_viewport(t_camera *cam);
+void	update_viewport(t_camera *cam);
 
 #endif	// VIEWPORT_H

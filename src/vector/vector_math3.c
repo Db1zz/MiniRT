@@ -14,18 +14,18 @@ double	vec3_lenght(const t_vector *v)
 
 t_vector	vec3_random(void)
 {
-	return ((t_vector){random_double(), random_double(), random_double()});
+	return (create_vector(random_double(), random_double(), random_double()));
 }
 
 t_vector	vec3_random_range(double min, double max)
 {
-	return ((t_vector){
+	return (create_vector(
 				random_double_range(min, max),
 				random_double_range(min, max),
-				random_double_range(min, max)});
+				random_double_range(min, max)));
 }
 
-t_vector	vec3_random_unit_vec(void)
+t_vector		vec3_random_unit_vec(void)
 {
 	const double	epsilon = 1e-160;
 	t_vector		random_vec;

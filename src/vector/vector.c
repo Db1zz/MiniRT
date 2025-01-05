@@ -3,9 +3,14 @@
 #include "minirt.h"
 #include "libft.h"
 
+t_vector	create_vector(double x, double y, double z)
+{
+	return ((t_vector){x, y, z});
+}
+
 t_vector	vec3_invert(const t_vector *vec)
 {
-	return ((t_vector){-vec->x, -vec->y, -vec->z});
+	return (create_vector(-vec->x, -vec->y, -vec->z));
 }
 
 t_error	set_vector(t_vector *vector, double x, double y, double z)
@@ -20,7 +25,7 @@ t_error	set_vector(t_vector *vector, double x, double y, double z)
 
 t_vector	get_random_vector_offset(void)
 {
-	return ((t_vector){random_double() - 0.5, random_double() - 0.5, 0});
+	return (create_vector(random_double() - 0.5, random_double() - 0.5, 0));
 }
 
 t_error	str_to_vector(t_vector *vector, const char *vector_str)

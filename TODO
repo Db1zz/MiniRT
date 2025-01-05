@@ -41,11 +41,12 @@ strerror, exit
 library (-lm man man 3 math)
 • All functions of the MinilibX
 
-
-## Light implementation
-1. Hit the object with ray_hit()
-2. If ray_hit == true
-3. Send another ray to light source
-4. If ray intersects with object before hitting the light
-	- shadow should be returned
-5. Else return light_color
+## Light reflections
+	We have two types of light[direct light, ambient lighting]
+	It's better to set pixel color depending on if the ray which sent
+	from normal point of hitting an object has any hit.
+	If there's hit, we can make color brighter depending on envirnonment
+	light.
+	1. Send ray from the hitting point
+	2. Set pixel color of an object if this ray hits object which is closest one.
+	3. Sent shadowray and set brightness of the pixel depending on the result of shadowray.
