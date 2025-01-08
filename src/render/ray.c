@@ -43,8 +43,6 @@ t_color	ray_send(
 {
 	if (ray_hit(objects, ray, prop, rec))
 		return (send_reflection_ray(objects, ray, prop, rec));
-	// if (ray_hit(objects, ray, prop, rec))
-	// 	return (apply_light(objects, ray, prop, rec));
 	return (ray_get_background_color(ray));
 }
 
