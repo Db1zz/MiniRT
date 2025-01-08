@@ -64,6 +64,8 @@ bool	ray_hit_plane(const t_object_list *plane_object, const t_ray *ray, t_hit_re
 bool	ray_hit_light(const t_object_list *objects, const t_ray *shadow_ray,
 			const t_ray_properties *prop, t_hit_record *rec);
 
+bool	ray_hit_cylinder(const t_object_list *cylinder_object, const t_ray *ray, t_hit_record *rec);
+
 /*
     Sets the hit record normal vector.
     NOTE: the parameter `outward_normal` is assumed to have unit length.
