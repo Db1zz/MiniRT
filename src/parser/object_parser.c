@@ -2,6 +2,8 @@
 #include "object.h"
 #include "minirt.h"
 
+#ifndef BONUS
+
 t_error	parse_light(t_scene *scene, char **line_data)
 {
 	t_error	errorn;
@@ -13,7 +15,7 @@ t_error	parse_light(t_scene *scene, char **line_data)
 	light = ft_calloc(1, sizeof(t_light));
 	if (!light)
 		return (ERR_MALLOC_FAILED);
-	if (str_to_vector(&light->vector, line_data[1]))
+	if (str_to_vector(&light->pos, line_data[1]))
 		errorn = ERR_TYPE_CONVERSION_FAILED;
 	else if (is_string_number(line_data[2]))
 	{
@@ -29,6 +31,34 @@ t_error	parse_light(t_scene *scene, char **line_data)
 		return (free(light), errorn);
 	return (scene_add_object(light, E_LIGHT, scene));
 }
+#else
+
+t_error	parse_light(t_scene *scene, char **line_data)
+{
+	t_error	errorn;
+	t_light	*light;
+
+	errorn = ERR_NO_ERROR;
+	light = ft_calloc(1, sizeof(t_light));
+	if (!light)
+		return (ERR_MALLOC_FAILED);
+	if (str_to_vector(&light->pos, line_data[1]))
+		errorn = ERR_TYPE_CONVERSION_FAILED;
+	else if (is_string_number(line_data[2]))
+	{
+		light->ratio = ft_atof(line_data[2]);
+		if (light->ratio < RATIO_MIN || light->ratio > RATIO_MAX)
+			errorn = ERR_RATIO_RANGE_ERROR;
+	}
+	else
+		errorn = ERR_TYPE_CONVERSION_FAILED;
+	if (errorn == ERR_NO_ERROR)
+		errorn = str_to_color(&light->color, line_data[3]);
+	if (errorn)
+		return (free(light), errorn);
+	return (scene_add_object(light, E_LIGHT, scene));
+}
+#endif
 
 t_error	parse_ambient(t_scene *scene, char **line_data)
 {

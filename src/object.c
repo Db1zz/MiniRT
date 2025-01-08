@@ -1,6 +1,9 @@
 #include "object.h"
 
-t_object_list	*alloc_new_object(void *data, t_object_type type, t_object_list *next)
+t_object_list	*alloc_new_object(
+	void			*data,
+	t_object_type	type,
+	t_object_list	*next)
 {
 	t_object_list	*new_object;
 

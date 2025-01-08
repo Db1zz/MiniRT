@@ -10,7 +10,7 @@ t_error	parse_sphere(t_scene *scene, char **line_data)
 	sphere = ft_calloc(1, sizeof(t_sphere));
 	if (!sphere)
 		return (ERR_MALLOC_FAILED);
-	errorn = str_to_vector(&sphere->vector, line_data[1]);
+	errorn = str_to_vector(&sphere->pos, line_data[1]);
 	if (errorn == ERR_NO_ERROR && is_string_number(line_data[2]))
 	{
 		sphere->diameter = ft_atof(line_data[2]);
@@ -34,7 +34,7 @@ t_error	parse_cylinder(t_scene *scene, char **line_data)
 	cylinder = ft_calloc(1, sizeof(t_cylinder));
 	if (!cylinder)
 		return (ERR_MALLOC_FAILED);
-	errorn = str_to_vector(&cylinder->vector, line_data[1]);
+	errorn = str_to_vector(&cylinder->pos, line_data[1]);
 	if (errorn == ERR_NO_ERROR)
 		errorn = str_to_vector(&cylinder->axis, line_data[2]);
 	if (is_string_number(line_data[3]) && is_string_number(line_data[4]))
@@ -62,7 +62,7 @@ t_error	parse_plane(t_scene *scene, char **line_data)
 		return (ERR_MALLOC_FAILED);
 	errorn = str_to_vector(&plane->normal_vec, line_data[1]);
 	if (errorn == ERR_NO_ERROR)
-		errorn = str_to_vector((&plane->point), line_data[2]);
+		errorn = str_to_vector((&plane->pos), line_data[2]);
 	if (errorn == ERR_NO_ERROR)
 		errorn = str_to_color((&plane->color), line_data[3]);
 	if (!errorn)

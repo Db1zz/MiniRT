@@ -2,6 +2,12 @@
 #include "libft.h"
 #include "minirt.h"
 
+
+t_color	create_color(int r, int g, int b)
+{
+	return ((t_color){r, g, b});
+}
+
 t_error	set_color(t_color *color, int r, int g, int b)
 {
 	if (!color)

@@ -17,8 +17,7 @@
 
 # define WIN_WIDTH 1024
 # define WIN_HEIGHT 720
-# define WIN_ASPECT_RATIO 1.42
-# define ANTIALIASING_SAMPLES 10
+# define ANTIALIASING_SAMPLES 6
 
 /* Rendering functions */
 void	draw_pixel(t_scene *scene, int x, int y, t_color color);
@@ -29,5 +28,6 @@ void	free_2dmatrix(char **matrix);
 bool	is_string_number(char *line);
 bool	check_str_numbers(char **numbers, int expected_size);
 size_t	get_2dmatrix_size(char **matrix);
+double	div_c(double v1, double v2);
 
 #endif //	MINIRT_H

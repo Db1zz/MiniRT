@@ -26,6 +26,7 @@ typedef	struct	s_object_list
 /*
 	Functions
 */
+t_vector		object_get_pos(const t_object_list *object);
 t_object_list	*alloc_new_object(void *data, t_object_type type, t_object_list *next);
 void			object_add_back(t_object_list *new, t_object_list **list);
 void			free_object(t_object_list **object);
@@ -36,24 +37,24 @@ void			free_object_list(t_object_list **list);
 */
 typedef struct s_sphere
 {
+	t_vector		pos;
+	t_color			color;
 	double			diameter;
 	double			radius;
-	t_vector		vector;
-	t_color			color;
 }	t_sphere;
 
 typedef struct s_plane
 {
-	t_vector		point;
-	t_vector		normal_vec;
-	t_color			color;
+	t_vector	pos;
+	t_color		color;
+	t_vector	normal_vec;
 }	t_plane;
 
 typedef struct s_cylinder
 {
-	t_vector			vector;
-	t_vector			axis;
+	t_vector			pos;
 	t_color				color;
+	t_vector			axis;
 	double				diameter;
 	double				height;
 }	t_cylinder;

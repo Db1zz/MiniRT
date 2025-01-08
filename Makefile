@@ -2,7 +2,7 @@
 NAME = miniRT
 CC = cc
 UNAME_S := $(shell uname -s)
-FLAGS = -Wall -Wextra -g #-fsanitize=address #-Werror
+FLAGS := -Wall -Wextra -g #-fsanitize=address #-Werror
 MINILIBX_TGZ_NAME = MiniLibX.tgz
 MINILIBX_DIR = minilibx
 MINILIBX := $(MINILIBX_DIR)/libmlx.a
@@ -13,19 +13,23 @@ SRCS =	src/minirt.c					\
 		src/viewport.c					\
 		src/error.c						\
 		src/light.c						\
+		src/light_utils.c				\
 		src/utils.c						\
 		src/object.c					\
 		src/parser/object_parser.c		\
+		src/reflections.c				\
 		src/parser/parser.c				\
 		src/parser/shape_parser.c		\
 		src/render/pixel.c				\
 		src/color/color.c				\
 		src/color/color_math1.c			\
 		src/color/color_math2.c			\
+		src/color/color_math3.c			\
 		src/vector/vector.c				\
 		src/vector/vector_math1.c		\
 		src/vector/vector_math2.c		\
 		src/vector/vector_math3.c		\
+		src/vector/vector_math4.c		\
 		src/render/ray.c				\
 		src/render/ray_utils.c			\
 		src/render/ray_math.c			\
@@ -82,4 +86,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+bonus:
+	$(MAKE) FLAGS="$(FLAGS) -D BONUS" all
+
+.PHONY: all clean fclean re bonus
