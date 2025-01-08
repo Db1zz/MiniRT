@@ -38,7 +38,9 @@ bool	ray_hit_body(t_cylinder *cylinder, const t_ray *ray, t_hit_record *rec)
 	y[0] = vec3_dot(cylinder->axis, vec3_add_vec3(ray->origin, vec3_mult(ray->direction, t[0])));
     y[1] = vec3_dot(cylinder->axis, vec3_add_vec3(ray->origin, vec3_mult(ray->direction, t[1])));
     if ((y[0] < 0 || y[0] > cylinder->height) && (y[1] < 0 || y[1] > cylinder->height))
-        return (false);
+	{
+    	return (false);
+	}
 	set_cylbody_hit(rec, ray, t, cylinder);
 	return (true);
 }
