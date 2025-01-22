@@ -45,10 +45,57 @@ bool	ray_hit_body(t_cylinder *cylinder, const t_ray *ray, t_hit_record *rec)
 	return (true);
 }
 
-// bool	ray_hit_caps(t_cylinder *cylinder, const t_ray *ray, t_hit_record *rec)
-// {
-// 	return (false);
-// }
+bool	ray_hit_caps(t_cylinder *cylinder, const t_ray *ray, t_hit_record *rec)
+{
+	double		t;
+	t_vector	intersection_p;
+	t_vector	normal;
+	double		denom;
+	double		hit_height;
+
+	normal = vec3_negate(cylinder->axis);
+	denom = vec3_dot(normal, ray->direction);
+	if (fabs(denom) > 1e-6)
+	{
+		t = vec3_dot(vec3_sub_vec3(cylinder->pos, ray->origin), normal) / denom;
+		if (t >= 0)
+		{
+			intersection_p = vec3_add_vec3(ray->origin, vec3_mult(ray->direction, t));
+			hit_height = vec3_dot(cylinder->axis, vec3_sub_vec3(intersection_p, cylinder->pos));
+			if (hit_height >= 0 && hit_height <= cylinder->height)
+			{
+				rec->ray_distance = t;
+				rec->intersection_p = intersection_p;
+				rec->normal = normal;
+				rec->color = cylinder->color;
+				rec->obj_type = E_CYLINDER;
+				return (true);
+			}
+		}
+	}
+	normal = cylinder->axis;
+	denom = vec3_dot(normal, ray->direction);
+	if (fabs(denom) > 1e-6)
+	{
+		t = vec3_dot(vec3_sub_vec3(vec3_add_vec3(cylinder->pos, vec3_mult(cylinder->axis, cylinder->height)), ray->origin), normal) / denom;
+		if (t >= 0)
+		{
+			intersection_p = vec3_add_vec3(ray->origin, vec3_mult(ray->direction, t));
+			hit_height = vec3_dot(cylinder->axis, vec3_sub_vec3(intersection_p, cylinder->pos));
+			if (hit_height >= 0 && hit_height <= cylinder->height)
+			{
+				rec->ray_distance = t;
+				rec->intersection_p = intersection_p;
+				rec->normal = normal;
+				rec->color = cylinder->color;
+				rec->obj_type = E_CYLINDER;
+				return (true);
+			}
+		}
+	}
+
+	return (false);
+}
 
 bool	ray_hit_cylinder(const t_object_list *cylinder_object, const t_ray *ray, t_hit_record *rec)
 {

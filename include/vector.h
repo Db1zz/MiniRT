@@ -34,6 +34,7 @@ t_vector	vec3_random_range(double min, double max);
 t_vector	vec3_random_unit_vec(void);
 t_vector	vec3_random_on_hemisphere(const t_vector *sphere_normal_vec);
 t_vector	vec3_cross(t_vector a, t_vector b);
+t_vector    vec3_negate(t_vector a);
 
 // debug functions
 void	print_vec3(t_vector *vec);
