@@ -27,7 +27,7 @@ t_vector	vec3_random_range(double min, double max)
 
 t_vector		vec3_random_unit_vec(void)
 {
-	const double	epsilon = 1e-160;
+	const double	epsilon = 1e-4;
 	t_vector		random_vec;
 	double			vec_lenght;
 

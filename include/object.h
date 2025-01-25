@@ -26,9 +26,13 @@ typedef	struct	s_object_list
 /*
 	Functions
 */
-t_vector		object_get_pos(const t_object_list *object);
-t_object_list	*alloc_new_object(void *data, t_object_type type, t_object_list *next);
-void			object_add_back(t_object_list *new, t_object_list **list);
+t_object_list	*alloc_new_object(
+	void *data, 
+	t_object_type type,
+	t_object_list *next);
+void			object_add_back(
+	t_object_list *new,
+	t_object_list **list);
 void			free_object(t_object_list **object);
 void			free_object_list(t_object_list **list);
 

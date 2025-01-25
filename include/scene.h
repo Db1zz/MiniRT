@@ -2,9 +2,7 @@
 # define SCENE_H
 
 # include "camera.h"
-# include "light.h"
 # include "object.h"
-# include "viewport.h"
 
 typedef struct s_scene
 {

@@ -21,7 +21,19 @@ static t_vector	camera_get_pixel_center(const t_scene *scene, int x, int y)
 	return (pixel_center);
 }
 
-t_color	camera_send_ray(
+static t_vector camera_calculate_ray_direction(
+	const t_vector *pixel_center,
+	const t_camera *camera)
+{
+	t_vector	ray_origin;
+	t_vector	ray_direction;
+
+	ray_origin = vec3_add_vec3(camera->view_point, camera->orientation_vec);
+	ray_direction = get_ray_direction(ray_origin, *pixel_center);
+	return (ray_direction);
+}
+
+t_color	camera_get_pixel_color(
 	const t_camera	*camera,
 	const t_scene	*scene,
 	int x, int y)
@@ -31,9 +43,7 @@ t_color	camera_send_ray(
 	t_ray		ray;
 
 	pixel_center = camera_get_pixel_center(scene, x, y);
-	ray_direction = vec3_sub_vec3(pixel_center,
-		vec3_add_vec3(camera->view_point, camera->orientation_vec));
-	ray_direction = vec3_normalize(ray_direction);
+	ray_direction = camera_calculate_ray_direction(&pixel_center, camera);
 	ray = create_ray(camera->view_point, ray_direction, create_color(0,0,0));
-	return (ray_color(scene->objects, &ray, &camera->ray_prop));
+	return (ray_send(&ray, scene));
 }

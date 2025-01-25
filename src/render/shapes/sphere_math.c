@@ -1,6 +1,20 @@
 #include "ray.h"
 #include "minirt_math.h"
+#include "interval.h"
 #include <math.h>
+
+static void	ray_hit_record_set_face_normal(
+	const t_ray		*ray,
+	const t_vector	*outward_normal,
+	t_hit_record	*rec)
+{
+	rec->front_face = vec3_dot(ray->direction, *outward_normal) < 0;
+	if (rec->front_face)
+		rec->normal = *outward_normal;
+	else
+		rec->normal = vec3_mult(*outward_normal, -1);
+	rec->normal = vec3_normalize(rec->normal);
+}
 
 static double	sphere_solve_qf(
 	double discriminant,
@@ -49,16 +63,16 @@ static bool	sphere_find_solutions(
 bool	ray_hit_sphere(
 	const t_object_list	*sphere_object,
 	const t_ray			*ray,
-	const t_interval	*interval,
 	t_hit_record		*rec)
 {
-	t_vector	outward_normal;
-	t_sphere	*sphere;
+	const t_interval	interval = create_interval(0.01, FT_INFINITY);
+	t_vector			outward_normal;
+	t_sphere			*sphere;
 
 	if (sphere_object->type != E_SPHERE || sphere_object->data == NULL)
 		return (false);
 	sphere = (t_sphere *)sphere_object->data;
-	if (!sphere_find_solutions(sphere, ray, interval, rec))
+	if (!sphere_find_solutions(sphere, ray, &interval, rec))
 		return (false);
 	outward_normal = vec3_div(vec3_sub_vec3(rec->intersection_p, sphere->pos), sphere->radius);
 	ray_hit_record_set_face_normal(ray, &outward_normal, rec);

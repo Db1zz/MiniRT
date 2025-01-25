@@ -3,6 +3,7 @@
 
 #include "ft_error.h"
 #include "color.h"
+#include <stdio.h>
 
 # define VECTOR_MAX_SIZE 3
 typedef struct s_vector

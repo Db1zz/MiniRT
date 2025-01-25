@@ -1,5 +1,7 @@
+#include "ft_error.h"
 #include "parser.h"
 #include "minirt.h"
+#include "vector.h"
 
 t_error	parse_sphere(t_scene *scene, char **line_data)
 {
@@ -37,7 +39,9 @@ t_error	parse_cylinder(t_scene *scene, char **line_data)
 	errorn = str_to_vector(&cylinder->pos, line_data[1]);
 	if (errorn == ERR_NO_ERROR)
 		errorn = str_to_vector(&cylinder->axis, line_data[2]);
-	if (is_string_number(line_data[3]) && is_string_number(line_data[4]))
+  if (errorn == ERR_NO_ERROR)
+      cylinder->axis = vec3_normalize(cylinder->axis);
+  if (is_string_number(line_data[3]) && is_string_number(line_data[4]))
 	{
 		cylinder->diameter = ft_atof(line_data[3]);
 		cylinder->height = ft_atof(line_data[4]);

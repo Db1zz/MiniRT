@@ -1,5 +1,5 @@
-#include "reflections.h"
 #include "ray.h"
+#include "scene.h"
 #include "color.h"
 #include "light.h"
 
@@ -32,34 +32,30 @@ static t_color	blend_reflection(
 				clr_mult(reflected_light, reflection_intensity)));
 }
 
-#define REFLECTION_INTENSITY 0.35
+#define REF_INTENSITY 0.35	
 
-t_color	send_reflection_ray(
-	const t_object_list		*objects,
-	const t_ray				*camera_ray,
-	const t_ray_properties	*prop,
-	const t_hit_record		*hit_rec)
+t_color	ray_reflect(
+	const t_ray			*camera_ray,
+	const t_scene		*scene,
+	const t_hit_record	*rec)
 {
-	const t_object_list	*curr_obj = objects;
-	t_ray				reflection_ray;
-	t_hit_record		reflection_hit_rec;
+	const t_object_list	*curr_obj = scene->objects;
+	t_ray				ref_ray;
+	t_hit_record		ref_hit_rec;
 	t_color				object_light;
-	t_color				reflected_light;
+	t_color				ref_light;
 
-	init_hit_record(&reflection_hit_rec);
+	init_hit_record(&ref_hit_rec);
 	while (curr_obj)
 	{
-		reflection_ray = create_reflection_ray(hit_rec);
-		if (ray_hit(objects, &reflection_ray, prop, &reflection_hit_rec))
+		ref_ray = create_reflection_ray(rec);
+		if (ray_hit_objects(&ref_ray, scene->objects, &ref_hit_rec))
 		{
-
-			object_light = apply_light(curr_obj, camera_ray,
-					prop, hit_rec);
-			reflected_light = apply_light(curr_obj, &reflection_ray,
-					prop, &reflection_hit_rec);
-			return (blend_reflection(object_light, reflected_light, REFLECTION_INTENSITY));
+			object_light = apply_light(camera_ray, scene, rec);
+			ref_light = apply_light(&ref_ray, scene, &ref_hit_rec);
+			return (blend_reflection(object_light, ref_light, REF_INTENSITY));
 		}
 		curr_obj = curr_obj->next;
 	}
-	return (apply_light(objects, camera_ray, prop, hit_rec));
+	return (apply_light(camera_ray, scene, rec));
 }

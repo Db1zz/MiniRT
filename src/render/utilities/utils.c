@@ -1,4 +1,5 @@
 #include "minirt.h"
+#include <stdio.h>
 
 void	free_2dmatrix(char **matrix)
 {

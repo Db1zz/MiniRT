@@ -1,7 +1,6 @@
 #include "light.h"
 #include "ray.h"
 #include "math.h"
-#include "minirt_math.h"
 
 double	calculate_specular_light(
 	const t_light		*light,
@@ -23,23 +22,6 @@ double	calculate_specular_light(
 	return (specular * light->ratio * specular_reflection_coefficient);
 }
 
-bool	ray_hit_light(
-	const t_object_list		*objects,
-	const t_ray				*shadow_ray,
-	const t_ray_properties	*prop,
-	t_hit_record			*rec)
-{
-	const double	EPSILON = 1e-4;
-	t_light			*light;
-	double			light_intersect;
-
-	light = (t_light *)prop->light->data;
-	light_intersect = vec3_lenght(&shadow_ray->direction);
-	if (ray_hit(objects, shadow_ray, prop, rec))
-		return (light_intersect <= rec->ray_distance - EPSILON);
-	return (true);
-}
-
 double	get_diffuse_intensity(
 	const t_light		*light_source,
 	const t_hit_record	*shape_rec)
@@ -56,16 +38,3 @@ double	get_diffuse_intensity(
 	return (diffuse_intensity);
 }
 
-t_ray	calculate_create_shadow_ray(
-	const t_hit_record	*shape_rec,
-	const t_light		*light)
-{
-	t_vector	ray_origin;
-	t_vector	ray_direction;
-	t_ray		new_shadow_ray;
-
-	ray_origin = hit_record_to_ray_origin(shape_rec);
-	ray_direction = vec3_sub_vec3(light->pos, ray_origin);
-	new_shadow_ray = create_ray(ray_origin, ray_direction, create_color(0,0,0));
-	return (new_shadow_ray);
-}

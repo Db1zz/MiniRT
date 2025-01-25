@@ -1,7 +1,7 @@
 #include "color.h"
 #include "libft.h"
 #include "minirt.h"
-
+#include "libc.h"
 
 t_color	create_color(int r, int g, int b)
 {

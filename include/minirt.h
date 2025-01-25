@@ -2,9 +2,10 @@
 # define MINIRT_H
 
 # include "ft_error.h"
+# include "libft.h"
+# include "mlx.h"
 # include "parser.h"
 # include "object.h"
-# include "dependencies.h"
 # include <stdbool.h>
 # include <stdlib.h>
 # include <math.h>
@@ -21,6 +22,7 @@
 
 /* Rendering functions */
 void	draw_pixel(t_scene *scene, int x, int y, t_color color);
+t_color	apply_antialiasing(t_color ray_color, t_scene *scene, int x, int y);
 void	render(t_scene *scene);
 
 /* Utility functions */

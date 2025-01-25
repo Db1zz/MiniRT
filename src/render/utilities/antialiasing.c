@@ -1,8 +1,7 @@
-#include "camera.h"
 #include "minirt.h"
+#include "interval.h"
 #include "color.h"
-#include "scene.h"
-#include "minirt_math.h"
+#include "camera.h"
 
 t_color	apply_antialiasing(t_color ray_color, t_scene *scene, int x, int y)
 {
@@ -14,7 +13,7 @@ t_color	apply_antialiasing(t_color ray_color, t_scene *scene, int x, int y)
 	while (pixel_samples < ANTIALIASING_SAMPLES)
 	{
 		ray_color = clr_add_clr(ray_color,
-				camera_send_ray(scene->camera, scene, x, y));
+				camera_get_pixel_color(scene->camera, scene, x, y));
 		pixel_samples++;
 	}
 	ray_color = clr_mult(ray_color, color_scale);
@@ -22,25 +21,4 @@ t_color	apply_antialiasing(t_color ray_color, t_scene *scene, int x, int y)
 	ray_color.g = interval_bound(ray_color.g, &interval);
 	ray_color.b = interval_bound(ray_color.b, &interval);
 	return (ray_color);
-}
-
-void	render(t_scene *scene)
-{
-	int		x;
-	int		y;
-	t_color	ray_color;
-	
-	x = 0;
-	while (x < WIN_HEIGHT)
-	{
-		y = 0;
-		while (y < WIN_WIDTH)
-		{
-			ray_color = camera_send_ray(scene->camera, scene, x, y);
-			ray_color = apply_antialiasing(ray_color, scene, x, y);
-			draw_pixel(scene, y, x, ray_color);
-			y++;
-		}
-		x++;
-	}
 }

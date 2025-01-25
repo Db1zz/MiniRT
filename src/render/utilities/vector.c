@@ -2,6 +2,7 @@
 #include "minirt_math.h"
 #include "minirt.h"
 #include "libft.h"
+#include <stdio.h>
 
 t_vector	create_vector(double x, double y, double z)
 {

@@ -1,4 +1,4 @@
-#include "dependencies.h"
+#include "libft.h"
 #include "object.h"
 #include "parser.h"
 #include "minirt.h"

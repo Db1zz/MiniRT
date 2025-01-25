@@ -1,4 +1,3 @@
-#include "dependencies.h"
 #include "minirt_math.h"
 #include "minirt.h"
 
@@ -35,12 +34,7 @@ int	main(int argc, char **argv)
 	scene = parse_input(argc, argv);
 	if (!minirt_init(scene))
 		return (EXIT_FAILURE);
-
-	// Camera settings
-	scene->camera->ray_prop.max_diffusion_depth = 1;
-	scene->camera->ray_prop.ray_interval = create_interval(0.01, FT_INFINITY);
-	scene->camera->ray_prop.amb_lighting = scene->ambient_lightings;
-	scene->camera->ray_prop.light = scene->lights;
+	scene->antialiasing = true;
 
 	// Render
 	render(scene);

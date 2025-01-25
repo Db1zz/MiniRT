@@ -1,6 +1,7 @@
 #include "parser.h"
 #include "object.h"
 #include "minirt.h"
+#include "light.h"
 
 #ifndef BONUS
 

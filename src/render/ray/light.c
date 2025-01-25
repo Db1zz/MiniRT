@@ -4,25 +4,24 @@
 #include "math.h"
 #include "minirt_math.h"
 
-t_color	get_diffuse_light(
-	const t_object_list		*objects,
-	const t_ray_properties	*prop,
-	const t_hit_record		*shape_rec)
+static t_color	get_diffuse_light(
+	const t_scene		*scene,
+	const t_hit_record	*shape_rec)
 {
 	t_object_list	*light_sources;
 	t_light			*light;
-	t_ray			shadow_ray;
-	t_hit_record	shadow_ray_rec;
+	t_ray			light_ray;
+	t_hit_record	light_ray_rec;
 	t_color			result_color;
 
-	light_sources = prop->light;
+	light_sources = scene->lights;
 	result_color = create_color(0,0,0);
 	while (light_sources)
 	{
 		light = light_sources->data;
-		init_hit_record(&shadow_ray_rec);
-		shadow_ray = calculate_create_shadow_ray(shape_rec, light);
-		if (ray_hit_light(objects, &shadow_ray, prop, &shadow_ray_rec))
+		init_hit_record(&light_ray_rec);
+		light_ray = create_light_ray(shape_rec, light);
+		if (ray_hit_light(&light_ray, scene->objects, &light_ray_rec))
 		{
 			result_color = clr_add_clr(
 				clr_mult(
@@ -34,17 +33,17 @@ t_color	get_diffuse_light(
 	return (result_color);
 }
 
-t_color	get_specular_light(
-	const t_ray_properties	*prop,
-	const t_hit_record		*hit_rec,
-	const t_ray				*camera_ray)
+static t_color	get_specular_light(
+	const t_ray			*camera_ray,
+	const t_scene		*scene,
+	const t_hit_record	*hit_rec)
 {
 	double			specular;
 	t_object_list	*light_sources;
 	t_light			*light;
 	t_color			result_color;
 
-	light_sources = prop->light;
+	light_sources = scene->lights;
 	result_color = create_color(0,0,0);
 	while (light_sources)
 	{
@@ -57,7 +56,7 @@ t_color	get_specular_light(
 	return (result_color);
 }
 
-t_color	get_ambient_light(
+static t_color	get_ambient_light(
 	const t_object_list	*amb_object,
 	const t_color		*color)
 {
@@ -70,18 +69,17 @@ t_color	get_ambient_light(
 }
 
 t_color	apply_light(
-	const t_object_list		*objects,
-	const t_ray				*camera_ray,
-	const t_ray_properties	*prop,
-	const t_hit_record		*rec)
+	const t_ray			*camera_ray,
+	const t_scene		*scene,
+	const t_hit_record	*shape_rec)
 {
 	t_color	result;
 
 	result = create_color(0,0,0);
-	if (prop->light)
-		result = get_diffuse_light(objects, prop, rec);
-	if (prop->amb_lighting)
-		result = get_ambient_light(prop->amb_lighting, &result);
-	result = clr_add_clr(result, get_specular_light(prop, rec, camera_ray));
+	if (scene->lights)
+		result = get_diffuse_light(scene, shape_rec);
+	// if (scene->ambient_lightings)
+	// 	result = get_ambient_light(scene->ambient_lightings, &result);
+	result = clr_add_clr(result, get_specular_light(camera_ray, scene, shape_rec));
 	return (result);
 }

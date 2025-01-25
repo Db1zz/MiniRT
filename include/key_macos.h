@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 22:29:27 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/18 15:19:23 by gonische         ###   ########.fr       */
+/*   Updated: 2025/01/24 16:22:04 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,4 @@
 # define M_SCR_U 4
 # define M_SCR_D 5
 
-#endif
+#endif	// KEY_MACOS_H
