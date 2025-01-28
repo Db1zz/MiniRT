@@ -9,16 +9,13 @@
 # define SPHERE_ARGS 3
 
 t_scene	*parse_input(int argc, char **argv);
-t_error	parse_sphere(t_scene *scene, char **line_data);
-t_error	parse_cylinder(t_scene *scene, char **line_data);
-t_error	parse_plane(t_scene *scene, char **line_data);
-t_error parse_cone(t_scene *scene, char **line_data);
 
 void scene_add_object(void *data, t_object_type type, t_scene *scene);
 
-void parse_sphere(t_scene *scene, char **line_data);
-void parse_cylinder(t_scene *scene, char **line_data);
-void parse_plane(t_scene *scene, char **line_data);
+void	parse_cone(t_scene *scene, char **line_data);
+void	parse_sphere(t_scene *scene, char **line_data);
+void	parse_cylinder(t_scene *scene, char **line_data);
+void	parse_plane(t_scene *scene, char **line_data);
 
 void parse_light(t_scene *scene, char **line_data);
 void parse_ambient(t_scene *scene, char **line_data);
