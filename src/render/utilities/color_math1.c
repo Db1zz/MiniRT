@@ -1,9 +1,13 @@
 #include "color.h"
 #include "minirt.h"
+#include "utils.h"
 
 t_color	clr_div_clr(t_color c1, t_color c2)
 {
-	return (create_color(div_c(c1.r, c2.r), div_c(c1.g, c2.g), div_c(c1.b, c2.b)));
+	return (create_color(
+						div_c(c1.r, c2.r), 
+						div_c(c1.g, c2.g),
+						div_c(c1.b, c2.b)));
 }
 
 t_color	clr_mult_clr(t_color c1, t_color c2)

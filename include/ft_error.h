@@ -1,8 +1,6 @@
 #ifndef ERROR_H
 # define ERROR_H
 
-#include <stdlib.h>
-
 # define ERR_NO_ERROR 0
 
 # define STANDARD_ERROR_MIN 1
@@ -35,6 +33,7 @@
 # define ERR_FAILED_TO_NORM_VECTOR 27
 # define ERR_UNKNOWN_OBJECT_SPECIFIER 28
 # define ERR_MULTIPLE_OBJECTS_INSTANCES 29
+# define ERR_STR_TO_VECTOR_FAILED 30
 
 /*
 	MiniRT error codes
@@ -46,5 +45,6 @@
 typedef int t_error;
 
 void	ft_perror(t_error errorn, const char *func);
+void	set_error(t_error* error, int err_number);
 
 #endif	// ERROR_H

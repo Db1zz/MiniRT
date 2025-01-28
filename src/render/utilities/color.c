@@ -30,34 +30,11 @@ bool	validate_colors(int r, int g, int b)
 	return (check_color(r) && check_color(g) && check_color(b));
 }
 
-t_error	str_to_color(t_color *color, const char *str)
-{
-	t_error	errorn;
-	char	**data;
-
-	if (!color || !str)
-		return (ERR_NULL_PARAMETER);
-	errorn = ERR_NO_ERROR;
-	data = ft_split(str, ',');
-	if (!data)
-		return (ERR_SPLIT_FAILED);
-	if (!check_str_numbers(data, COLOR_MAX_SIZE))
-		errorn = ERR_STR_TO_COLOR_FAILED;
-	if (!errorn)
-		errorn = set_color(color, ft_atoi(data[0]), ft_atoi(data[1]), ft_atoi(data[2]));
-	free_2dmatrix(data);
-	return (errorn);
-}
-
-/*
-    We cannot use bit shifting because of big-endian and little-endian systems.
-*/
 int	rgb_to_int(t_color color)
 {
 	return (65536 * color.r + 256 * color.g + color.b);
 }
 
-/* Debug functions */
 void	print_color(t_color *c)
 {
 	printf("Color: [%d, %d, %d]\n", c->r, c->g, c->b);

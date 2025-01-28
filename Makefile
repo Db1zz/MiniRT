@@ -11,6 +11,7 @@ LIBFT_DIR = libft
 SRCS =	src/minirt.c	\
 		src/parser/object_parser.c	\
 		src/parser/parser.c	\
+		src/parser/parser_utils.c	\
 		src/parser/shape_parser.c	\
 		src/render/camera/camera.c	\
 		src/render/camera/viewport.c	\

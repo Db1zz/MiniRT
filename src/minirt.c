@@ -1,4 +1,4 @@
-#include "minirt_math.h"
+#include "ft_error.h"
 #include "minirt.h"
 
 int	exit_minirt(t_scene *scene)
@@ -18,6 +18,8 @@ bool	minirt_init(t_scene *scene)
 {
 	if (!scene)
 		return  (false);
+
+	scene->error = ERR_NO_ERROR;
 	scene->antialiasing = true;
 	scene->mlx = mlx_init();
 	scene->win = mlx_new_window(scene->mlx, WIN_WIDTH, WIN_HEIGHT, "I was crazy once");

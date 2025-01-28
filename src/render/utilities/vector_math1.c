@@ -1,5 +1,6 @@
 #include "vector.h"
 #include "minirt.h"
+#include "utils.h"
 #include <math.h>
 
 t_vector	vec3_div_vec3(t_vector v1, t_vector v2)
@@ -29,5 +30,7 @@ t_vector	vec3_normalize(t_vector vector)
 	double	mag;
 
 	mag = vec3_lenght(&vector);
+	if (mag == 0)
+		return (vector);
 	return (create_vector(vector.x / mag, vector.y / mag, vector.z / mag));
 }

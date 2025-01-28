@@ -3,7 +3,6 @@
 
 # include "vector.h"
 # include "object.h"
-# include "scene.h"
 
 # define REFLECTION_MAX_DEPTH 100
 
@@ -11,6 +10,7 @@
 	Typedefs
 */
 
+typedef struct s_scene t_scene;
 typedef struct s_light t_light;
 typedef struct s_ray
 {

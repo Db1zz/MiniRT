@@ -1,6 +1,7 @@
 #include "minirt_math.h"
 #include "color.h"
 #include "libft.h"
+#include <stdlib.h>
 
 double	degrees_to_radians(double degrees)
 {

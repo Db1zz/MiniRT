@@ -18,13 +18,14 @@ static const char	*parser_errorn_to_msg(t_error errorn)
 	static const char	*msgs[] = {
 		"Light->ratio should be in range 0 - 1.0",
 		"Type converstion failed",
-		"Cannot convert non-numeric string to vector",
+		"Cannot convert non-numeric string to a number",
 		"ft_split failed to split string",
 		"Cannot convert string to color",
 		"ft_atoi failed to convert string to a number",
 		"Failed to normalize vector",
 		"Unknown object specifier",
-		"Multiple instances if an object"
+		"Multiple instances if an object",
+		"Cannot convert string to vector"
 	};
 
 	if (errorn < PARSER_ERRN_MIN || errorn > PARSER_ERRN_MAX)
@@ -60,4 +61,11 @@ void	ft_perror(t_error errorn, const char *func)
 		printf("Error in %s: incorrect error number\n", __func__);
 	else
 		printf("Error in %s: %s\n", func, msg);
+}
+
+void	set_error(t_error* error, int err_number)
+{
+	if (!error)
+		return;
+	*error = err_number;
 }

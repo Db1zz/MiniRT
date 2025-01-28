@@ -1,109 +1,77 @@
+#include "ft_error.h"
 #include "parser.h"
 #include "object.h"
-#include "minirt.h"
 #include "light.h"
+#include "utils.h"
+#include "libft.h"
 
 #ifndef BONUS
 
-t_error	parse_light(t_scene *scene, char **line_data)
+void	parse_light(t_scene *scene, char **line_data)
 {
-	t_error	errorn;
 	t_light	*light;
 
 	if (scene->lights)
-		return (ERR_MULTIPLE_OBJECTS_INSTANCES);
-	errorn = ERR_NO_ERROR;
-	light = ft_calloc(1, sizeof(t_light));
+		return (set_error(&scene->error, ERR_MULTIPLE_OBJECTS_INSTANCES));
+	light = rt_calloc(1, sizeof(t_light), scene);
 	if (!light)
-		return (ERR_MALLOC_FAILED);
-	if (str_to_vector(&light->pos, line_data[1]))
-		errorn = ERR_TYPE_CONVERSION_FAILED;
-	else if (is_string_number(line_data[2]))
-	{
-		light->ratio = ft_atof(line_data[2]);
-		if (light->ratio < RATIO_MIN || light->ratio > RATIO_MAX)
-			errorn = ERR_RATIO_RANGE_ERROR;
-	}
-	else
-		errorn = ERR_TYPE_CONVERSION_FAILED;
-	if (errorn == ERR_NO_ERROR)
-		errorn = str_to_color(&light->color, line_data[3]);
-	if (errorn)
-		return (free(light), errorn);
-	return (scene_add_object(light, E_LIGHT, scene));
+		return ; 
+	str_to_vector(&light->pos, line_data[1], false, scene);
+	light->ratio = rt_atof(line_data[2], scene);
+	if (light->ratio < RATIO_MIN || light->ratio > RATIO_MAX)
+	  scene->error = ERR_RATIO_RANGE_ERROR;
+	str_to_color(&light->color, line_data[3], scene);
+	scene_add_object(light, E_LIGHT, scene);
 }
 #else
 
-t_error	parse_light(t_scene *scene, char **line_data)
+void	parse_light(t_scene *scene, char **line_data)
 {
-	t_error	errorn;
 	t_light	*light;
 
-	errorn = ERR_NO_ERROR;
-	light = ft_calloc(1, sizeof(t_light));
+	light = rt_calloc(1, sizeof(t_light), scene);
 	if (!light)
-		return (ERR_MALLOC_FAILED);
-	if (str_to_vector(&light->pos, line_data[1]))
-		errorn = ERR_TYPE_CONVERSION_FAILED;
-	else if (is_string_number(line_data[2]))
-	{
-		light->ratio = ft_atof(line_data[2]);
-		if (light->ratio < RATIO_MIN || light->ratio > RATIO_MAX)
-			errorn = ERR_RATIO_RANGE_ERROR;
-	}
-	else
-		errorn = ERR_TYPE_CONVERSION_FAILED;
-	if (errorn == ERR_NO_ERROR)
-		errorn = str_to_color(&light->color, line_data[3]);
-	if (errorn)
-		return (free(light), errorn);
-	return (scene_add_object(light, E_LIGHT, scene));
+		return ; 
+	str_to_vector(&light->pos, line_data[1], false, scene);
+	light->ratio = rt_atof(line_data[2], scene);
+	if (light->ratio < RATIO_MIN || light->ratio > RATIO_MAX)
+	  scene->error = ERR_RATIO_RANGE_ERROR;
+	str_to_color(&light->color, line_data[3], scene);
+	scene_add_object(light, E_LIGHT, scene);
 }
 #endif
 
-t_error	parse_ambient(t_scene *scene, char **line_data)
+void	parse_ambient(t_scene *scene, char **line_data)
 {
-	t_error			errorn;
 	t_amb_lighting	*amb_lighting;
 
 	if (scene->ambient_lightings)
-		return (ERR_MULTIPLE_OBJECTS_INSTANCES);
-	errorn = ERR_NO_ERROR;
-	amb_lighting = ft_calloc(1, sizeof(t_amb_lighting));
+		return (set_error(&scene->error, ERR_MULTIPLE_OBJECTS_INSTANCES));
+	amb_lighting = rt_calloc(1, sizeof(t_amb_lighting), scene); 
 	if (!amb_lighting)
-		return (ERR_MALLOC_FAILED);
-	amb_lighting->ratio = ft_atof(line_data[1]);
-	if (!is_string_number(line_data[1]))
-		errorn = ERR_TYPE_CONVERSION_FAILED;
-	else if (amb_lighting->ratio < RATIO_MIN || amb_lighting->ratio > RATIO_MAX)
-		errorn = ERR_RATIO_RANGE_ERROR;
-	else if (errorn == ERR_NO_ERROR)
-		errorn = str_to_color(&amb_lighting->color, line_data[2]);
-	if (errorn)
-		return (free(amb_lighting), errorn);
-	return (scene_add_object(amb_lighting, E_AMBIENT_LIGHT, scene));
+		return ; 
+	amb_lighting->ratio = rt_atof(line_data[1], scene);
+	if (amb_lighting->ratio < RATIO_MIN || amb_lighting->ratio > RATIO_MAX)
+		scene->error = ERR_RATIO_RANGE_ERROR;
+	else
+		str_to_color(&amb_lighting->color, line_data[2], scene);
+	scene_add_object(amb_lighting, E_AMBIENT_LIGHT, scene);
 }
 
-t_error	parse_camera(t_scene *scene, char **line_data)
+void	parse_camera(t_scene *scene, char **line_data)
 {
-	t_error		errorn;
 	t_camera	*camera;
 
 	if (scene->camera != NULL)
-		return (ERR_MULTIPLE_OBJECTS_INSTANCES);
-	errorn = ERR_NO_ERROR;
-	camera = ft_calloc(1, sizeof(t_camera));
+		return (set_error(&scene->error, ERR_MULTIPLE_OBJECTS_INSTANCES));
+	camera = rt_calloc(1, sizeof(t_camera), scene);
 	if (!camera)
-		return (ERR_MALLOC_FAILED);
-	errorn = str_to_vector(&camera->view_point, line_data[1]);
-	if (!errorn)
-		errorn = str_to_vector(&camera->orientation_vec, line_data[2]);
-	if (!errorn && is_string_number(line_data[3]))
-		camera->fov = ft_atoi(line_data[3]);
-	else if (!errorn && (camera->fov < FOV_MIN || camera->fov > FOV_MAX))
-		errorn = ERR_INCORRECT_FOV_VALUE;
-	if (errorn)
-		return (free(camera), errorn);
+		return ;
+	str_to_vector(&camera->view_point, line_data[1], false, scene);
+	str_to_vector(&camera->orientation_vec, line_data[2], false, scene);
+	if (is_string_number(line_data[3], scene))
+  		camera->fov = ft_atoi(line_data[3]);
+	if (camera->fov < FOV_MIN || camera->fov > FOV_MAX)
+		scene->error = ERR_INCORRECT_FOV_VALUE;
 	scene->camera = camera;
-	return (errorn);
 }

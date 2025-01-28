@@ -1,4 +1,5 @@
 #include "object.h"
+#include <stdlib.h>
 
 t_object_list	*alloc_new_object(
 	void			*data,

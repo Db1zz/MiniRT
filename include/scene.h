@@ -3,12 +3,14 @@
 
 # include "camera.h"
 # include "object.h"
+# include "ft_error.h"
 
 typedef struct s_scene
 {
 	void			*win;
 	void			*mlx;
-	bool			antialiasing;
+  t_error   error;
+  bool			antialiasing;
 	t_camera		*camera;
 	t_object_list	*lights;
 	t_object_list	*ambient_lightings;
