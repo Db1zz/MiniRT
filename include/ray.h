@@ -68,6 +68,8 @@ bool	ray_hit_light(const t_object_list *objects, const t_ray *shadow_ray,
 bool	ray_hit_cylinder(const t_object_list *cylinder_object, const t_ray *ray, t_hit_record *rec);
 t_vector	get_ray_direction(t_vector origin, t_vector endpoint);
 
+bool	ray_hit_cone(const t_object_list *objects, const t_ray *ray, t_hit_record *rec);
+
 /*
     Sets the hit record normal vector.
     NOTE: the parameter `outward_normal` is assumed to have unit length.

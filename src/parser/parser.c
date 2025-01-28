@@ -13,6 +13,8 @@ static t_error	line_parser(t_scene *scene, char **line_data)
 		return (parse_plane(scene, line_data));
 	else if(ft_strcmp("cy", line_data[0]) == 0)
 		return (parse_cylinder(scene, line_data));
+	else if(ft_strcmp("cn", line_data[0]) == 0)
+		return (parse_cone(scene, line_data));
 	else if (ft_strcmp("A", line_data[0]) == 0)
 		return (parse_ambient(scene, line_data));
 	else if (ft_strcmp("L", line_data[0]) == 0)

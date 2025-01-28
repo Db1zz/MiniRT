@@ -13,7 +13,8 @@ typedef enum e_object_type
 	E_PLANE,
 	E_LIGHT,
 	E_AMBIENT_LIGHT,
-	E_TOTAL_OBJECTS
+	E_TOTAL_OBJECTS,
+	E_CONE
 }	t_object_type;
 
 typedef	struct	s_object_list
@@ -58,5 +59,14 @@ typedef struct s_cylinder
 	double				diameter;
 	double				height;
 }	t_cylinder;
+
+typedef struct s_cone
+{
+	t_vector	pos;
+	t_color		color;
+	t_vector	axis;
+	double		diameter;
+	double		height;
+}	t_cone;
 
 #endif	// OBJECTS_H
