@@ -28,7 +28,7 @@ bool	ray_hit_body(t_cylinder *cylinder, const t_ray *ray, t_hit_record *rec)
 	tmp[0] = vec3_sub_vec3(ray->direction, vec3_mult(cylinder->axis, vec3_dot(ray->direction, cylinder->axis)));
 	tmp[1] = vec3_sub_vec3(delta_p, vec3_mult(cylinder->axis, vec3_dot(delta_p, cylinder->axis)));
 	a = vec3_dot(tmp[0], tmp[0]);
-	b = vec3_dot(tmp[0], tmp[1]) * 2;
+	b = vec3_dot(tmp[0], tmp[1]) * 2.0;
 	c = vec3_dot(tmp[1], tmp[1]) - pow(cylinder->diameter / 2, 2);
 	discriminant = pow(b, 2) - 4 * a * c;
 	if (discriminant < 0)

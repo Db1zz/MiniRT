@@ -42,3 +42,31 @@ void parse_plane(t_scene *scene, char **line_data)
 	str_to_color((&plane->color), line_data[3], scene);
 	scene_add_object(plane, E_PLANE, scene);
 }
+
+t_error parse_cone(t_scene *scene, char **line_data)
+{
+	t_error	errorn;
+	t_cone	*cone;
+
+	errorn = ERR_NO_ERROR;
+	cone = ft_calloc(1, sizeof(t_cone));
+	if (!cone)
+		return (ERR_MALLOC_FAILED);
+	errorn = str_to_vector(&cone->pos, line_data[1]);
+	if (errorn == ERR_NO_ERROR)
+		errorn = str_to_vector(&cone->axis, line_data[2]);
+	if (errorn == ERR_NO_ERROR)
+		cone->axis = vec3_normalize(cone->axis);
+	if (is_string_number(line_data[3]) && is_string_number(line_data[4]))
+	{
+		cone->diameter = ft_atof(line_data[3]);
+		cone->height = ft_atof(line_data[4]);
+	}
+	else
+		errorn = ERR_ATOI_FAILED;
+	if (errorn == ERR_NO_ERROR)
+		errorn = str_to_color(&cone->color, line_data[5]);
+	if (errorn)
+		return (free(cone), errorn);
+	return (scene_add_object(cone, E_CONE, scene));
+}

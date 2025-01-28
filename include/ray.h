@@ -87,6 +87,8 @@ t_vector	get_ray_direction(
 	t_vector origin,
 	t_vector endpoint);
 
+bool	ray_hit_cone(const t_object_list *objects, const t_ray *ray, t_hit_record *rec);
+
 void			init_hit_record(t_hit_record *rec);
 t_hit_record	get_closest_hit(const t_hit_record *first,
 			const t_hit_record *second);

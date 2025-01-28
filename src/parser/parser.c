@@ -13,7 +13,9 @@ static void line_parser(t_scene *scene, char **line_data)
 	else if (ft_strcmp("pl", line_data[0]) == 0)
 		 parse_plane(scene, line_data);
 	else if(ft_strcmp("cy", line_data[0]) == 0)
-		 parse_cylinder(scene, line_data);
+		parse_cylinder(scene, line_data);
+	else if(ft_strcmp("cn", line_data[0]) == 0)
+		parse_cone(scene, line_data);
 	else if (ft_strcmp("A", line_data[0]) == 0)
 		 parse_ambient(scene, line_data);
 	else if (ft_strcmp("L", line_data[0]) == 0)
