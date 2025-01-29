@@ -2,14 +2,14 @@
 #include "minirt_math.h"
 #include <math.h>
 
-double	vec3_lenght_squared(const t_vector *v)
+double	vec3_length_squared(t_vector v)
 {
-	return (v->x * v->x + v->y * v->y + v->z * v->z);
+	return (v.x * v.x + v.y * v.y + v.z * v.z);
 }
 
-double	vec3_lenght(const t_vector *v)
+double	vec3_length(t_vector v)
 {
-	return (sqrt(vec3_lenght_squared(v)));
+	return (sqrt(vec3_length_squared(v)));
 }
 
 t_vector	vec3_random(void)
@@ -34,7 +34,7 @@ t_vector		vec3_random_unit_vec(void)
 	while (true)
 	{
 		random_vec = vec3_random_range(-1, 1);
-		vec_lenght = vec3_lenght_squared(&random_vec);
+		vec_lenght = vec3_length_squared(random_vec);
 		if (epsilon < vec_lenght && vec_lenght <= 1)
 			return (vec3_div(random_vec, sqrt(vec_lenght)));
 	}

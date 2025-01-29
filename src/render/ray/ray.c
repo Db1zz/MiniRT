@@ -40,7 +40,7 @@ bool	ray_hit_light(
 	const double	EPSILON = 1e-4;	
 	double			light_intersect;
 
-	light_intersect = vec3_lenght(&light_ray->direction);
+	light_intersect = vec3_length(light_ray->direction);
 	if (ray_hit_objects(light_ray, objects, result_rec))
 		return (light_intersect <= result_rec->ray_distance - EPSILON);
 	return (true);
@@ -62,7 +62,7 @@ t_color	ray_send(
 	const t_ray		*ray,
 	const t_scene	*scene)
 {
-	t_hit_record		rec;
+	t_hit_record	rec;
 	
 	init_hit_record(&rec);
 	return (ray_routine(ray, scene, &rec));

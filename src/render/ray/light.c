@@ -78,8 +78,8 @@ t_color	apply_light(
 	result = create_color(0,0,0);
 	if (scene->lights)
 		result = get_diffuse_light(scene, shape_rec);
-	// if (scene->ambient_lightings)
-	// 	result = get_ambient_light(scene->ambient_lightings, &result);
+	if (scene->ambient_lightings)
+		result = get_ambient_light(scene->ambient_lightings, &result);
 	result = clr_add_clr(result, get_specular_light(camera_ray, scene, shape_rec));
 	return (result);
 }

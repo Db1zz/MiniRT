@@ -29,7 +29,7 @@ t_vector	vec3_normalize(t_vector vector)
 {
 	double	mag;
 
-	mag = vec3_lenght(&vector);
+	mag = vec3_length(vector);
 	if (mag == 0)
 		return (vector);
 	return (create_vector(vector.x / mag, vector.y / mag, vector.z / mag));

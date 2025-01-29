@@ -17,7 +17,7 @@ int	input_handler(int key, t_scene *scene)
 bool	minirt_init(t_scene *scene)
 {
 	if (!scene)
-		return  (false);
+		return (false);
 
 	scene->error = ERR_NO_ERROR;
 	scene->antialiasing = true;
@@ -37,6 +37,9 @@ int	main(int argc, char **argv)
 	if (!minirt_init(scene))
 		return (EXIT_FAILURE);
 	scene->antialiasing = true;
+
+	t_cylinder	*cylinder = scene->objects->data;
+
 
 	// Render
 	render(scene);

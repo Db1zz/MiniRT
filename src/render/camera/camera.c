@@ -29,7 +29,7 @@ static t_vector camera_calculate_ray_direction(
 	t_vector	ray_direction;
 
 	ray_origin = vec3_add_vec3(camera->view_point, camera->orientation_vec);
-	ray_direction = get_ray_direction(ray_origin, *pixel_center);
+	ray_direction = vec3_normalize(vec3_sub_vec3(*pixel_center, ray_origin));
 	return (ray_direction);
 }
 

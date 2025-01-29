@@ -43,7 +43,6 @@ void			free_object_list(t_object_list **list);
 */
 typedef struct s_sphere
 {
-  t_texture   texture;
 	t_vector		pos;
 	t_color			color;
 	double			diameter;
@@ -52,7 +51,6 @@ typedef struct s_sphere
 
 typedef struct s_plane
 {
-  t_texture texture;
 	t_vector	pos;
 	t_color		color;
 	t_vector	normal_vec;
@@ -60,7 +58,6 @@ typedef struct s_plane
 
 typedef struct s_cylinder
 {
-  t_texture     texture;
 	t_vector			pos;
 	t_color				color;
 	t_vector			axis;

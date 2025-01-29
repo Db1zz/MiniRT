@@ -46,9 +46,9 @@ static bool	sphere_find_solutions(
 	double		discriminant;
 
 	oc = vec3_sub_vec3(sphere->pos, ray->origin);
-	qf[0] = vec3_lenght_squared(&ray->direction);
+	qf[0] = vec3_length_squared(ray->direction);
 	qf[1] = vec3_dot(ray->direction, oc);
-	qf[2] = vec3_lenght_squared(&oc) - sphere->radius * sphere->radius;
+	qf[2] = vec3_length_squared(oc) - sphere->radius * sphere->radius;
 	discriminant = qf[1] * qf[1] - qf[0] * qf[2];
 	if (discriminant >= 0)
 		rec->ray_distance = sphere_solve_qf(discriminant, qf, interval);
