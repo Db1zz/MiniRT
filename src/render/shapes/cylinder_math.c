@@ -1,17 +1,61 @@
 #include "minirt.h"
 #include "ray.h"
 #include "vector.h"
+
+t_vector    vec3_rotate(t_vector r1, t_vector r2, t_vector r3, t_vector p)
+{
+    t_vector    v;
+
+    v.x = vec3_dot(r1, p);
+    v.y = vec3_dot(r2, p);
+    v.z = vec3_dot(r3, p);
+    return (v);
+}
+
+t_vector    vec3_rotate_back(t_vector r1, t_vector r2, t_vector r3, t_vector p)
+{
+    t_vector    v;
+
+    v.x = p.x * r1.x + p.y * r2.x + p.z * r3.x;
+    v.y = p.y * r1.y + p.y * r2.y + p.z * r3.y;
+    v.z = p.z * r1.z + p.y * r2.z + p.z * r3.z;
+    return (v);
+}
+
+void    get_perpendicular_vector(t_vector v, t_vector *perp)
+{
+    if (v.x == 0 && v.y == 0)
+    {
+        perp->x = 1;
+        perp->y = 0;
+        perp->z = 0;
+    }
+    else
+    {
+        perp->x = -v.y;
+        perp->y = v.x;
+        perp->z = 0;
+    }
+}
+
 void    set_cylbody_hit(t_hit_record *rec, const t_ray *ray, double t[2], t_cylinder *cylinder)
 {
+    t_vector    pa[2];
+    t_vector    pt;
+
     if (t[0] < t[1] && t[0] > 0)
         rec->ray_distance = t[0];
     else if (t[1] >= 0)
         rec->ray_distance = t[1];
     rec->intersection_p = vec3_add_vec3(ray->origin, vec3_mult(ray->direction, rec->ray_distance));
-    rec->normal = vec3_normalize(vec3_sub_vec3(rec->intersection_p, vec3_add_vec3(cylinder->pos, vec3_mult(cylinder->axis, vec3_dot(vec3_sub_vec3(rec->intersection_p, cylinder->pos), cylinder->axis)))));
+    get_perpendicular_vector(cylinder->axis, &pa[0]);
+    pa[1] = vec3_cross(cylinder->axis, pa[0]);
+    pt = vec3_sub_vec3(rec->intersection_p, cylinder->pos);
+    pt = vec3_normalize(vec3_rotate(pa[0], pa[1], cylinder->axis, pt));
+    rec->normal = vec3_normalize(vec3_rotate_back(pa[0], pa[1], cylinder->axis, pt));
     rec->color = cylinder->color;
     rec->obj_type = E_CYLINDER;
-	rec->ray_direction = ray->direction;
+	rec->ray_direction = vec3_normalize(ray->direction);
 }
 bool    ray_hit_body(t_cylinder *cylinder, const t_ray *ray, t_hit_record *rec)
 {
@@ -94,7 +138,6 @@ bool    ray_hit_caps(t_cylinder *cylinder, const t_ray *ray, t_hit_record *rec)
         rec->normal = vec3_negate(cylinder->axis);
     else
         rec->normal = cylinder->axis;
-    static int i;
     return (true);
 }
 bool    ray_hit_cylinder(const t_object_list *cylinder_object, const t_ray *ray, t_hit_record *rec)
@@ -107,27 +150,28 @@ bool    ray_hit_cylinder(const t_object_list *cylinder_object, const t_ray *ray,
         return (false);
     cylinder = (t_cylinder *)cylinder_object->data;
 	init_hit_record(&body);
-	init_hit_record(&caps);
+	// init_hit_record(&caps);
     hit[0] = ray_hit_body(cylinder, ray, &body);
-    hit[1] = ray_hit_caps(cylinder, ray, &caps);
-    if (hit[0] && hit[1])
+    // hit[1] = ray_hit_caps(cylinder, ray, &caps);
+    // if (hit[0] && hit[1])
+    // {
+    //     if (body.ray_distance < caps.ray_distance)
+    //         *rec = body;
+    //     else
+    //         *rec = caps;
+    //     return (true);
+    // }
+    if (hit[0])
     {
-        if (body.ray_distance < caps.ray_distance)
-            *rec = body;
-        else
-            *rec = caps;
-        return (true);
-    }
-    else if (hit[0])
-    {
+		print_vec3(&body.normal);
         *rec = body;
         return (true);
     }
-    else if (hit[1])
-    {
-        *rec = caps;
-        return (true);
-    }
+    // else if (hit[1])
+    // {
+    //     *rec = caps;
+    //     return (true);
+    // }
     else
         return (false);
 }
