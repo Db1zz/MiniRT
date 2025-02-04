@@ -78,5 +78,6 @@ bool	ray_hit_sphere(
 	ray_hit_record_set_face_normal(ray, &outward_normal, rec);
 	rec->color = sphere->color;
 	rec->ray_direction = ray->direction;
+	rec->obj_pos = sphere->pos;
 	return (true);
 }

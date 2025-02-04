@@ -35,6 +35,7 @@ bool	ray_hit_plane(
 			rec->normal = vec3_normalize(plane->normal_vec);
 			rec->obj_type = E_PLANE;
 			rec->color = plane->color;
+			rec->obj_pos = plane->pos;
 			rec->ray_direction = ray->direction;
 			return (true);
         }

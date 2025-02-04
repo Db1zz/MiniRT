@@ -25,8 +25,10 @@ bool	ray_hit_objects(
 			found = true;
 		else if (ray_hit_cylinder(objects, ray, &current_rec))
 			found = true;
-		if (found)
+		if (found) {
+			printf("%p, %p\n", result_rec, &current_rec);
 			*result_rec = get_closest_hit(&current_rec, result_rec);
+		}
 		objects = objects->next;
 	}
 	return (found);

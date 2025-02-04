@@ -53,8 +53,8 @@ t_ray	create_light_ray(
 	t_vector	ray_direction;
 	t_ray		light_ray;
 
-	ray_origin = hit_record_to_ray_origin(shape_rec);
-	ray_direction = vec3_normalize(vec3_sub_vec3(light->pos, ray_origin));
-	light_ray = create_ray(ray_origin, ray_direction, create_color(0,0,0));
+	ray_origin = light->pos;
+	ray_direction = get_ray_direction(ray_origin, shape_rec->intersection_p);
+	light_ray = create_ray(ray_origin, ray_direction, light->color);
 	return (light_ray);
 }

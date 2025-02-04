@@ -2,6 +2,19 @@
 #include "ray.h"
 #include "vector.h"
 
+static void	ray_hit_record_set_face_normal(
+	const t_ray		*ray,
+	const t_vector	*outward_normal,
+	t_hit_record	*rec)
+{
+	rec->front_face = vec3_dot(ray->direction, *outward_normal) < 0;
+	if (rec->front_face)
+		rec->normal = *outward_normal;
+	else
+		rec->normal = vec3_mult(*outward_normal, -1);
+	rec->normal = vec3_normalize(rec->normal);
+}
+
 t_vector    vec3_rotate(t_vector r1, t_vector r2, t_vector r3, t_vector p)
 {
     t_vector    v;
@@ -56,8 +69,10 @@ void    set_cylbody_hit(t_hit_record *rec, const t_ray *ray, double t[2], t_cyli
     rec->normal = vec3_normalize(vec3_rotate_back(pa[0], pa[1], cylinder->axis, pt));
     rec->color = cylinder->color;
     rec->obj_type = E_CYLINDER;
+    rec->obj_pos = cylinder->pos;
 	rec->ray_direction = vec3_normalize(ray->direction);
 }
+
 bool    ray_hit_body(t_cylinder *cylinder, const t_ray *ray, t_hit_record *rec)
 {
     t_vector    delta_p;
@@ -109,6 +124,7 @@ void    set_cap_hit(t_cylinder *cylinder, const t_ray *ray, t_hit_record *rec, d
     rec->ray_distance = t;
     rec->intersection_p = vec3_add_vec3(ray->origin, vec3_mult(ray->direction, rec->ray_distance));
     rec->color = cylinder->color;
+    rec->obj_pos = cylinder->pos;
     rec->obj_type = E_CYLINDER;
 }
 bool    ray_hit_caps(t_cylinder *cylinder, const t_ray *ray, t_hit_record *rec)

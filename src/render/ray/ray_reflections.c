@@ -46,16 +46,16 @@ t_color	ray_reflect(
 	t_color				ref_light;
 
 	init_hit_record(&ref_hit_rec);
-	while (curr_obj)
-	{
-		ref_ray = create_reflection_ray(rec);
-		if (ray_hit_objects(&ref_ray, scene->objects, &ref_hit_rec))
-		{
-			object_light = apply_light(camera_ray, scene, rec);
-			ref_light = apply_light(&ref_ray, scene, &ref_hit_rec);
-			return (blend_reflection(object_light, ref_light, REF_INTENSITY));
-		}
-		curr_obj = curr_obj->next;
-	}
+	// while (curr_obj)
+	// {
+	// 	ref_ray = create_reflection_ray(rec);
+	// 	if (ray_hit_objects(&ref_ray, scene->objects, &ref_hit_rec))
+	// 	{
+	// 		object_light = apply_light(camera_ray, scene, rec);
+	// 		ref_light = apply_light(&ref_ray, scene, &ref_hit_rec);
+	// 		return (blend_reflection(object_light, ref_light, REF_INTENSITY));
+	// 	}
+	// 	curr_obj = curr_obj->next;
+	// }
 	return (apply_light(camera_ray, scene, rec));
 }

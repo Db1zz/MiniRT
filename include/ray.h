@@ -27,6 +27,7 @@ typedef struct s_hit_record
 	bool			front_face;
 	t_color			color;
 	t_object_type	obj_type;
+	t_vector		obj_pos;
 	t_vector		ray_direction;
 }	t_hit_record;
 
