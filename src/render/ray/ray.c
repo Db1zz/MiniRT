@@ -54,6 +54,7 @@ t_color	ray_routine(
 	if (!ray_hit_objects(ray, scene->objects, rec))
 		return (ray_get_background_color(ray));
 	return (ray_reflect(ray, scene, rec));
+	// return (rec->color);
 }
 
 #include <stdio.h>

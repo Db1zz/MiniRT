@@ -43,11 +43,12 @@ void    set_cylbody_hit(t_hit_record *rec, const t_ray *ray, double t[2], t_cyli
     t_vector    pa[2];
     t_vector    pt;
 
-    if (t[0] < t[1] && t[0] > 0)
+    if (t[0] < t[1] && t[0] >= 0)
         rec->ray_distance = t[0];
     else if (t[1] >= 0)
         rec->ray_distance = t[1];
     rec->intersection_p = vec3_add_vec3(ray->origin, vec3_mult(ray->direction, rec->ray_distance));
+    printf("t: %f intersection_p: ", rec->ray_distance); print_vec3(&rec->intersection_p);
     get_perpendicular_vector(cylinder->axis, &pa[0]);
     pa[1] = vec3_cross(cylinder->axis, pa[0]);
     pt = vec3_sub_vec3(rec->intersection_p, cylinder->pos);
@@ -84,17 +85,22 @@ bool    ray_hit_body(t_cylinder *cylinder, const t_ray *ray, t_hit_record *rec)
     a = vec3_dot(tmp[0], tmp[0]);
     b = vec3_dot(tmp[0], tmp[1]) * 2.0;
     c = vec3_dot(tmp[1], tmp[1]) - pow(cylinder->diameter / 2, 2);
+    if (isnan(a) || isnan(b) || isnan(c))
+        return (false);
     discriminant = pow(b, 2) - 4 * a * c;
     if (discriminant < 0)
         return (false);
     t[0] = (-b + sqrt(discriminant)) / (2 * a);
     t[1] = (-b - sqrt(discriminant)) / (2 * a);
+    if (t[0] < 0 || t[1] < 0)
+        return (false);
     y[0] = vec3_dot(cylinder->axis, vec3_add_vec3(ray->origin, vec3_mult(ray->direction, t[0])));
     y[1] = vec3_dot(cylinder->axis, vec3_add_vec3(ray->origin, vec3_mult(ray->direction, t[1])));
     if ((y[0] < 0 || y[0] > cylinder->height) && (y[1] < 0 || y[1] > cylinder->height))
     {
         return (false);
     }
+    printf("t[0]: %f t[1]: %f\n", t[0], t[1]);
     set_cylbody_hit(rec, ray, t, cylinder);
     return (true);
 }
@@ -163,7 +169,6 @@ bool    ray_hit_cylinder(const t_object_list *cylinder_object, const t_ray *ray,
     // }
     if (hit[0])
     {
-		print_vec3(&body.normal);
         *rec = body;
         return (true);
     }
