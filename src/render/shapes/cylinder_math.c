@@ -110,23 +110,100 @@ static bool tube_intersection(
 	return (true);
 }
 
+static t_object_list	*init_caps(
+		const t_cylinder *cy,
+		t_vector *p2
+	)
+{
+	t_plane			*cap_plane;
+	t_object_list	*cap;
+
+	cap_plane = malloc(sizeof(t_plane) * 2);
+	*p2 = vec3_add_vec3(cy->pos, vec3_mult(cy->axis, cy->height));
+	cap_plane[0].pos = vec3_mult(cy->pos, 1);
+	cap_plane[0].normal_vec = vec3_mult(cy->axis, -1);
+	cap_plane[0].color = cy->color;
+	cap_plane[1].pos = *p2;
+	cap_plane[1].normal_vec = cy->axis;
+	cap_plane[1].color = cy->color;
+	cap = alloc_new_object(&cap_plane[0], E_PLANE, NULL);
+	cap->next = alloc_new_object(&cap_plane[1], E_PLANE, NULL);
+	return (cap);
+}
+
+static bool	caps_intersection(
+	const t_cylinder *cy,
+	const t_ray *ray,
+	t_hit_record *rec)
+{
+	t_vector		p2;
+	t_hit_record	cap_rec[2];
+	t_object_list	*cap;
+	bool			hit[2];
+
+	init_hit_record(&cap_rec[0]);
+	init_hit_record(&cap_rec[1]);
+	cap = init_caps(cy, &p2);
+	hit[0] = ray_hit_plane(cap, ray, &cap_rec[0]);
+	hit[1] = ray_hit_plane(cap->next, ray, &cap_rec[1]);
+	if (hit[0] || hit[1])
+	{
+		if ((hit[0] 
+			&& vec3_distance(cap_rec[0].intersection_p, cy->pos) <= cy->diameter / 2)
+			&& (hit[1] && vec3_distance(cap_rec[1].intersection_p, p2) <= cy->diameter / 2))
+		{
+			if (cap_rec[0].ray_distance < cap_rec[1].ray_distance)
+				*rec = cap_rec[0];
+			else
+				*rec = cap_rec[1];
+			return (true);
+		}
+		else if (hit[0] 
+			&& vec3_distance(cap_rec[0].intersection_p, cy->pos) <= cy->diameter / 2)
+		{
+			*rec = cap_rec[0];
+			return (true);
+		}
+		else if (hit[1] && vec3_distance(cap_rec[1].intersection_p, p2) <= cy->diameter / 2)
+		{
+			*rec = cap_rec[1];
+			return (true);
+		}
+		return (false);
+	}
+	return (false);
+}
+
 bool ray_hit_cylinder(
 	const t_object_list *cylinder_object,
 	const t_ray *ray,
 	t_hit_record *rec)
 {
-	t_cylinder *cylinder;
-	t_hit_record cylinder_rec;
+	t_cylinder		*cylinder;
+	t_hit_record 	cylinder_rec;
+	t_hit_record 	cap_rec;
+	bool			hit[2];
 
 	if (!cylinder_object || cylinder_object->type != E_CYLINDER)
 		return (false);
 	cylinder = cylinder_object->data;
 	init_hit_record(&cylinder_rec);
-
+	init_hit_record(&cap_rec);
 	// TODO: add caps
-	if (tube_intersection(cylinder, ray, &cylinder_rec)) {
-		*rec = cylinder_rec;
-		return (true);
+	hit[0] = tube_intersection(cylinder, ray, &cylinder_rec);
+	hit[1] = caps_intersection(cylinder, ray, &cap_rec);
+	if (hit[0] && hit[1])
+	{
+		if (cylinder_rec.ray_distance < cap_rec.ray_distance)
+			*rec = cylinder_rec;
+		else
+			*rec = cap_rec;
 	}
+	else if (hit[0])
+		*rec = cylinder_rec;
+	else if (hit[1])
+		*rec = cap_rec;
+	if (hit[0] || hit[1])
+		return (true);
 	return (false);
 }

@@ -3,6 +3,7 @@
 
 #include "ft_error.h"
 #include "color.h"
+#include <math.h>
 #include <stdio.h>
 
 # define VECTOR_MAX_SIZE 3
@@ -35,6 +36,8 @@ t_vector	vec3_random_unit_vec(void);
 t_vector	vec3_random_on_hemisphere(const t_vector *sphere_normal_vec);
 t_vector	vec3_cross(t_vector a, t_vector b);
 t_vector    vec3_negate(t_vector a);
+double		vec3_distance(t_vector a, t_vector b);
+
 
 // debug functions
 void	print_vec3(t_vector *vec);
