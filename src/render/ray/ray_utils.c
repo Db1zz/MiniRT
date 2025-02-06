@@ -7,6 +7,12 @@
 void	init_hit_record(t_hit_record *rec)
 {
 	ft_memset(rec, 0, sizeof(t_hit_record));
+	rec->color = create_color(0,0,0);
+	rec->front_face = false;
+	rec->intersection_p = create_vector(0,0,0);
+	rec->normal = create_vector(0,0,0);
+	rec->ray_direction = create_vector(0,0,0);
+	rec->obj_type = E_SPHERE;
 	rec->ray_distance = FT_INFINITY;
 }
 

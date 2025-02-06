@@ -26,15 +26,12 @@ double	get_diffuse_intensity(
 	const t_light		*light_source,
 	const t_hit_record	*shape_rec)
 {
-	t_vector	cos;
-	t_vector	sin;
+	t_vector	light_dir;
 	double		diffuse_intensity;
+	double		dot;
 
-	cos = vec3_normalize(
-			vec3_sub_vec3(light_source->pos, shape_rec->intersection_p));
-	sin = vec3_normalize(shape_rec->normal);
-	diffuse_intensity = vec3_dot(cos, sin);
-	diffuse_intensity = fmax(0, diffuse_intensity) * light_source->ratio;
+	light_dir =	get_ray_direction(shape_rec->intersection_p, light_source->pos);
+	dot = vec3_dot(shape_rec->normal, light_dir);
+	diffuse_intensity = fmax(0, dot) * light_source->ratio;
 	return (diffuse_intensity);
 }
-
