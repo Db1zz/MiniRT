@@ -189,7 +189,6 @@ bool ray_hit_cylinder(
 	cylinder = cylinder_object->data;
 	init_hit_record(&cylinder_rec);
 	init_hit_record(&cap_rec);
-	// TODO: add caps
 	hit[0] = tube_intersection(cylinder, ray, &cylinder_rec);
 	hit[1] = caps_intersection(cylinder, ray, &cap_rec);
 	if (hit[0] && hit[1])
