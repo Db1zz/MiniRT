@@ -63,6 +63,8 @@ static void scene_parser(t_scene *scene, int scene_fd)
 		}
 		free(line);
 	}
+	if (!scene->camera)
+		set_error(&scene->error, ERR_CAMERA_NOT_FOUND);
 }
 
 t_scene	*parse_input(int argc, char **argv)

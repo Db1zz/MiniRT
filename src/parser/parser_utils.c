@@ -59,17 +59,19 @@ void	str_to_vector(
 }
 
 /* FIXME */
-bool	is_string_number(const char *line, t_scene* scene)
+bool is_string_number(const char *number, t_scene* scene)
 {
-	int	i;
+	int i;
 
-	if (line == NULL)
-		return (set_error(&scene->error, ERR_NULL_PARAMETER), false);
 	i = 0;
-	while (line[i] && line[i] != '\n')
+	if (!number || (!ft_isdigit(number[i]) && number[i] != '-' && number[i] != '+'))
+		return (set_error(&scene->error, ERR_NULL_PARAMETER), false);
+	i++;
+	if (number[i] == '.')
+		i++;
+	while (number[i])
 	{
-		if (!ft_isdigit(line[i]) && line[i] != '-' && line[i] != '+'
-				&& line[i] != '.' && line[i])
+		if (!ft_isdigit(number[i]) && number[i] != '\n')
 			return (set_error(&scene->error, ERR_STRING_IS_NOT_NUM), false);
 		i++;
 	}

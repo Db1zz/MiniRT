@@ -2,12 +2,12 @@
 #include "libft.h"
 #include "minirt.h"
 
-t_color	create_color(int r, int g, int b)
+t_color	create_color(double r, double g, double b)
 {
 	return ((t_color){r, g, b});
 }
 
-t_error	set_color(t_color *color, int r, int g, int b)
+t_error	set_color(t_color *color, double r, double g, double b)
 {
 	if (!color)
 		return (ERR_NULL_PARAMETER);
@@ -19,22 +19,22 @@ t_error	set_color(t_color *color, int r, int g, int b)
 	return (ERR_NO_ERROR);
 }
 
-bool	check_color(int c)
+bool	check_color(double c)
 {
 	return (c >= COLOR_MIN && c <= COLOR_MAX);
 }
 
-bool	validate_colors(int r, int g, int b)
+bool	validate_colors(double r, double g, double b)
 {
 	return (check_color(r) && check_color(g) && check_color(b));
 }
 
 int	rgb_to_int(t_color color)
 {
-	return (65536 * color.r + 256 * color.g + color.b);
+	return (65536 * (int)color.r + 256 * (int)color.g + (int)color.b);
 }
 
 void	print_color(t_color *c)
 {
-	printf("Color: [%d, %d, %d]\n", c->r, c->g, c->b);
+	printf("Color: [%f, %f, %f]\n", c->r, c->g, c->b);
 }

@@ -1,7 +1,7 @@
 #include "color.h"
 #include "minirt_math.h"
 
-t_color	clamp_color(t_color color, int min, int max)
+t_color	clamp_color(t_color color, double min, double max)
 {
 	return (create_color(clamp_value(color.r, min, max),
 						clamp_value(color.g, min, max),

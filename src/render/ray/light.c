@@ -27,6 +27,7 @@ static t_color	get_diffuse_light(
 				clr_mult(
 					filter_color(shape_rec->color, light->color),
 					get_diffuse_intensity(light, shape_rec)), result_color);
+			result_color = clamp_color(result_color, COLOR_MIN, COLOR_MAX);
 		}
 		light_sources = light_sources->next;
 	}
