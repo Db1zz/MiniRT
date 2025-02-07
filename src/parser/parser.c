@@ -22,6 +22,8 @@ static void line_parser(t_scene *scene, char **line_data)
 		 parse_light(scene, line_data);
 	else if (ft_strcmp("C", line_data[0]) == 0)
 		 parse_camera(scene, line_data);
+	else if (line_data[0][0] == '#')
+		return ;
 	else
 		 scene->error = ERR_UNKNOWN_OBJECT_SPECIFIER;
 }
@@ -63,6 +65,8 @@ static void scene_parser(t_scene *scene, int scene_fd)
 		}
 		free(line);
 	}
+	if (!scene->camera)
+		set_error(&scene->error, ERR_CAMERA_NOT_FOUND);
 }
 
 t_scene	*parse_input(int argc, char **argv)

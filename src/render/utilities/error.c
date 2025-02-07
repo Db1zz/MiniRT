@@ -25,7 +25,8 @@ static const char	*parser_errorn_to_msg(t_error errorn)
 		"Failed to normalize vector",
 		"Unknown object specifier",
 		"Multiple instances if an object",
-		"Cannot convert string to vector"
+		"Cannot convert string to vector",
+		"Camera not found"
 	};
 
 	if (errorn < PARSER_ERRN_MIN || errorn > PARSER_ERRN_MAX)
