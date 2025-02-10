@@ -105,6 +105,11 @@ static bool tube_intersection(
 	if (!((dist[0] >= 0 && dist[0] <= cy->height && s2[0] > EPSILON)
 		|| (dist[1] >= 0 && dist[1] <= cy->height && s2[1] > EPSILON)))
 		return (false);
+	if (dist[0] >= 0 && dist[0] <= cy->height && s2[0] > EPSILON
+		&& !(dist[1] >= 0 && dist[1] <= cy->height && s2[1] > EPSILON))
+		s2[1] = s2[0];
+	else if (dist[1] >= 0 && dist[1] <= cy->height && s2[1] > EPSILON && !(dist[0] >= 0 && dist[0] <= cy->height && s2[0] > EPSILON))
+		s2[0] = s2[1];
 	normal = calc_cylinder_normal(cy, ray, s2, dist);
 	set_cylinder_hit_rec(cy, ray, &normal, s2[0] < s2[1] ? s2[0] : s2[1], rec);
 	return (true);

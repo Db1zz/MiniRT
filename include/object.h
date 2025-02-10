@@ -75,3 +75,4 @@ typedef struct s_cone
 }	t_cone;
 
 #endif	// OBJECTS_H
+//grisha was here
