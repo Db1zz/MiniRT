@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/11 18:25:21 by gonische          #+#    #+#             */
+/*   Updated: 2025/02/11 18:25:21 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "camera.h"
 #include "minirt.h"
 #include "color.h"
@@ -8,7 +20,7 @@ void	render(t_scene *scene)
 	int		x;
 	int		y;
 	t_color	ray_color;
-	
+
 	x = 0;
 	while (x < WIN_HEIGHT)
 	{

@@ -12,15 +12,15 @@
 
 typedef struct s_camera
 {
-	t_vector			view_point;
-	t_vector			orientation_vec;
-	int					fov; // 0 - 180
-	t_viewport			viewport;
+	t_vector	view_point;
+	t_vector	orientation_vec;
+	int			fov; // 0 - 180
+	t_viewport	viewport;
 }	t_camera;
 
 t_color	camera_get_pixel_color(
-	const t_camera	*camera,
-	const t_scene	*scene,
-	int x, int y);
+			const t_camera	*camera,
+			const t_scene	*scene,
+			int x, int y);
 
 #endif	// CAMERA_H

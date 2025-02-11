@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/11 18:24:53 by gonische          #+#    #+#             */
+/*   Updated: 2025/02/11 18:24:53 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_error.h"
 #include <stdio.h>
 
@@ -45,7 +57,9 @@ static const char	*minirt_errorn_to_msg(t_error errorn)
 	return (msgs[errorn - MINIRT_ERRORN_MIN]);
 }
 
-void	ft_perror(t_error errorn, const char *func)
+void	ft_perror(
+	t_error errorn,
+	const char *func)
 {
 	const char	*msg;
 
@@ -64,9 +78,11 @@ void	ft_perror(t_error errorn, const char *func)
 		printf("Error in %s: %s\n", func, msg);
 }
 
-void	set_error(t_error* error, int err_number)
+void	set_error(
+	t_error *error,
+	int err_number)
 {
 	if (!error)
-		return;
+		return ;
 	*error = err_number;
 }

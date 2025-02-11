@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shape_parser.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/11 18:29:24 by gonische          #+#    #+#             */
+/*   Updated: 2025/02/11 18:29:36 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 #include "utils.h"
 
-void parse_sphere(t_scene *scene, char **line_data)
+void	parse_sphere(t_scene *scene, char **line_data)
 {
-	t_sphere    *sphere;
+	t_sphere	*sphere;
 
 	sphere = rt_calloc(1, sizeof(t_sphere), scene);
 	if (!sphere)
@@ -15,13 +27,13 @@ void parse_sphere(t_scene *scene, char **line_data)
 	scene_add_object(sphere, E_SPHERE, scene);
 }
 
-void parse_cylinder(t_scene *scene, char **line_data)
+void	parse_cylinder(t_scene *scene, char **line_data)
 {
 	t_cylinder	*cylinder;
 
 	cylinder = rt_calloc(1, sizeof(t_cylinder), scene);
 	if (!cylinder)
-		return ; 
+		return ;
 	str_to_vector(&cylinder->pos, line_data[1], false, scene);
 	str_to_vector(&cylinder->axis, line_data[2], true, scene);
 	cylinder->diameter = rt_atof(line_data[3], scene);
@@ -30,13 +42,13 @@ void parse_cylinder(t_scene *scene, char **line_data)
 	scene_add_object(cylinder, E_CYLINDER, scene);
 }
 
-void parse_plane(t_scene *scene, char **line_data)
-{	
+void	parse_plane(t_scene *scene, char **line_data)
+{
 	t_plane	*plane;
 
 	plane = rt_calloc(1, sizeof(t_plane), scene);
 	if (!plane)
-		return ; 
+		return ;
 	str_to_vector(&plane->normal_vec, line_data[1], true, scene);
 	str_to_vector((&plane->pos), line_data[2], false, scene);
 	str_to_color((&plane->color), line_data[3], scene);

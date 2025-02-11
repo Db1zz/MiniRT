@@ -11,9 +11,9 @@
 # include <math.h>
 
 # ifdef __APPLE__
-	#  include "key_macos.h"
+#  include "key_macos.h"
 # elif __linux__
-	#  include "key_linux.h"
+#  include "key_linux.h"
 # endif
 
 # define WIN_WIDTH 1024

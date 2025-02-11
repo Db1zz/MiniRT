@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/11 18:28:03 by gonische          #+#    #+#             */
+/*   Updated: 2025/02/11 18:28:03 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ray.h"
 #include "minirt_math.h"
 #include "vector.h"
@@ -7,11 +19,11 @@
 void	init_hit_record(t_hit_record *rec)
 {
 	ft_memset(rec, 0, sizeof(t_hit_record));
-	rec->color = create_color(0,0,0);
+	rec->color = create_color(0, 0, 0);
 	rec->front_face = false;
-	rec->intersection_p = create_vector(0,0,0);
-	rec->normal = create_vector(0,0,0);
-	rec->ray_direction = create_vector(0,0,0);
+	rec->intersection_p = create_vector(0, 0, 0);
+	rec->normal = create_vector(0, 0, 0);
+	rec->ray_direction = create_vector(0, 0, 0);
 	rec->obj_type = E_SPHERE;
 	rec->ray_distance = FT_INFINITY;
 }
@@ -27,10 +39,10 @@ t_hit_record	get_closest_hit(
 
 t_vector	hit_record_to_ray_origin(const t_hit_record *rec)
 {
-  const double	EPSILON = 1e-4;
-  t_vector		origin;
+	t_vector	origin;
 
-	origin = vec3_add_vec3(rec->intersection_p, vec3_mult(rec->normal, EPSILON)); 
+	origin = vec3_add_vec3(rec->intersection_p,
+			vec3_mult(rec->normal, EPSILON));
 	return (origin);
 }
 
@@ -39,21 +51,9 @@ t_vector	get_ray_direction(t_vector origin, t_vector endpoint)
 	return (vec3_normalize(vec3_sub_vec3(endpoint, origin)));
 }
 
-t_color	ray_get_background_color(const t_ray *ray)
-{
-	double		a;
-	t_vector	color_vec;
-
-	a = 0.5 * (ray->direction.y + 1.0);
-	color_vec = vec3_mult(vec3_add_vec3(
-					vec3_mult(create_vector(1.0, 1.0, 1.0), 1.0 - a),
-					vec3_mult(create_vector(0.5, 0.7, 1), a)), 255);
-	return (create_color(color_vec.x, color_vec.y, color_vec.z));
-}
-
 t_ray	create_light_ray(
-	const t_hit_record	*shape_rec,
-	const t_light		*light)
+	const t_hit_record *shape_rec,
+	const t_light *light)
 {
 	t_vector	ray_origin;
 	t_vector	ray_direction;
@@ -61,6 +61,6 @@ t_ray	create_light_ray(
 
 	ray_origin = hit_record_to_ray_origin(shape_rec);
 	ray_direction = vec3_normalize(vec3_sub_vec3(light->pos, ray_origin));
-	light_ray = create_ray(ray_origin, ray_direction, create_color(0,0,0));
+	light_ray = create_ray(ray_origin, ray_direction, create_color(0, 0, 0));
 	return (light_ray);
 }

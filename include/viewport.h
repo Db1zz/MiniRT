@@ -1,12 +1,12 @@
 #ifndef VIEWPORT_H
-#define VIEWPORT_H
+# define VIEWPORT_H
 
-#include "vector.h"
+# include "vector.h"
 
-typedef struct s_scene 	t_scene;
-typedef struct s_camera t_camera;
+typedef struct s_scene	t_scene;
+typedef struct s_camera	t_camera;
 
-typedef	struct s_viewport
+typedef struct s_viewport
 {
 	double		height;
 	double		width;

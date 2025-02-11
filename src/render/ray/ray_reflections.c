@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray_reflections.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/11 18:28:07 by gonische          #+#    #+#             */
+/*   Updated: 2025/02/11 18:28:08 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ray.h"
 #include "scene.h"
 #include "color.h"
@@ -7,7 +19,7 @@ static t_vector	reflect(t_vector direction, t_vector surf_normal)
 {
 	const double	dot_product = vec3_dot(direction, surf_normal);
 
-	return(vec3_sub_vec3(direction, vec3_mult(surf_normal, dot_product * 2)));
+	return (vec3_sub_vec3(direction, vec3_mult(surf_normal, dot_product * 2)));
 }
 
 static t_ray	create_reflection_ray(const t_hit_record *hit_rec)
@@ -25,19 +37,19 @@ static t_ray	create_reflection_ray(const t_hit_record *hit_rec)
 static t_color	blend_reflection(
 	t_color object_color,
 	t_color reflected_light,
-	double	reflection_intensity)
+	double reflection_intensity)
 {
 	return (clr_add_clr(
-				clr_mult(object_color, 1 - reflection_intensity),
-				clr_mult(reflected_light, reflection_intensity)));
+			clr_mult(object_color, 1 - reflection_intensity),
+			clr_mult(reflected_light, reflection_intensity)));
 }
 
 #define REF_INTENSITY 0.35	
 
 t_color	ray_reflect(
-	const t_ray			*camera_ray,
-	const t_scene		*scene,
-	const t_hit_record	*rec)
+	const t_ray *camera_ray,
+	const t_scene *scene,
+	const t_hit_record *rec)
 {
 	const t_object_list	*curr_obj = scene->objects;
 	t_ray				ref_ray;

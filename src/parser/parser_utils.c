@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/11 18:29:33 by gonische          #+#    #+#             */
+/*   Updated: 2025/02/11 18:29:33 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 #include "libft.h"
 #include "ft_error.h"
@@ -5,11 +17,11 @@
 #include "vector.h"
 #include "utils.h"
 
-bool	check_str_numbers(char **numbers, int expected_size, t_scene* scene)
+bool	check_str_numbers(char **numbers, int expected_size, t_scene *scene)
 {
 	int	i;
 
-  i = 0;
+	i = 0;
 	while (numbers[i] != NULL)
 	{
 		if (i > expected_size || !is_string_number(numbers[i], scene))
@@ -21,7 +33,7 @@ bool	check_str_numbers(char **numbers, int expected_size, t_scene* scene)
 	return (false);
 }
 
-void str_to_color(t_color *color, const char *str, t_scene* scene)
+void	str_to_color(t_color *color, const char *str, t_scene *scene)
 {
 	char	**data;
 
@@ -37,10 +49,10 @@ void str_to_color(t_color *color, const char *str, t_scene* scene)
 }
 
 void	str_to_vector(
-	t_vector* result,
+	t_vector *result,
 	const char *vector_str,
 	bool normalize,
-	t_scene* scene)
+	t_scene *scene)
 {
 	char	**data;
 
@@ -58,13 +70,13 @@ void	str_to_vector(
 		*result = vec3_normalize(*result);
 }
 
-/* FIXME */
-bool is_string_number(const char *number, t_scene* scene)
+bool	is_string_number(const char *number, t_scene *scene)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if (!number || (!ft_isdigit(number[i]) && number[i] != '-' && number[i] != '+'))
+	if (!number
+		|| (!ft_isdigit(number[i]) && number[i] != '-' && number[i] != '+'))
 		return (set_error(&scene->error, ERR_NULL_PARAMETER), false);
 	i++;
 	if (number[i] == '.')
@@ -78,7 +90,7 @@ bool is_string_number(const char *number, t_scene* scene)
 	return (true);
 }
 
-double	rt_atof(const char *str, t_scene* scene)
+double	rt_atof(const char *str, t_scene *scene)
 {
 	double	result;
 	double	point_val;

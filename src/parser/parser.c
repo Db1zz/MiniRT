@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/11 18:29:41 by gonische          #+#    #+#             */
+/*   Updated: 2025/02/11 18:29:41 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_error.h"
 #include "libft.h"
 #include "object.h"
@@ -6,34 +18,35 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-static void line_parser(t_scene *scene, char **line_data)
+static void	line_parser(t_scene *scene, char **line_data)
 {
 	if (ft_strcmp("sp", line_data[0]) == 0)
-		 parse_sphere(scene, line_data);
+		parse_sphere(scene, line_data);
 	else if (ft_strcmp("pl", line_data[0]) == 0)
-		 parse_plane(scene, line_data);
-	else if(ft_strcmp("cy", line_data[0]) == 0)
+		parse_plane(scene, line_data);
+	else if (ft_strcmp("cy", line_data[0]) == 0)
 		parse_cylinder(scene, line_data);
-	else if(ft_strcmp("cn", line_data[0]) == 0)
+	else if (ft_strcmp("cn", line_data[0]) == 0)
 		parse_cone(scene, line_data);
 	else if (ft_strcmp("A", line_data[0]) == 0)
-		 parse_ambient(scene, line_data);
+		parse_ambient(scene, line_data);
 	else if (ft_strcmp("L", line_data[0]) == 0)
-		 parse_light(scene, line_data);
+		parse_light(scene, line_data);
 	else if (ft_strcmp("C", line_data[0]) == 0)
-		 parse_camera(scene, line_data);
+		parse_camera(scene, line_data);
 	else if (line_data[0][0] == '#')
 		return ;
 	else
-		 scene->error = ERR_UNKNOWN_OBJECT_SPECIFIER;
+		scene->error = ERR_UNKNOWN_OBJECT_SPECIFIER;
 }
 
-void scene_add_object(void *data, t_object_type type, t_scene *scene)
+void	scene_add_object(void *data, t_object_type type, t_scene *scene)
 {
 	t_object_list	*new_object;
 	t_object_list	**object_list;
 
-	if (!data || !scene) {
+	if (!data || !scene)
+	{
 		scene->error = ERR_NULL_PARAMETER;
 		return ;
 	}
@@ -47,7 +60,7 @@ void scene_add_object(void *data, t_object_type type, t_scene *scene)
 	object_add_back(new_object, object_list);
 }
 
-static void scene_parser(t_scene *scene, int scene_fd)
+static void	scene_parser(t_scene *scene, int scene_fd)
 {
 	char	*line;
 	char	**splitted_line;

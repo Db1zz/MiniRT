@@ -1,11 +1,15 @@
 #ifndef MINIRT_MATH_H
-#define MINIRT_MATH_H
+# define MINIRT_MATH_H
 
-#include <math.h>
-#include <stdbool.h>
+# ifndef EPSILON
+#  define EPSILON 1e-4
+# endif // EPSILON
+
+# include <math.h>
+# include <stdbool.h>
 
 /* Useful math constants */
-# define FT_PI		3.14159265358979323846	/* pi */
+# define FT_PI		3.14159265358979323846
 # define FT_INFINITY	INFINITY
 
 /* Functions */
