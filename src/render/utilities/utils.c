@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:28:52 by gonische          #+#    #+#             */
-/*   Updated: 2025/02/11 18:28:52 by gonische         ###   ########.fr       */
+/*   Updated: 2025/02/11 18:31:35 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*rt_calloc(
 
 	result = malloc(count * size);
 	if (!result)
-		return (set_error(scene->error, ERR_MALLOC_FAILED), NULL);
+		return (set_error(&scene->error, ERR_MALLOC_FAILED), NULL);
 	ft_bzero(result, count * size);
 	return (result);
 }
