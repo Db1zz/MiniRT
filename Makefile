@@ -46,10 +46,10 @@ OBJS = $(SRCS:src/%.c=objs/%.o)
 OBJS_DIR = objs
 INCLUDE := -I include -I libft -I libft/get_next_line -I $(MINILIBX_DIR)
 ifeq ($(UNAME_S), Linux)
-	LIB_URL = https://cdn.intra.42.fr/document/document/26192/minilibx-linux.tgz
+	LIB_URL = https://cdn.intra.42.fr/document/document/30844/minilibx-linux.tgz
 	FLAGS_MINILIBX = -I/usr/include -Imlx_linux -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 else ifeq ($(UNAME_S), Darwin)
-	LIB_URL = https://cdn.intra.42.fr/document/document/26193/minilibx_opengl.tgz
+	LIB_URL = https://cdn.intra.42.fr/document/document/30845/minilibx_opengl.tgz
 	FLAGS_MINILIBX = -framework OpenGL -framework AppKit #-Lmlx
 endif
 
