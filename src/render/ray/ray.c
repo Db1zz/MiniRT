@@ -25,6 +25,8 @@ bool	ray_hit_objects(
 			found = true;
 		else if (ray_hit_cylinder(objects, ray, &current_rec))
 			found = true;
+		else if (ray_hit_gyper(objects, ray, &current_rec))
+			found = true;
 		if (found)
 			*result_rec = get_closest_hit(&current_rec, result_rec);
 		objects = objects->next;

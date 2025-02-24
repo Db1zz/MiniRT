@@ -22,6 +22,8 @@ static void line_parser(t_scene *scene, char **line_data)
 		 parse_light(scene, line_data);
 	else if (ft_strcmp("C", line_data[0]) == 0)
 		 parse_camera(scene, line_data);
+	else if (ft_strcmp("hy", line_data[0]) == 0)
+		parse_gyper(scene, line_data);
 	else if (line_data[0][0] == '#')
 		return ;
 	else

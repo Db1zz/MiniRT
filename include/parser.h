@@ -16,6 +16,7 @@ void	parse_cone(t_scene *scene, char **line_data);
 void	parse_sphere(t_scene *scene, char **line_data);
 void	parse_cylinder(t_scene *scene, char **line_data);
 void	parse_plane(t_scene *scene, char **line_data);
+void	parse_gyper(t_scene *scene, char **line_data);
 
 void parse_light(t_scene *scene, char **line_data);
 void parse_ambient(t_scene *scene, char **line_data);

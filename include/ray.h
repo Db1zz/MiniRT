@@ -83,6 +83,12 @@ bool	ray_hit_cylinder(
 	const t_ray *ray,
 	t_hit_record *rec);
 
+
+bool    ray_hit_gyper(
+	const t_object_list	*gyper,
+	const t_ray			*ray,
+	t_hit_record		*rec);
+
 t_vector	get_ray_direction(
 	t_vector origin,
 	t_vector endpoint);

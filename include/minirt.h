@@ -6,6 +6,7 @@
 # include "mlx.h"
 # include "parser.h"
 # include "object.h"
+# include "minirt_math.h"
 # include <stdbool.h>
 # include <stdlib.h>
 # include <math.h>

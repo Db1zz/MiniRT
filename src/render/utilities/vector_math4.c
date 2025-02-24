@@ -21,3 +21,8 @@ double	vec3_distance(t_vector a, t_vector b)
 	x = sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2) + pow(a.z - b.z, 2));
 	return (x);
 }
+
+t_vector    vec3_abs(t_vector a)
+{
+    return (create_vector(fabs(a.x), fabs(a.y), fabs(a.z)));
+}

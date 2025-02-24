@@ -13,5 +13,6 @@ double	degrees_to_radians(double degrees);
 double	random_double(void);
 double	random_double_range(double min, double max);
 double	clamp_value(double val, double min, double max);
+bool	quadratic(double a, double b, double c, double *result);
 
 #endif // MINIRT_MATH_H

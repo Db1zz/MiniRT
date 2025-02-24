@@ -20,7 +20,9 @@ SRCS =	src/minirt.c	\
 		src/render/ray/ray_reflections.c	\
 		src/render/ray/ray_utils.c	\
 		src/render/ray/ray.c	\
+		src/render/shapes/cone_math.c	\
 		src/render/shapes/cylinder_math.c	\
+		src/render/shapes/gyper_math.c	\
 		src/render/shapes/plane_math.c	\
 		src/render/shapes/sphere_math.c	\
 		src/render/utilities/antialiasing.c	\

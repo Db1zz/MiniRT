@@ -14,8 +14,9 @@ typedef enum e_object_type
 	E_PLANE,
 	E_LIGHT,
 	E_AMBIENT_LIGHT,
+	E_CONE,
+	E_GYPER,
 	E_TOTAL_OBJECTS,
-	E_CONE
 }	t_object_type;
 
 typedef	struct	s_object_list
@@ -73,6 +74,15 @@ typedef struct s_cone
 	double		diameter;
 	double		height;
 }	t_cone;
+
+typedef struct s_gyper
+{
+	t_vector	pos;
+	t_vector	axis;
+	t_vector	squish;
+	t_color		color;
+	double		diameter;
+}	t_gyper;
 
 #endif	// OBJECTS_H
 //grisha was here

@@ -37,6 +37,7 @@ t_vector	vec3_random_on_hemisphere(const t_vector *sphere_normal_vec);
 t_vector	vec3_cross(t_vector a, t_vector b);
 t_vector    vec3_negate(t_vector a);
 double		vec3_distance(t_vector a, t_vector b);
+t_vector    vec3_abs(t_vector a);
 
 
 // debug functions
