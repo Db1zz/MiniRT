@@ -1,5 +1,5 @@
-#ifndef ERROR_H
-# define ERROR_H
+#ifndef FT_ERROR_H
+# define FT_ERROR_H
 
 # define ERR_NO_ERROR 0
 
@@ -19,7 +19,6 @@
 # define ERR_MALLOC_FAILED 2
 # define ERR_FAILED_TO_OPEN_FILE 3
 # define ERR_INVALID_FUNC_ARGS 4
-
 
 /*
 	Parser error codes
@@ -43,9 +42,9 @@
 # define ERR_INCORRECT_COLOR_VALUES 44
 # define ERR_INCORRECT_FOV_VALUE 45
 
-typedef int t_error;
+typedef int	t_error;
 
 void	ft_perror(t_error errorn, const char *func);
-void	set_error(t_error* error, int err_number);
+void	set_error(t_error *error, int err_number);
 
-#endif	// ERROR_H
+#endif	// FT_ERROR_H

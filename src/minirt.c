@@ -18,11 +18,11 @@ bool	minirt_init(t_scene *scene)
 {
 	if (!scene)
 		return (false);
-
 	scene->error = ERR_NO_ERROR;
 	scene->antialiasing = true;
 	scene->mlx = mlx_init();
-	scene->win = mlx_new_window(scene->mlx, WIN_WIDTH, WIN_HEIGHT, "I was crazy once");
+	scene->win = mlx_new_window(
+			scene->mlx, WIN_WIDTH, WIN_HEIGHT, "The rats have taken over");
 	update_viewport(scene->camera);
 	mlx_hook(scene->win, 2, 1, input_handler, scene);
 	mlx_hook(scene->win, 17, 1L << 17, exit_minirt, scene);
@@ -36,12 +36,6 @@ int	main(int argc, char **argv)
 	scene = parse_input(argc, argv);
 	if (!minirt_init(scene))
 		return (EXIT_FAILURE);
-	scene->antialiasing = true;
-
-	t_cylinder	*cylinder = scene->objects->data;
-
-
-	// Render
 	render(scene);
 	mlx_loop(scene->mlx);
 	return (EXIT_SUCCESS);

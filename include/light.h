@@ -22,18 +22,18 @@ typedef struct s_light
 }	t_light;
 
 double	calculate_specular_light(
-	const t_light		*light,
-	const t_ray			*camera_ray,
-	const t_hit_record	*hit_rec,
-	double				specular_reflection_coefficient);
+			const t_light *light,
+			const t_ray *camera_ray,
+			const t_hit_record *hit_rec,
+			double specular_reflection_coefficient);
 
 t_color	apply_light(
-	const t_ray			*camera_ray,
-	const t_scene		*scene,
-	const t_hit_record	*shape_rec);
+			const t_ray *camera_ray,
+			const t_scene *scene,
+			const t_hit_record *shape_rec);
 
 double	get_diffuse_intensity(
-	const t_light *light_source,
-	const t_hit_record *shape_rec);
+			const t_light *light_source,
+			const t_hit_record *shape_rec);
 
 #endif	// LIGHT_H

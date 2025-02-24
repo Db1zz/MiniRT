@@ -1,15 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/11 18:28:52 by gonische          #+#    #+#             */
+/*   Updated: 2025/02/11 18:31:35 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 #include <stdio.h>
 
-void	*rt_calloc(size_t count, size_t size, t_scene* scene)
+void	*rt_calloc(
+	size_t count,
+	size_t size,
+	t_scene *scene)
 {
 	void	*result;
 
 	result = malloc(count * size);
-	if (!result) {
-    scene->error = ERR_MALLOC_FAILED;
-		return (NULL);
-  }
+	if (!result)
+		return (set_error(&scene->error, ERR_MALLOC_FAILED), NULL);
 	ft_bzero(result, count * size);
 	return (result);
 }

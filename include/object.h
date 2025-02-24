@@ -1,5 +1,5 @@
-#ifndef OBJECTS_H
-# define OBJECTS_H
+#ifndef OBJECT_H
+# define OBJECT_H
 
 # include "vector.h"
 # include "texture.h"
@@ -19,7 +19,7 @@ typedef enum e_object_type
 	E_TOTAL_OBJECTS,
 }	t_object_type;
 
-typedef	struct	s_object_list
+typedef struct s_object_list
 {
 	void					*data;
 	t_object_type			type;
@@ -30,13 +30,16 @@ typedef	struct	s_object_list
 	Functions
 */
 t_object_list	*alloc_new_object(
-	void *data, 
-	t_object_type type,
-	t_object_list *next);
+					void *data,
+					t_object_type type,
+					t_object_list *next);
+
 void			object_add_back(
-	t_object_list *new,
-	t_object_list **list);
+					t_object_list *new,
+					t_object_list **list);
+
 void			free_object(t_object_list **object);
+
 void			free_object_list(t_object_list **list);
 
 /*
