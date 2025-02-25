@@ -2,11 +2,6 @@
 
 void	set_gyper_rec(t_gyper *hy, const t_ray *ray, t_hit_record *rec, double t)
 {
-	t_vector	new_o;
-	t_vector	param_sq;
-
-	param_sq = create_vector(pow(hy->squish.x, 2), pow(hy->squish.y, 2), pow(hy->squish.z, 2));
-	new_o = vec3_sub_vec3(ray->origin, hy->pos);
 	rec->intersection_p = vec3_add_vec3(ray->origin, vec3_mult(ray->direction, t));
 	rec->ray_distance = t;
 	rec->normal = vec3_normalize(create_vector(
@@ -42,9 +37,13 @@ bool    gyper_intersection(t_gyper *hy, const t_ray *ray, t_hit_record *rec)
 		return (false);
 	t[0] = (-quad[1] + sqrt(disc)) / (2 * quad[0]);
 	t[1] = (-quad[1] - sqrt(disc)) / (2 * quad[0]);
-	if (t[0] > t[1])
+	if (t[0] < 0 && t[1] < 0)
+		return (false);
+	if (t[0] < 0)
 		t[0] = t[1];
-	set_gyper_rec(hy, ray, rec, t[0]);
+	if (t[1] < 0)
+		t[1] = t[0];
+	set_gyper_rec(hy, ray, rec, fmin(t[0], t[1]));
 	return (true);
 }
 
