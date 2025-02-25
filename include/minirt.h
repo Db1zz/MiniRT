@@ -27,3 +27,4 @@ t_color	apply_antialiasing(t_color ray_color, t_scene *scene, int x, int y);
 void	render(t_scene *scene);
 
 #endif //	MINIRT_H
+//fedia was herrr
