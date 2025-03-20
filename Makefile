@@ -3,7 +3,6 @@ NAME = miniRT
 CC = cc
 UNAME_S := $(shell uname -s)
 FLAGS := -Wall -Wextra -g #-fsanitize=address #-Werror
-MINILIBX_TGZ_NAME = MiniLibX.tgz
 MINILIBX_DIR = minilibx
 MINILIBX := $(MINILIBX_DIR)/libmlx.a
 LIBFT = libft/libft.a
@@ -48,10 +47,10 @@ OBJS = $(SRCS:src/%.c=objs/%.o)
 OBJS_DIR = objs
 INCLUDE := -I include -I libft -I libft/get_next_line -I $(MINILIBX_DIR)
 ifeq ($(UNAME_S), Linux)
-	LIB_URL = https://cdn.intra.42.fr/document/document/30844/minilibx-linux.tgz
+	LIB_URL = https://github.com/42Paris/minilibx-linux
 	FLAGS_MINILIBX = -I/usr/include -Imlx_linux -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 else ifeq ($(UNAME_S), Darwin)
-	LIB_URL = https://cdn.intra.42.fr/document/document/30845/minilibx_opengl.tgz
+	LIB_URL = https://github.com/dannywillems/minilibx-mac-osx
 	FLAGS_MINILIBX = -framework OpenGL -framework AppKit #-Lmlx
 endif
 
@@ -59,11 +58,8 @@ all: $(MINILIBX_DIR) $(MINILIBX) $(LIBFT) $(OBJS) $(NAME)
 
 $(MINILIBX_DIR):
 	@echo "Downloading MiniLibX for $(UNAME_S) from $(LIB_URL)"
-	curl -L -o $(MINILIBX_TGZ_NAME) $(LIB_URL)
 	@echo "Download completed."
-	@mkdir -p $(MINILIBX_DIR)
-	tar -xzf $(MINILIBX_TGZ_NAME) -C $(MINILIBX_DIR) --strip-components 1
-	rm -f $(MINILIBX_TGZ_NAME)
+	git clone $(LIB_URL) $(MINILIBX_DIR)
 
 $(MINILIBX):
 	$(MAKE) -C $(MINILIBX_DIR)
