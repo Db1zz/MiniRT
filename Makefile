@@ -2,7 +2,7 @@
 NAME = miniRT
 CC = cc
 UNAME_S := $(shell uname -s)
-FLAGS := -Wall -Wextra -g #-fsanitize=address #-Werror
+FLAGS := -Wall -Wextra -O3 #-fsanitize=address #-Werror
 MINILIBX_DIR = minilibx
 MINILIBX := $(MINILIBX_DIR)/libmlx.a
 LIBFT = libft/libft.a
@@ -19,7 +19,6 @@ SRCS =	src/minirt.c	\
 		src/render/ray/ray_reflections.c	\
 		src/render/ray/ray_utils.c	\
 		src/render/ray/ray.c	\
-		src/render/shapes/cone_math.c	\
 		src/render/shapes/cylinder_math.c	\
 		src/render/shapes/gyper_math.c	\
 		src/render/shapes/plane_math.c	\
@@ -41,6 +40,7 @@ SRCS =	src/minirt.c	\
 		src/render/utilities/vector_math3.c	\
 		src/render/utilities/vector_math4.c	\
 		src/render/utilities/vector.c	\
+		src/render/utilities/timer.c	\
 
 SRCS_DIR = src
 OBJS = $(SRCS:src/%.c=objs/%.o)

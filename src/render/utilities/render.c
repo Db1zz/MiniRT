@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:25:21 by gonische          #+#    #+#             */
-/*   Updated: 2025/02/11 18:25:21 by gonische         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:45:20 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	render(t_scene *scene)
 		while (y < WIN_WIDTH)
 		{
 			ray_color = camera_get_pixel_color(scene->camera, scene, x, y);
-			ray_color = apply_antialiasing(ray_color, scene, x, y);
+			// ray_color = apply_antialiasing(ray_color, scene, x, y);
 			draw_pixel(scene, y, x, ray_color);
 			y++;
 		}

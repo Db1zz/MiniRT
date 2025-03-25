@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:28:14 by gonische          #+#    #+#             */
-/*   Updated: 2025/02/11 18:28:14 by gonische         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:53:32 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ bool	ray_hit_objects(
 			found = true;
 		else if (ray_hit_cylinder(objects, ray, &current_rec))
 			found = true;
-		else if (ray_hit_gyper(objects, ray, &current_rec))
+		if (ray_hit_gyper(objects, ray, &current_rec))
 			found = true;
 		if (found)
 			*result_rec = get_closest_hit(&current_rec, result_rec);
@@ -79,7 +79,16 @@ t_color	ray_send(
 	t_hit_record	rec;
 
 	init_hit_record(&rec);
+
+	/*
+		Perfomance measure:
+		2 objects: 737280 1024 x 720
+	*/
+	// static long counter;
+	// printf("Rays sent: %ld\n", ++counter);
+
 	if (!ray_hit_objects(ray, scene->objects, &rec))
 		return (ray_get_background_color(ray));
-	return (ray_reflect(ray, scene, &rec));
+	return (apply_light(ray, scene, &rec));
+	// return (ray_reflect(ray, scene, &rec));
 }

@@ -29,14 +29,26 @@ bool	minirt_init(t_scene *scene)
 	return (true);
 }
 
+#include "timer.h"
+
 int	main(int argc, char **argv)
 {
 	t_scene	*scene;
+
+	struct timeval start_time = getTime();
 
 	scene = parse_input(argc, argv);
 	if (!minirt_init(scene))
 		return (EXIT_FAILURE);
 	render(scene);
+
+	struct timeval end_time = getTime();
+
+	printf("Rendered for [m:%d, s:%d, ms:%d]\n",
+		getMinutesDiff(&start_time, &end_time),
+		getSecondsDiff(&start_time, &end_time),
+		getMilisecondsDiff(&start_time, &end_time));
+
 	mlx_loop(scene->mlx);
 	return (EXIT_SUCCESS);
 }
