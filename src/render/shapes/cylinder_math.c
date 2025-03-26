@@ -136,6 +136,13 @@ static t_object_list	*init_caps(
 	return (cap);
 }
 
+static free_caps(t_object_list **cap)
+{
+	free((*cap)->data);
+	free((*cap)->next);
+	free(*cap);
+}
+
 static bool	caps_intersection(
 	const t_cylinder *cy,
 	const t_ray *ray,
@@ -151,6 +158,7 @@ static bool	caps_intersection(
 	cap = init_caps(cy, &p2);
 	hit[0] = ray_hit_plane(cap, ray, &cap_rec[0]);
 	hit[1] = ray_hit_plane(cap->next, ray, &cap_rec[1]);
+	free_caps(&cap);
 	if (hit[0] || hit[1])
 	{
 		if ((hit[0] 
