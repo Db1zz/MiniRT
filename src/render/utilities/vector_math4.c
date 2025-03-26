@@ -6,7 +6,7 @@
 /*   By: gwagner <gwagner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:24:18 by gonische          #+#    #+#             */
-/*   Updated: 2025/02/24 16:38:42 by gwagner          ###   ########.fr       */
+/*   Updated: 2025/03/22 12:32:24 by gwagner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_vector    vec3_abs(t_vector a)
 {
     return (create_vector(fabs(a.x), fabs(a.y), fabs(a.z)));
 }
+
 t_vector	vec3_random_on_hemisphere(const t_vector *sphere_normal_vec)
 {
 	double		dot_product;
