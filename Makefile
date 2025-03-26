@@ -41,6 +41,7 @@ SRCS =	src/minirt.c	\
 		src/render/utilities/vector_math4.c	\
 		src/render/utilities/vector.c	\
 		src/render/utilities/timer.c	\
+		src/render/utilities/xpm_render.c	\
 
 SRCS_DIR = src
 OBJS = $(SRCS:src/%.c=objs/%.o)

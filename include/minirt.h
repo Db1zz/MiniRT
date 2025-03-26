@@ -22,7 +22,7 @@
 # define ANTIALIASING_SAMPLES 2
 
 /* Rendering functions */
-void	draw_pixel(t_scene *scene, int x, int y, t_color color);
+void	draw_pixel(t_scene *scene, int x, int y, t_color *color);
 t_color	apply_antialiasing(t_color ray_color, t_scene *scene, int x, int y);
 void	render(t_scene *scene);
 

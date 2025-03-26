@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:25:21 by gonische          #+#    #+#             */
-/*   Updated: 2025/03/26 15:20:20 by gonische         ###   ########.fr       */
+/*   Updated: 2025/03/26 22:26:02 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,19 @@
 #include "minirt.h"
 #include "color.h"
 #include "scene.h"
+#include "xpm_render.h"
 
 void	render(t_scene *scene)
 {
-	int				x;
-	int				y;
+	unsigned int	x;
+	unsigned int	y;
 	t_color			ray_color;
-	struct t_img	*img;
-	
-	img = mlx_new_image(
-		scene->mlx,
-		scene->camera->viewport.width,
-		scene->camera->viewport.height);
-	unsigned char *data_addr = mlx_get_data_addr()
+	t_xpm_image		img;
 
+	img = xpm_render_new_img(
+			scene->mlx,
+			WIN_WIDTH, 
+			WIN_HEIGHT);
 	x = 0;
 	while (x < WIN_HEIGHT)
 	{
@@ -36,9 +35,11 @@ void	render(t_scene *scene)
 		{
 			ray_color = camera_get_pixel_color(scene->camera, scene, x, y);
 			// ray_color = apply_antialiasing(ray_color, scene, x, y);
-			mlx_put
+			// draw_pixel(scene, x, y, &ray_color);
+			xpm_render_put_pixel(&img, x, y, &ray_color);
 			y++;
 		}
 		x++;
 	}
+	// mlx_put_image_to_window(scene->mlx, scene->win, img.img, 0, 0);
 }
