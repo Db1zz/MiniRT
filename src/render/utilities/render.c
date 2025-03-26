@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:25:21 by gonische          #+#    #+#             */
-/*   Updated: 2025/03/25 13:45:20 by gonische         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:20:20 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,16 @@
 
 void	render(t_scene *scene)
 {
-	int		x;
-	int		y;
-	t_color	ray_color;
+	int				x;
+	int				y;
+	t_color			ray_color;
+	struct t_img	*img;
+	
+	img = mlx_new_image(
+		scene->mlx,
+		scene->camera->viewport.width,
+		scene->camera->viewport.height);
+	unsigned char *data_addr = mlx_get_data_addr()
 
 	x = 0;
 	while (x < WIN_HEIGHT)
@@ -29,7 +36,7 @@ void	render(t_scene *scene)
 		{
 			ray_color = camera_get_pixel_color(scene->camera, scene, x, y);
 			// ray_color = apply_antialiasing(ray_color, scene, x, y);
-			draw_pixel(scene, y, x, ray_color);
+			mlx_put
 			y++;
 		}
 		x++;
