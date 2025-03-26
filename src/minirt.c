@@ -44,7 +44,7 @@ int	main(int argc, char **argv)
 
 	struct timeval end_time = getTime();
 
-	printf("Rendered for [m:%d, s:%d, ms:%d]\n",
+	printf("Rendered for [m:%ld, s:%ld, ms:%ld]\n",
 		getMinutesDiff(&start_time, &end_time),
 		getSecondsDiff(&start_time, &end_time),
 		getMilisecondsDiff(&start_time, &end_time));

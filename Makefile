@@ -2,7 +2,7 @@
 NAME = miniRT
 CC = cc
 UNAME_S := $(shell uname -s)
-FLAGS := -Wall -Wextra -O3 #-fsanitize=address #-Werror
+FLAGS := -Wall -Wextra -O3 -fsanitize=address -g #-Werror
 MINILIBX_DIR = minilibx
 MINILIBX := $(MINILIBX_DIR)/libmlx.a
 LIBFT = libft/libft.a
@@ -50,7 +50,7 @@ ifeq ($(UNAME_S), Linux)
 	LIB_URL = https://github.com/42Paris/minilibx-linux
 	FLAGS_MINILIBX = -I/usr/include -Imlx_linux -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 else ifeq ($(UNAME_S), Darwin)
-	LIB_URL = https://github.com/dannywillems/minilibx-mac-osx
+	LIB_URL = https://github.com/Db1zz/minilibx_opengl
 	FLAGS_MINILIBX = -framework OpenGL -framework AppKit #-Lmlx
 endif
 

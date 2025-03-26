@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gwagner <gwagner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:41 by gonische          #+#    #+#             */
-/*   Updated: 2025/02/24 16:38:11 by gwagner          ###   ########.fr       */
+/*   Updated: 2025/03/25 18:25:27 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ static void	line_parser(t_scene *scene, char **line_data)
 		parse_plane(scene, line_data);
 	else if (ft_strcmp("cy", line_data[0]) == 0)
 		parse_cylinder(scene, line_data);
-	else if (ft_strcmp("cn", line_data[0]) == 0)
-		parse_cone(scene, line_data);
 	else if (ft_strcmp("A", line_data[0]) == 0)
 		parse_ambient(scene, line_data);
 	else if (ft_strcmp("L", line_data[0]) == 0)

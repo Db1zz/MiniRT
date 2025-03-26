@@ -6,7 +6,7 @@
 # include <math.h>
 # include <stdio.h>
 
-# include <immintrin.h> // SIMD optimizations
+// # include <immintrin.h> // SIMD optimizations
 
 # define VECTOR_MAX_SIZE 3
 

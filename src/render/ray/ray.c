@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:28:14 by gonische          #+#    #+#             */
-/*   Updated: 2025/03/25 16:53:32 by gonische         ###   ########.fr       */
+/*   Updated: 2025/03/25 20:58:10 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ bool	ray_hit_objects(
 			found = true;
 		else if (ray_hit_cylinder(objects, ray, &current_rec))
 			found = true;
-		if (ray_hit_gyper(objects, ray, &current_rec))
+		else if (ray_hit_gyper(objects, ray, &current_rec))
 			found = true;
 		if (found)
 			*result_rec = get_closest_hit(&current_rec, result_rec);

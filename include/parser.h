@@ -15,7 +15,7 @@ void	scene_add_object(
 			t_object_type type,
 			t_scene *scene);
 
-void	parse_cone(
+void	parse_gyper(
 			t_scene *scene,
 			char **line_data);
 
