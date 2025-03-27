@@ -1,5 +1,5 @@
 #include "xpm_render.h"
-#include <mlx.h>
+#include "mlx_int.h"
 #include <assert.h>
 
 /*
@@ -22,6 +22,7 @@ t_xpm_image	xpm_render_new_img(void *mlx, int width, int height) {
 	img.height = height;
 	img.mlx = mlx;
 	img.bytes_per_pixel = img.bits_per_pixel / 8;
+	return img;
 }
 
 void	xpm_render_put_pixel(
@@ -32,8 +33,7 @@ void	xpm_render_put_pixel(
 {
 	unsigned int int_color;
 	unsigned char *ptr;
-
-	assert((x < img->height && y < img->width));
+	assert((x <= img->height && y <= img->width));
 
 	/*
 		0 0 0 0 0 0 0 0 - 0
@@ -43,8 +43,10 @@ void	xpm_render_put_pixel(
 	*/
 
 	int_color = mlx_get_color_value(img->mlx, rgb_to_int(*color));
-	int pos = y * img->size_line + x * img->bytes_per_pixel;
-	printf("pos: %d\n", pos);
+	int pos = x * img->size_line + y * img->bytes_per_pixel;
 	ptr = img->data + pos;
-	*ptr = 10; // ((unsigned char *)&int_color)[0];
+	*ptr = ((unsigned char *)&int_color)[0];
+	*(ptr + 1) = ((unsigned char *)&int_color)[1];
+	*(ptr + 2) = ((unsigned char *)&int_color)[2];
+	*(ptr + 3) = ((unsigned char *)&int_color)[3];
 }

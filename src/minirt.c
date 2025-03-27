@@ -30,6 +30,7 @@ bool	minirt_init(t_scene *scene)
 }
 
 #include "timer.h"
+#include "xpm_render.h"
 
 int	main(int argc, char **argv)
 {
@@ -40,6 +41,10 @@ int	main(int argc, char **argv)
 	scene = parse_input(argc, argv);
 	if (!minirt_init(scene))
 		return (EXIT_FAILURE);
+	
+	// t_color color = create_color(255, 255, 255);
+	// t_xpm_image img = xpm_render_new_img(scene->mlx, WIN_WIDTH, WIN_HEIGHT);
+	// xpm_render_put_pixel(&img, 100, 100, &color);
 	render(scene);
 
 	struct timeval end_time = getTime();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gwagner <gwagner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:27:30 by gonische          #+#    #+#             */
-/*   Updated: 2025/03/24 17:17:13 by gwagner          ###   ########.fr       */
+/*   Updated: 2025/03/27 16:24:55 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,8 @@ t_color	camera_get_pixel_color(
 	int x, int y)
 {
 	t_vector	ray_direction;
-	// t_vector	pixel_center;
 	t_ray		ray;
 
-	// pixel_center = camera_get_pixel_center(scene, x, y);
 	ray_direction = camera_calculate_ray_direction(camera, y, x);
 	ray = create_ray(camera->view_point, ray_direction, create_color(0, 0, 0));
 	return (ray_send(&ray, scene));
