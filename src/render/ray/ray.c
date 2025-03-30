@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:28:14 by gonische          #+#    #+#             */
-/*   Updated: 2025/03/25 20:58:10 by gonische         ###   ########.fr       */
+/*   Updated: 2025/03/30 20:21:17 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_color	ray_send(
 
 	/*
 		Perfomance measure:
-		2 objects: 737280 1024 x 720
+		2 objects: 737280r 1024 x 720
 	*/
 	// static long counter;
 	// printf("Rays sent: %ld\n", ++counter);
