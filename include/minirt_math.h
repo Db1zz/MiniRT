@@ -18,5 +18,6 @@ double	random_double(void);
 double	random_double_range(double min, double max);
 double	clamp_value(double val, double min, double max);
 bool	quadratic(double a, double b, double c, double *result);
+int		rand_int(int min, int max);
 
 #endif // MINIRT_MATH_H

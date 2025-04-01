@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:25:32 by gonische          #+#    #+#             */
-/*   Updated: 2025/02/11 18:25:32 by gonische         ###   ########.fr       */
+/*   Updated: 2025/03/31 15:41:29 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,8 @@ bool	quadratic(double a, double b, double c, double *result)
 	result[0] = (-b + sqrt_discriminant) / (2 * a);
 	result[1] = (-b - sqrt_discriminant) / (2 * a);
 	return (true);
+}
+
+int rand_int(int min, int max) {
+	return (int)random_double_range(min, max + 1);
 }

@@ -1,12 +1,19 @@
 # This file contains stuff which should be DONE or fixed.
 
 ## BVH(Bounding Volume Hierarchy)
+### TODO
+	1. Implement bounding box for each shape
+	
+### How it should work
+	1. Создаем bounding box для каждого объекта
+	2. Распределяем bounding boxes по hierarchy
+	3. Создаем дерево иерархий.
+	4. Потом прост отправляем лучи в каждую Иерархию и смотрим, если луч попадает по иерархии.
+	Если луч попадает по иерархии, это значит, что есть шанс того, что луч попал по объекту внутри этой иерархии.
+	А если он промахнулся, то мы понимаем, что луч гарантировано промахивается по каждому объекту внутри иерархии.
 
-1. Создаем bounding box для каждого объекта
-2. Распределяем bounding boxes по hierarchy
-3. Создаем дерево иерархий.
-4. Потом прост отправляем лучи в каждую Иерархию и смотрим, если луч попадает по иерархии.
- Если луч попадает по иерархии, это значит, что есть шанс того, что луч попал по объекту внутри этой иерархии.
-А если он промахнулся, то мы понимаем, что луч гарантировано промахивается по каждому объекту внутри иерархии.
+	И таким образом, мы можем отсеять невероятное количество ray-object intersections. Что позволит нам substantially increase the speed of our ray-tracer.
 
-И таким образом, мы можем отсеять невероятное количество ray-object intersections. Что позволит нам substantially increase the speed of our ray-tracer.
+### NOTES
+	1. Check if we actually can hit the bounding box, and only then render the object.
+	We can to start optimising our Ray Tracer RN, and check the difference between brutforce and this one.
