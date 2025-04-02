@@ -2,6 +2,8 @@
 #include "ray.h"
 #include "minirt_math.h"
 
+#include <assert.h>
+
 float	interval_clamp(const t_interval *interval, float x) {
 	if (x > interval->max) {
 		return interval->max;
@@ -106,16 +108,65 @@ bool	hit_aabb(const t_aabb *aabb, const t_ray *r, t_interval ray_t) {
 	return true;
 }
 
-void	sort_list(t_object_list *list) {
 
+
+t_object_list	*merge_sort_list(
+	t_object_list	*list,
+	size_t 			size,
+	bool			(*comparator)(const t_object_list *, const t_object_list *))
+{
+	t_object_list	*right;
+
+	if (list == NULL || list->next == NULL)
+		return ;
+
+	right = list;
+	size_t i = 0;
+	const size_t mittel = size / 2;
+	while (i < mittel) {
+		assert(right && right->next);
+		right = right->next;
+		++i;
+	}
+	list = merge_sort_list(list, mittel, comparator);
+	right = merge_sort_list(right, size - mittel, comparator);
+
+	t_object_list	*next = NULL;
+	t_object_list	*tail = NULL;
+	t_object_list	*result = NULL;
+
+	while (list || right)
+	{
+		if (!right) {
+			next = list;
+			list = list->next;
+		} else if (!list) {
+			next = right;
+			right = right->next;
+		} else if (comparator(list, right) != 0) {
+			next = list;
+			list = list->next;
+		} else {
+			next = right;
+			right = right->next;
+		}
+		if (!result) {
+			result = next;
+		} else {
+			tail->next = next;
+		}
+		tail = next;
+	}
+	return (result);
 }
 
 /*
 	TODO:
 		1. add functions to handle node insertion
-		2. implement sorting function for objects that sorts by axis
+		2. implement sorting function for objects that sorts by random axis
 */
-t_bvh_node	*create_tree(const t_object_list *objects, size_t start, size_t end) {
+t_bvh_node	*create_tree(const t_object_list *objects, size_t start, size_t end)
+{
 	t_bvh_node	*tree;
 	int			axis;
 	size_t		object_span;
@@ -126,10 +177,17 @@ t_bvh_node	*create_tree(const t_object_list *objects, size_t start, size_t end) 
 	if (object_span == 1) {
 		// copy to the left and right
 	} else if (object_span == 2) {
+		// copy 3
 	} else {
 		int mid = start + object_span / 2;
-		
+		// sort objects from start to end by random axis
+
+		// PROBLEM: how do I pass object with pointer to start, so we don't have to do it over and over again for each function call.
+		// NOTE: This FUNCTION SHOULD BE CALLED RECURSIVELY
+		// left = create_tree(objects, start, mid);
+		// right = create_tree(objects, mid, end);
 	}
-	tree->box = aabb(left->bounding_box(), right->bounding_box());
+	// Create a box that will cover all objects by using interval expansion
+	// tree->box = aabb(left->bounding_box(), right->bounding_box()); // TODO
 	return (tree);
 }

@@ -1,8 +1,9 @@
 #ifndef AABB_H
 # define AABB_H
 
-#include "vector.h"
-#include "object.h"
+# include "vector.h"
+
+typedef struct s_object_list t_object_list;
 
 typedef struct s_interval {
 	float	min;

@@ -3,6 +3,7 @@
 
 # include "vector.h"
 # include "texture.h"
+# include "aabb.h"
 
 /*
 	Typedefs
@@ -22,6 +23,7 @@ typedef enum e_object_type
 typedef struct s_object_list
 {
 	void					*data;
+	t_aabb					box;
 	t_object_type			type;
 	struct s_object_list	*next;
 }	t_object_list;
