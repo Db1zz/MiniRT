@@ -37,23 +37,6 @@ t_interval	interval_expansion(const t_interval *i1, const t_interval *i2) {
 	return (expanded_interval);
 }
 
-/*
-aabb construction:
-	aabb() {} // The default AABB is empty, since intervals are empty by default.
-
-    aabb(const interval& x, const interval& y, const interval& z)
-      : x(x), y(y), z(z) {}
-
-    aabb(const point3& a, const point3& b) {
-        // Treat the two points a and b as extrema for the bounding box, so we don't require a
-        // particular minimum/maximum coordinate order.
-
-        x = (a[0] <= b[0]) ? interval(a[0], b[0]) : interval(b[0], a[0]);
-        y = (a[1] <= b[1]) ? interval(a[1], b[1]) : interval(b[1], a[1]);
-        z = (a[2] <= b[2]) ? interval(a[2], b[2]) : interval(b[2], a[2]);
-    }
-*/
-
 t_aabb	create_aabb_from_vectors(const t_vector *a, const t_vector *b)
 {
 	t_aabb	aabb;
@@ -167,19 +150,19 @@ t_object_list	*merge_sort_list(
 	2 == z
 */
 bool	box_compare(const t_object_list *a, const t_object_list *b, int axis) {
-	return a->box.interval[axis].min < b->box.interval[axis].min;
+	return (a->box.interval[axis].min < b->box.interval[axis].min);
 }
 
 bool	box_x_compare(const t_object_list *a, const t_object_list *b) {
-	return box_compare(a, b, 0);
+	return (box_compare(a, b, 0));
 }
 
 bool	box_y_compare(const t_object_list *a, const t_object_list *b) {
-	return box_compare(a, b, 1);
+	return (box_compare(a, b, 1));
 }
 
 bool	box_z_compare(const t_object_list *a, const t_object_list *b) {
-	return box_compare(a, b, 2);
+	return (box_compare(a, b, 2));
 }
 
 obj_comparator	randomize_comparator() {
@@ -192,11 +175,6 @@ obj_comparator	randomize_comparator() {
 	return (comparator_array[rand_int(0, 2)]);
 }
 
-/*
-	TODO:
-		1. add functions to handle node insertion
-		2. implement sorting function for objects that sorts by random axis
-*/
 t_bvh_node	*create_tree(const t_object_list *objects, size_t start, size_t end)
 {
 	t_bvh_node	*tree;
@@ -212,7 +190,7 @@ t_bvh_node	*create_tree(const t_object_list *objects, size_t start, size_t end)
 		// copy 3
 	} else {
 		int mid = start + object_span / 2;
-		merge_sort_list(objects, object_span, NULL); // ADD Random Comparator generator
+		merge_sort_list(objects, object_span, randomize_comparator());
 		// sort objects from start to end by random axis
 		// NOTE: This FUNCTION SHOULD BE CALLED RECURSIVELY
 		// left = create_tree(objects, start, mid);
