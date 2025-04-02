@@ -161,6 +161,38 @@ t_object_list	*merge_sort_list(
 }
 
 /*
+	int axis:
+	0 == x
+	1 == y
+	2 == z
+*/
+bool	box_compare(const t_object_list *a, const t_object_list *b, int axis) {
+	return a->box.interval[axis].min < b->box.interval[axis].min;
+}
+
+bool	box_x_compare(const t_object_list *a, const t_object_list *b) {
+	return box_compare(a, b, 0);
+}
+
+bool	box_y_compare(const t_object_list *a, const t_object_list *b) {
+	return box_compare(a, b, 1);
+}
+
+bool	box_z_compare(const t_object_list *a, const t_object_list *b) {
+	return box_compare(a, b, 2);
+}
+
+obj_comparator	randomize_comparator() {
+	static const obj_comparator comparator_array[3] = {
+		box_x_compare,
+		box_y_compare,
+		box_z_compare
+	};
+
+	return (comparator_array[rand_int(0, 2)]);
+}
+
+/*
 	TODO:
 		1. add functions to handle node insertion
 		2. implement sorting function for objects that sorts by random axis
@@ -180,9 +212,8 @@ t_bvh_node	*create_tree(const t_object_list *objects, size_t start, size_t end)
 		// copy 3
 	} else {
 		int mid = start + object_span / 2;
+		merge_sort_list(objects, object_span, NULL); // ADD Random Comparator generator
 		// sort objects from start to end by random axis
-
-		// PROBLEM: how do I pass object with pointer to start, so we don't have to do it over and over again for each function call.
 		// NOTE: This FUNCTION SHOULD BE CALLED RECURSIVELY
 		// left = create_tree(objects, start, mid);
 		// right = create_tree(objects, mid, end);
