@@ -10,7 +10,7 @@ float	interval_clamp(const t_interval *interval, float x) {
 	} else if (x < interval->min) {
 		return interval->min;
 	}
-	return x;
+	return (x);
 }
 
 t_interval	create_interval(float min, float max) {
@@ -91,8 +91,6 @@ bool	hit_aabb(const t_aabb *aabb, const t_ray *r, t_interval ray_t) {
 	return true;
 }
 
-
-
 t_object_list	*merge_sort_list(
 	t_object_list	*list,
 	size_t 			size,
@@ -101,13 +99,13 @@ t_object_list	*merge_sort_list(
 	t_object_list	*right;
 
 	if (list == NULL || list->next == NULL)
-		return ;
+		return (list);
 
 	right = list;
 	size_t i = 0;
 	const size_t mittel = size / 2;
 	while (i < mittel) {
-		assert(right && right->next);
+		assert(right && right->next); // TODO: Remove after debugging
 		right = right->next;
 		++i;
 	}
@@ -175,13 +173,22 @@ obj_comparator	randomize_comparator() {
 	return (comparator_array[rand_int(0, 2)]);
 }
 
+t_object_list	*get_node(t_object_list *objects, int index) {
+	int	i;
+
+	i = 0;
+	while (i != index) {
+		objects = objects->next;
+		++i;
+	}
+	return (objects);
+}
+
 t_bvh_node	*create_tree(const t_object_list *objects, size_t start, size_t end)
 {
 	t_bvh_node	*tree;
-	int			axis;
 	size_t		object_span;
 
-	axis = rand_int(0, 2);
 	object_span = end - start;
 
 	if (object_span == 1) {
@@ -189,12 +196,13 @@ t_bvh_node	*create_tree(const t_object_list *objects, size_t start, size_t end)
 	} else if (object_span == 2) {
 		// copy 3
 	} else {
-		int mid = start + object_span / 2;
-		merge_sort_list(objects, object_span, randomize_comparator());
+		int	mid = start + object_span / 2;
+		t_object_list	*temp;
+
 		// sort objects from start to end by random axis
-		// NOTE: This FUNCTION SHOULD BE CALLED RECURSIVELY
-		// left = create_tree(objects, start, mid);
-		// right = create_tree(objects, mid, end);
+		temp = merge_sort_list(objects, object_span, randomize_comparator());
+		tree->left = create_tree(temp, start, mid);
+		tree->right = create_tree(get_node(temp, mid), mid, end);
 	}
 	// Create a box that will cover all objects by using interval expansion
 	// tree->box = aabb(left->bounding_box(), right->bounding_box()); // TODO
