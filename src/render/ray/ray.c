@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:28:14 by gonische          #+#    #+#             */
-/*   Updated: 2025/03/30 20:21:17 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/03 22:33:29 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,29 @@ t_ray	create_ray(t_vector origin, t_vector direction, t_color color)
 
 bool	ray_hit_objects(
 	const t_ray *ray,
-	const t_object_list *objects,
+	const t_object **objects,
 	t_hit_record *result_rec)
 {
 	t_hit_record	current_rec;
 	bool			found;
+	size_t			i;
 
 	found = false;
 	init_hit_record(&current_rec);
-	while (objects)
+	i = 0;
+	while (objects[i])
 	{
-		if (ray_hit_sphere(objects, ray, &current_rec))
+		if (ray_hit_sphere(objects[i], ray, &current_rec))
 			found = true;
-		else if (ray_hit_plane(objects, ray, &current_rec))
+		else if (ray_hit_plane(objects[i], ray, &current_rec))
 			found = true;
-		else if (ray_hit_cylinder(objects, ray, &current_rec))
+		else if (ray_hit_cylinder(objects[i], ray, &current_rec))
 			found = true;
-		else if (ray_hit_gyper(objects, ray, &current_rec))
+		else if (ray_hit_gyper(objects[i], ray, &current_rec))
 			found = true;
 		if (found)
 			*result_rec = get_closest_hit(&current_rec, result_rec);
-		objects = objects->next;
+		++i;
 	}
 	return (found);
 }
@@ -61,7 +63,7 @@ t_color	ray_get_background_color(const t_ray *ray)
 
 bool	ray_hit_light(
 	const t_ray *light_ray,
-	const t_object_list *objects,
+	const t_object **objects,
 	t_hit_record *result_rec)
 {
 	double	light_intersect;

@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:27:44 by gonische          #+#    #+#             */
-/*   Updated: 2025/02/11 18:27:44 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/03 22:57:36 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static t_color	get_diffuse_light(
 	const t_scene *scene,
 	const t_hit_record *shape_rec)
 {
-	t_object_list	*light_sources;
+	t_object		*light_sources;
 	t_light			*light;
 	t_ray			light_ray;
 	t_hit_record	light_ray_rec;
@@ -52,7 +52,7 @@ static t_color	get_specular_light(
 	const t_hit_record *hit_rec)
 {
 	double			specular;
-	t_object_list	*light_sources;
+	t_object	*light_sources;
 	t_light			*light;
 	t_color			result_color;
 
@@ -71,7 +71,7 @@ static t_color	get_specular_light(
 }
 
 static t_color	get_ambient_light(
-	const t_object_list *amb_object,
+	const t_object *amb_object,
 	const t_color *color)
 {
 	const t_amb_lighting	*amb_light;

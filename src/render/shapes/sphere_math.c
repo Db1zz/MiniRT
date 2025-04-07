@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:28:28 by gonische          #+#    #+#             */
-/*   Updated: 2025/02/11 18:28:28 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/03 17:28:20 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static bool	sphere_find_solutions(
 }
 
 bool	ray_hit_sphere(
-	const t_object_list *sphere_object,
+	const t_object *sphere_object,
 	const t_ray *ray,
 	t_hit_record *rec)
 {

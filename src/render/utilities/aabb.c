@@ -4,6 +4,12 @@
 
 #include <assert.h>
 
+void	merge(
+	t_object		**objects_start,
+	int				left_size,
+	int				right_size,
+	obj_comparator	comparator);
+
 float	interval_clamp(const t_interval *interval, float x) {
 	if (x > interval->max) {
 		return interval->max;
@@ -91,54 +97,61 @@ bool	hit_aabb(const t_aabb *aabb, const t_ray *r, t_interval ray_t) {
 	return true;
 }
 
-t_object_list	*merge_sort_list(
-	t_object_list	*list,
-	size_t 			size,
-	bool			(*comparator)(const t_object_list *, const t_object_list *))
+// TODO: fix this shit
+// Now, I keep all objects in an array of objects instead linked list.
+// This approach increases BVH speed, and it's more simple to write code for this.
+void	merge_sort_list(
+	t_object		**objects,
+	int				start,
+	int				end,
+	obj_comparator	comparator)
 {
-	t_object_list	*right;
+	int	mittel;
 
-	if (list == NULL || list->next == NULL)
-		return (list);
+	if (end - start <= 0) {
+		return ;
+	}
 
-	right = list;
-	size_t i = 0;
-	const size_t mittel = size / 2;
-	while (i < mittel) {
-		assert(right && right->next); // TODO: Remove after debugging
-		right = right->next;
+	mittel = start + (end - start) / 2;
+	merge_sort_list(objects, start, mittel, comparator);
+	merge_sort_list(objects, mittel, end, comparator);
+	merge(&objects[start], mittel - start, end - mittel, comparator);
+}
+
+
+void	merge(
+	t_object		**objects_start,
+	int				left_size,
+	int				right_size,
+	obj_comparator	comparator)
+{
+	const int sorting_size = right_size + left_size;
+	const int j = right_size;
+	int buffer[left_size + right_size];
+	int	i;
+
+	i = 0;
+	while (i < left_size && i < right_size) {
+		if (comparator(objects_start[i], objects_start[i + left_size])) {
+			buffer[i] = objects_start[i];
+		} else {
+			buffer[i] = objects_start[i];
+		}
 		++i;
 	}
-	list = merge_sort_list(list, mittel, comparator);
-	right = merge_sort_list(right, size - mittel, comparator);
-
-	t_object_list	*next = NULL;
-	t_object_list	*tail = NULL;
-	t_object_list	*result = NULL;
-
-	while (list || right)
-	{
-		if (!right) {
-			next = list;
-			list = list->next;
-		} else if (!list) {
-			next = right;
-			right = right->next;
-		} else if (comparator(list, right) != 0) {
-			next = list;
-			list = list->next;
-		} else {
-			next = right;
-			right = right->next;
-		}
-		if (!result) {
-			result = next;
-		} else {
-			tail->next = next;
-		}
-		tail = next;
+	while (i < left_size) {
+		buffer[i] = objects_start[i];
+		++i;
 	}
-	return (result);
+	while (i < right_size) {
+		buffer[i] = objects_start[i + left_size];
+		++i;
+	}
+	i = 0;
+	while (i < sorting_size) {
+		objects_start[i] = buffer[i];
+		++i;
+	}
 }
 
 /*
@@ -147,44 +160,39 @@ t_object_list	*merge_sort_list(
 	1 == y
 	2 == z
 */
-bool	box_compare(const t_object_list *a, const t_object_list *b, int axis) {
+bool	box_compare_is_less(const t_object *a, const t_object *b, int axis) {
 	return (a->box.interval[axis].min < b->box.interval[axis].min);
 }
 
-bool	box_x_compare(const t_object_list *a, const t_object_list *b) {
+bool	box_x_compare_is_less(const t_object *a, const t_object *b) {
 	return (box_compare(a, b, 0));
 }
 
-bool	box_y_compare(const t_object_list *a, const t_object_list *b) {
+bool	box_y_compare_is_less(const t_object *a, const t_object *b) {
 	return (box_compare(a, b, 1));
 }
 
-bool	box_z_compare(const t_object_list *a, const t_object_list *b) {
+bool	box_z_compare_is_less(const t_object *a, const t_object *b) {
 	return (box_compare(a, b, 2));
 }
 
 obj_comparator	randomize_comparator() {
 	static const obj_comparator comparator_array[3] = {
-		box_x_compare,
-		box_y_compare,
-		box_z_compare
+		box_x_compare_is_less,
+		box_y_compare_is_less,
+		box_z_compare_is_less
 	};
 
 	return (comparator_array[rand_int(0, 2)]);
 }
 
-t_object_list	*get_node(t_object_list *objects, int index) {
-	int	i;
+/*
+	Current Problems:
 
-	i = 0;
-	while (i != index) {
-		objects = objects->next;
-		++i;
-	}
-	return (objects);
-}
-
-t_bvh_node	*create_tree(const t_object_list *objects, size_t start, size_t end)
+	1. Мы используем линкед лист, и нам нужно сортироввать какой-то определнный участок.
+	2. Каждый раз при рекурсивном вызове create_tree мы двигаем поинтер от 0 до start
+*/
+t_bvh_node	*create_tree(const t_object *objects, size_t start, size_t end)
 {
 	t_bvh_node	*tree;
 	size_t		object_span;
@@ -197,7 +205,7 @@ t_bvh_node	*create_tree(const t_object_list *objects, size_t start, size_t end)
 		// copy 3
 	} else {
 		int	mid = start + object_span / 2;
-		t_object_list	*temp;
+		t_object	*temp;
 
 		// sort objects from start to end by random axis
 		temp = merge_sort_list(objects, object_span, randomize_comparator());

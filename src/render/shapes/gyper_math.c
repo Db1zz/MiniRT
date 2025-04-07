@@ -48,7 +48,7 @@ bool    gyper_intersection(t_gyper *hy, const t_ray *ray, t_hit_record *rec)
 }
 
 bool    ray_hit_gyper(
-	const t_object_list	*gyper,
+	const t_object	*gyper,
 	const t_ray			*ray,
 	t_hit_record		*rec)
 {

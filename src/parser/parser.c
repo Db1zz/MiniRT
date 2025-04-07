@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:41 by gonische          #+#    #+#             */
-/*   Updated: 2025/03/25 18:25:27 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/04 08:14:51 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,38 +26,28 @@ static void	line_parser(t_scene *scene, char **line_data)
 		parse_plane(scene, line_data);
 	else if (ft_strcmp("cy", line_data[0]) == 0)
 		parse_cylinder(scene, line_data);
+	else if (ft_strcmp("hy", line_data[0]) == 0)
+		parse_gyper(scene, line_data);
 	else if (ft_strcmp("A", line_data[0]) == 0)
 		parse_ambient(scene, line_data);
 	else if (ft_strcmp("L", line_data[0]) == 0)
 		parse_light(scene, line_data);
 	else if (ft_strcmp("C", line_data[0]) == 0)
 		 parse_camera(scene, line_data);
-	else if (ft_strcmp("hy", line_data[0]) == 0)
-		parse_gyper(scene, line_data);
 	else if (line_data[0][0] == '#')
 		return ;
 	else
-		scene->error = ERR_UNKNOWN_OBJECT_SPECIFIER;
+		set_error(&scene->error, ERR_UNKNOWN_OBJECT_SPECIFIER, __func__);
 }
 
-void	scene_add_object(void *data, t_object_type type, t_scene *scene)
+void	add_object_to_array(
+	void *object, t_object_type type, t_object **arr, size_t *arr_size)
 {
-	t_object_list	*new_object;
-	t_object_list	**object_list;
+	t_object	*new_object;
 
-	if (!data || !scene)
-	{
-		scene->error = ERR_NULL_PARAMETER;
-		return ;
-	}
-	new_object = alloc_new_object(data, type, NULL);
-	if (type == E_LIGHT)
-		object_list = &scene->lights;
-	else if (type == E_AMBIENT_LIGHT)
-		object_list = &scene->ambient_lightings;
-	else
-		object_list = &scene->objects;
-	object_add_back(new_object, object_list);
+	new_object = alloc_new_object(object, type);
+	arr[(*arr_size)++] = new_object;
+	arr[*arr_size] = NULL;
 }
 
 static void	scene_parser(t_scene *scene, int scene_fd)
@@ -65,7 +55,7 @@ static void	scene_parser(t_scene *scene, int scene_fd)
 	char	*line;
 	char	**splitted_line;
 
-	while (scene->error == ERR_NO_ERROR)
+	while (scene->error.errorn == ERR_NO_ERROR)
 	{
 		line = get_next_line(scene_fd);
 		if (!line)
@@ -79,7 +69,7 @@ static void	scene_parser(t_scene *scene, int scene_fd)
 		free(line);
 	}
 	if (!scene->camera)
-		set_error(&scene->error, ERR_CAMERA_NOT_FOUND);
+		set_error(&scene->error, ERR_CAMERA_NOT_FOUND, __func__);
 }
 
 t_scene	*parse_input(int argc, char **argv)
@@ -95,10 +85,10 @@ t_scene	*parse_input(int argc, char **argv)
 	scene = ft_calloc(1, sizeof(t_scene));
 	if (!scene)
 		return (ft_perror(ERR_MALLOC_FAILED, __func__), NULL);
-	if (scene->error == ERR_NO_ERROR)
+	if (scene->error.errorn == ERR_NO_ERROR)
 		scene_parser(scene, fd);
-	if (scene->error)
-		(ft_perror(scene->error, __func__), free_scene(&scene));
+	if (scene->error.errorn)
+		(ft_perror(scene->error.errorn, __func__), free_scene(&scene));
 	close(fd);
 	return (scene);
 }

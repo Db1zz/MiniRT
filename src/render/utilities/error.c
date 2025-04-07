@@ -6,14 +6,14 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:24:53 by gonische          #+#    #+#             */
-/*   Updated: 2025/02/11 18:24:53 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/03 22:11:15 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_error.h"
 #include <stdio.h>
 
-static const char	*standard_error_to_msg(t_error errorn)
+static const char	*standard_error_to_msg(t_errorn errorn)
 {
 	static const char	*msgs[] = {
 		"Function parameter == NULL",
@@ -25,7 +25,7 @@ static const char	*standard_error_to_msg(t_error errorn)
 	return (msgs[errorn - STANDARD_ERROR_MIN]);
 }
 
-static const char	*parser_errorn_to_msg(t_error errorn)
+static const char	*parser_errorn_to_msg(t_errorn errorn)
 {
 	static const char	*msgs[] = {
 		"Light->ratio should be in range 0 - 1.0",
@@ -38,7 +38,8 @@ static const char	*parser_errorn_to_msg(t_error errorn)
 		"Unknown object specifier",
 		"Multiple instances if an object",
 		"Cannot convert string to vector",
-		"Camera not found"
+		"Camera not found",
+		"Exceeding limits for objects"
 	};
 
 	if (errorn < PARSER_ERRN_MIN || errorn > PARSER_ERRN_MAX)
@@ -46,7 +47,7 @@ static const char	*parser_errorn_to_msg(t_error errorn)
 	return (msgs[errorn - PARSER_ERRN_MIN]);
 }
 
-static const char	*minirt_errorn_to_msg(t_error errorn)
+static const char	*minirt_errorn_to_msg(t_errorn errorn)
 {
 	static const char	*msgs[] = {
 		"Incorrect amount of arguments. Try: ./miniRT scenes/test.rt",
@@ -57,10 +58,7 @@ static const char	*minirt_errorn_to_msg(t_error errorn)
 	return (msgs[errorn - MINIRT_ERRORN_MIN]);
 }
 
-void	ft_perror(
-	t_error errorn,
-	const char *func)
-{
+void	ft_perror(t_errorn errorn, const char *func) {
 	const char	*msg;
 
 	if (errorn == ERR_NO_ERROR)
@@ -78,11 +76,13 @@ void	ft_perror(
 		printf("Error in %s: %s\n", func, msg);
 }
 
-void	set_error(
-	t_error *error,
-	int err_number)
+void	ft_display_error(const t_error *error)
 {
-	if (!error)
-		return ;
-	*error = err_number;
+	ft_perror(error->errorn, error->func);
+}
+
+void	set_error(t_error *error, t_errorn errorn, const char *func)
+{
+	error->errorn = errorn;
+	error->func = func;
 }

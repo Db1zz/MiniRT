@@ -48,14 +48,14 @@ t_color			ray_send(
 					const t_ray *ray,
 					const t_scene *scene);
 
-bool			ray_hit_objects(
+bool	ray_hit_objects(
 					const t_ray *ray,
-					const t_object_list *objects,
+					const t_object **objects,
 					t_hit_record *result_rec);
 
-bool			ray_hit_light(
+bool	ray_hit_light(
 					const t_ray *light_ray,
-					const t_object_list *objects,
+					const t_object **objects,
 					t_hit_record *result_rec);
 
 t_color			ray_reflect(
@@ -64,17 +64,17 @@ t_color			ray_reflect(
 					const t_hit_record *camera_hit_rec);
 
 bool			ray_hit_sphere(
-					const t_object_list *sphere_object,
+					const t_object *sphere_object,
 					const t_ray *ray,
 					t_hit_record *rec);
 
 bool			ray_hit_plane(
-					const t_object_list *plane_object,
+					const t_object *plane_object,
 					const t_ray *ray,
 					t_hit_record *rec);
 
 bool			ray_hit_cylinder(
-					const t_object_list *cylinder_object,
+					const t_object *cylinder_object,
 					const t_ray *ray,
 					t_hit_record *rec);
 
@@ -83,11 +83,11 @@ t_vector		get_ray_direction(
 					t_vector endpoint);
 
 bool    ray_hit_gyper(
-	const t_object_list	*gyper,
+	const t_object	*gyper,
 	const t_ray			*ray,
 	t_hit_record		*rec);
 
-bool	ray_hit_cone(const t_object_list *objects, const t_ray *ray, t_hit_record *rec);
+bool	ray_hit_cone(const t_object *objects, const t_ray *ray, t_hit_record *rec);
 
 void			init_hit_record(t_hit_record *rec);
 

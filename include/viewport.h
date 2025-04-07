@@ -3,6 +3,10 @@
 
 # include "vector.h"
 
+# define VIEWPORT_WIDTH 1024
+# define VIEWPORT_HEIGHT 720
+
+
 typedef struct s_scene	t_scene;
 typedef struct s_camera	t_camera;
 

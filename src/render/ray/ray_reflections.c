@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:28:07 by gonische          #+#    #+#             */
-/*   Updated: 2025/02/11 18:28:08 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/03 22:56:39 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,15 @@ t_color	ray_reflect(
 	const t_scene *scene,
 	const t_hit_record *rec)
 {
-	const t_object_list	*curr_obj = scene->objects;
+	size_t				i;
 	t_ray				ref_ray;
 	t_hit_record		ref_hit_rec;
 	t_color				object_light;
 	t_color				ref_light;
 
 	init_hit_record(&ref_hit_rec);
-	while (curr_obj)
+	i = 0;
+	while (scene->objects[i])
 	{
 		ref_ray = create_reflection_ray(rec);
 		if (ray_hit_objects(&ref_ray, scene->objects, &ref_hit_rec))
@@ -67,7 +68,7 @@ t_color	ray_reflect(
 			ref_light = apply_light(&ref_ray, scene, &ref_hit_rec);
 			return (blend_reflection(object_light, ref_light, REF_INTENSITY));
 		}
-		curr_obj = curr_obj->next;
+		++i;
 	}
 	return (apply_light(camera_ray, scene, rec));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gwagner <gwagner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:33 by gonische          #+#    #+#             */
-/*   Updated: 2025/03/21 15:46:34 by gwagner          ###   ########.fr       */
+/*   Updated: 2025/04/03 22:18:57 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ void	str_to_color(t_color *color, const char *str, t_scene *scene)
 	char	**data;
 
 	if (!color || !str)
-		return (set_error(&scene->error, ERR_NULL_PARAMETER));
+		return (set_error(&scene->error, ERR_NULL_PARAMETER, __func__));
 	data = ft_split(str, ',');
 	if (!data)
-		return (set_error(&scene->error, ERR_SPLIT_FAILED));
+		return (set_error(&scene->error, ERR_SPLIT_FAILED, __func__));
 	if (!check_str_numbers(data, COLOR_MAX_SIZE, scene))
-		return (set_error(&scene->error, ERR_STR_TO_COLOR_FAILED));
+		return (set_error(&scene->error, ERR_STR_TO_COLOR_FAILED, __func__));
 	set_color(color, ft_atoi(data[0]), ft_atoi(data[1]), ft_atoi(data[2]));
 	free_2dmatrix(data);
 }
@@ -57,13 +57,13 @@ void	str_to_vector(
 	char	**data;
 
 	if (!result || !vector_str)
-		return (set_error(&scene->error, ERR_NULL_PARAMETER));
+		return (set_error(&scene->error, ERR_NULL_PARAMETER, __func__));
 	*result = create_vector(0, 0, 0);
 	data = ft_split(vector_str, ',');
 	if (!data)
-		return (set_error(&scene->error, ERR_SPLIT_FAILED));
+		return (set_error(&scene->error, ERR_SPLIT_FAILED, __func__));
 	if (!check_str_numbers(data, VECTOR_MAX_SIZE, scene))
-		return (set_error(&scene->error, ERR_STR_TO_VECTOR_FAILED));
+		return (set_error(&scene->error, ERR_STR_TO_VECTOR_FAILED, __func__));
 	set_vector(result, ft_atof(data[0]), ft_atof(data[1]), ft_atof(data[2]));
 	free_2dmatrix(data);
 	if (normalize)
@@ -77,7 +77,7 @@ bool	is_string_number(const char *number, t_scene *scene)
 	i = 0;
 	if (!number
 		|| (!ft_isdigit(number[i]) && number[i] != '-' && number[i] != '+'))
-		return (set_error(&scene->error, ERR_NULL_PARAMETER), false);
+		return (set_error(&scene->error, ERR_NULL_PARAMETER, __func__), false);
 	if (number[i] == '-')
 		i += 2;
 	else
@@ -87,7 +87,7 @@ bool	is_string_number(const char *number, t_scene *scene)
 	while (number[i])
 	{
 		if (!ft_isdigit(number[i]) && number[i] != '\n')
-			return (set_error(&scene->error, ERR_STRING_IS_NOT_NUM), false);
+			return (set_error(&scene->error, ERR_STRING_IS_NOT_NUM, __func__), false);
 		i++;
 	}
 	return (true);

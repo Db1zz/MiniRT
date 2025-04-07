@@ -20,29 +20,21 @@ typedef enum e_object_type
 	E_TOTAL_OBJECTS,
 }	t_object_type;
 
-typedef struct s_object_list
+typedef struct s_object
 {
-	void					*data;
-	t_aabb					box;
-	t_object_type			type;
-	struct s_object_list	*next;
-}	t_object_list;
+	void			*data;
+	t_aabb			box;
+	t_object_type	type;
+}	t_object;
 
 /*
 	Functions
 */
-t_object_list	*alloc_new_object(
+t_object	*alloc_new_object(
 					void *data,
-					t_object_type type,
-					t_object_list *next);
+					t_object_type type);
 
-void			object_add_back(
-					t_object_list *new,
-					t_object_list **list);
-
-void			free_object(t_object_list **object);
-
-void			free_object_list(t_object_list **list);
+void			free_object(t_object **object);
 
 /*
 	Objects

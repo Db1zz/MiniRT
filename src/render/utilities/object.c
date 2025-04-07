@@ -6,45 +6,26 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:25:08 by gonische          #+#    #+#             */
-/*   Updated: 2025/02/11 18:25:08 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/03 22:22:28 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "object.h"
 #include <stdlib.h>
 
-t_object_list	*alloc_new_object(
+t_object	*alloc_new_object(
 	void			*data,
-	t_object_type	type,
-	t_object_list	*next)
+	t_object_type	type)
 {
-	t_object_list	*new_object;
+	t_object	*new_object;
 
-	new_object = malloc(sizeof(t_object_list));
+	new_object = malloc(sizeof(t_object));
 	new_object->data = data;
 	new_object->type = type;
-	new_object->next = next;
 	return (new_object);
 }
 
-void	object_add_back(t_object_list *new, t_object_list **list)
-{
-	t_object_list	*tail;
-
-	if (!list)
-		return ;
-	if (!*list)
-	{
-		*list = new;
-		return ;
-	}
-	tail = *list;
-	while (tail->next)
-		tail = tail->next;
-	tail->next = new;
-}
-
-void	free_object(t_object_list **object)
+void	free_object(t_object **object)
 {
 	if (!object || !*object)
 		return ;
@@ -52,21 +33,4 @@ void	free_object(t_object_list **object)
 		free((*object)->data);
 	free(*object);
 	*object = NULL;
-}
-
-void	free_object_list(t_object_list **list)
-{
-	t_object_list	*tail;
-	t_object_list	*to_free;
-
-	if (!list || !*list)
-		return ;
-	tail = *list;
-	while (tail)
-	{
-		to_free = tail;
-		tail = tail->next;
-		free_object(&to_free);
-	}
-	*list = NULL;
 }

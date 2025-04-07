@@ -7,14 +7,14 @@
 # include "ray.h"
 # include <math.h> 
 
-# define FOV_MIN 0
-# define FOV_MAX 180
+# define CAMERA_FOV_MIN 0
+# define CAMERA_FOV_MAX 180
 
 typedef struct s_camera
 {
 	t_vector	view_point;
 	t_vector	orientation_vec;
-	int			fov; // 0 - 180
+	int			fov;
 	t_viewport	viewport;
 }	t_camera;
 

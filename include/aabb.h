@@ -3,8 +3,8 @@
 
 # include "vector.h"
 
-typedef struct s_object_list t_object_list;
-typedef bool (*obj_comparator)(const t_object_list *, const t_object_list *);
+typedef struct s_object_list t_object;
+typedef bool (*obj_comparator)(const t_object *, const t_object *);
 
 typedef struct s_interval {
 	float	min;
@@ -18,10 +18,10 @@ typedef struct s_aabb
 
 typedef struct s_bvh_node
 {
-	t_aabb			box;
-	t_object_list	*objects;
-	t_bvh_node		*left;
-	t_bvh_node		*right;
+	t_aabb		box;
+	t_object	**objects; // Note: t_bvh_node wouldn't free any of these objects, these objects belong to t_scene structure.
+	t_bvh_node	*left;
+	t_bvh_node	*right;
 }	t_bvh_node;
 
 float	interval_clamp(const t_interval *interval, float x);

@@ -34,6 +34,7 @@
 # define ERR_MULTIPLE_OBJECTS_INSTANCES 29
 # define ERR_STR_TO_VECTOR_FAILED 30
 # define ERR_CAMERA_NOT_FOUND 31
+# define ERR_OBJECTS_AMOUNT_EXCEED_LIMITS 32
 
 /*
 	MiniRT error codes
@@ -42,9 +43,15 @@
 # define ERR_INCORRECT_COLOR_VALUES 44
 # define ERR_INCORRECT_FOV_VALUE 45
 
-typedef int	t_error;
+typedef int	t_errorn;
+typedef struct s_error
+{
+	t_errorn		errorn;
+	const char		*func;
+}	t_error;
 
-void	ft_perror(t_error errorn, const char *func);
-void	set_error(t_error *error, int err_number);
+void	ft_perror(t_errorn errorn, const char *func);
+void	ft_display_error(const t_error *error);
+void	set_error(t_error *error, t_errorn errorn, const char *func);
 
 #endif	// FT_ERROR_H
