@@ -19,7 +19,7 @@ typedef struct s_aabb
 typedef struct s_bvh_node
 {
 	t_aabb		box;
-	t_object	**objects; // Note: t_bvh_node wouldn't free any of these objects, these objects belong to t_scene structure.
+	t_object	*objects; // Note: t_bvh_node wouldn't free any of these objects, these objects belong to t_scene structure.
 	t_bvh_node	*left;
 	t_bvh_node	*right;
 }	t_bvh_node;

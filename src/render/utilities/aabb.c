@@ -1,6 +1,7 @@
 #include "aabb.h"
 #include "ray.h"
 #include "minirt_math.h"
+#include "libft.h"
 
 #include <assert.h>
 
@@ -97,9 +98,6 @@ bool	hit_aabb(const t_aabb *aabb, const t_ray *r, t_interval ray_t) {
 	return true;
 }
 
-// TODO: fix this shit
-// Now, I keep all objects in an array of objects instead linked list.
-// This approach increases BVH speed, and it's more simple to write code for this.
 void	merge_sort_list(
 	t_object		**objects,
 	int				start,
@@ -154,12 +152,6 @@ void	merge(
 	}
 }
 
-/*
-	int axis:
-	0 == x
-	1 == y
-	2 == z
-*/
 bool	box_compare_is_less(const t_object *a, const t_object *b, int axis) {
 	return (a->box.interval[axis].min < b->box.interval[axis].min);
 }
@@ -186,33 +178,51 @@ obj_comparator	randomize_comparator() {
 	return (comparator_array[rand_int(0, 2)]);
 }
 
-/*
-	Current Problems:
+t_bvh_node	*init_bvh_node(
+	const t_aabb	*box,
+	t_object		*objects,
+	t_bvh_node		*left,
+	t_bvh_node		*right)
+{
+	t_bvh_node	*bvh_node;
 
-	1. Мы используем линкед лист, и нам нужно сортироввать какой-то определнный участок.
-	2. Каждый раз при рекурсивном вызове create_tree мы двигаем поинтер от 0 до start
-*/
-t_bvh_node	*create_tree(const t_object *objects, size_t start, size_t end)
+	bvh_node = ft_calloc(1, sizeof(t_bvh_node));
+	if (!bvh_node) {
+		return (NULL);
+	}
+
+	if (box != NULL) {
+		bvh_node->box.interval[0] = box->interval[0];
+		bvh_node->box.interval[1] = box->interval[1];
+		bvh_node->box.interval[2] = box->interval[2];
+	}
+
+	bvh_node->left = left;
+	bvh_node->right = right;
+	bvh_node->objects = objects;
+	return (bvh_node);
+}
+
+t_bvh_node	*create_tree(t_object **objects, int start, int end)
 {
 	t_bvh_node	*tree;
-	size_t		object_span;
+	int			object_span;
 
 	object_span = end - start;
 
+	tree = init_bvh_node(NULL, NULL, NULL, NULL);
 	if (object_span == 1) {
-		// copy to the left and right
+		tree->objects = objects[start];
 	} else if (object_span == 2) {
-		// copy 3
+		tree->left = create_tree(objects, start, end - 1);
+		tree->right = create_tree(objects, start + 1, end);
 	} else {
+		merge_sort_list(objects, start, end, randomize_comparator());
 		int	mid = start + object_span / 2;
-		t_object	*temp;
 
-		// sort objects from start to end by random axis
-		temp = merge_sort_list(objects, object_span, randomize_comparator());
-		tree->left = create_tree(temp, start, mid);
-		tree->right = create_tree(get_node(temp, mid), mid, end);
+		tree->left = create_tree(objects, start, mid);
+		tree->right = create_tree(objects, mid, end);
 	}
-	// Create a box that will cover all objects by using interval expansion
-	// tree->box = aabb(left->bounding_box(), right->bounding_box()); // TODO
+	tree->box = create_aabb_from_aabb(&tree->left->box, &tree->right->box);
 	return (tree);
 }
