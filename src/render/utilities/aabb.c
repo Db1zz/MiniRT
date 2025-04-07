@@ -226,3 +226,9 @@ t_bvh_node	*create_tree(t_object **objects, int start, int end)
 	tree->box = create_aabb_from_aabb(&tree->left->box, &tree->right->box);
 	return (tree);
 }
+
+/*
+	TODO:
+	1. add traverse tree function.
+	2. test create_tree function and all functions that used by this one
+*/
