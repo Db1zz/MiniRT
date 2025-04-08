@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:41 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/04 08:14:51 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:05:19 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	add_object_to_array(
 	t_object	*new_object;
 
 	new_object = alloc_new_object(object, type);
+	new_object->box = NULL;
 	arr[(*arr_size)++] = new_object;
 	arr[*arr_size] = NULL;
 }
@@ -82,13 +83,14 @@ t_scene	*parse_input(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 		return (ft_perror(ERR_FAILED_TO_OPEN_FILE, __func__), NULL);
-	scene = ft_calloc(1, sizeof(t_scene));
+	scene = scene_alloc();
 	if (!scene)
-		return (ft_perror(ERR_MALLOC_FAILED, __func__), NULL);
+		return (ft_perror(ERR_MALLOC_FAILED, __func__), close(fd), NULL);
 	if (scene->error.errorn == ERR_NO_ERROR)
 		scene_parser(scene, fd);
-	if (scene->error.errorn)
-		(ft_perror(scene->error.errorn, __func__), free_scene(&scene));
+	if (scene->error.errorn) {
+		(ft_display_error(&scene->error), free_scene(&scene));
+	}
 	close(fd);
 	return (scene);
 }

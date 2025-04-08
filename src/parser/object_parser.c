@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:12 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/03 22:30:34 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:58:00 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	parse_light(t_scene *scene, char **line_data)
 	str_to_color(&light->color, line_data[3], scene);
 	add_object_to_array(light, E_LIGHT, 
 		scene->lights, &scene->lights_size);
+	scene->lights_size++;
 }
 #else
 
@@ -42,7 +43,7 @@ void	parse_light(t_scene *scene, char **line_data)
 {
 	t_light	*light;
 
-	if (scene->lights_size > SCENE_LIGHTS_LIMIT++)
+	if (scene->lights_size > SCENE_LIGHTS_LIMIT)
 		return (set_error(&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
 	light = rt_calloc(1, sizeof(t_light), scene);
 	if (!light)
@@ -54,6 +55,7 @@ void	parse_light(t_scene *scene, char **line_data)
 	str_to_color(&light->color, line_data[3], scene);
 	add_object_to_array(light, E_LIGHT, 
 		scene->lights, &scene->lights_size);
+	scene->lights_size++;
 }
 #endif
 

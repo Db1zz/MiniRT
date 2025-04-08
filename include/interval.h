@@ -13,6 +13,7 @@ t_interval	create_interval(double min, double max);
 double		interval_size(const t_interval *interval);
 bool		interval_contains(double val, const t_interval *interval);
 bool		interval_surrounds(double val, const t_interval *interval);
-double		interval_bound(double val, const t_interval *interval);
+double		interval_clamp(const t_interval *interval, double x);
+t_interval	interval_expansion(const t_interval *i1, const t_interval *i2);
 
 #endif	// INTERVAL_H

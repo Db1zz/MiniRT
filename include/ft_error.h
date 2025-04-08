@@ -53,5 +53,6 @@ typedef struct s_error
 void	ft_perror(t_errorn errorn, const char *func);
 void	ft_display_error(const t_error *error);
 void	set_error(t_error *error, t_errorn errorn, const char *func);
+t_error	create_error(t_errorn errorn, const char *func);
 
 #endif	// FT_ERROR_H

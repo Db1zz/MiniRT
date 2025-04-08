@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:27:44 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/03 22:57:36 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/07 22:48:13 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,20 @@ static t_color	get_diffuse_light(
 	const t_scene *scene,
 	const t_hit_record *shape_rec)
 {
-	t_object		*light_sources;
 	t_light			*light;
 	t_ray			light_ray;
 	t_hit_record	light_ray_rec;
 	t_color			result_color;
+	int				i;
 
-	light_sources = scene->lights;
 	result_color = create_color(0, 0, 0);
-	while (light_sources)
+	i = 0;
+	while (scene->lights[i])
 	{
-		light = light_sources->data;
+		light = scene->lights[i]->data;
 		init_hit_record(&light_ray_rec);
 		light_ray = create_light_ray(shape_rec, light);
-		if (ray_hit_light(&light_ray, scene->objects, &light_ray_rec))
+		if (ray_hit_light(&light_ray, (const t_object **)scene->objects, &light_ray_rec))
 		{
 			result_color = clr_add_clr(
 					clr_mult(
@@ -41,7 +41,7 @@ static t_color	get_diffuse_light(
 						get_diffuse_intensity(light, shape_rec)), result_color);
 			result_color = clamp_color(result_color, COLOR_MIN, COLOR_MAX);
 		}
-		light_sources = light_sources->next;
+		++i;
 	}
 	return (result_color);
 }
@@ -51,20 +51,20 @@ static t_color	get_specular_light(
 	const t_scene *scene,
 	const t_hit_record *hit_rec)
 {
-	double			specular;
-	t_object	*light_sources;
-	t_light			*light;
-	t_color			result_color;
+	double	specular;
+	t_light	*light;
+	t_color	result_color;
+	int		i;
 
-	light_sources = scene->lights;
 	result_color = create_color(0, 0, 0);
-	while (light_sources)
+	i = 0;
+	while (scene->lights[i])
 	{
-		light = light_sources->data;
+		light = scene->lights[i]->data;
 		specular = calculate_specular_light(light, camera_ray, hit_rec, 1);
 		result_color = clr_add_clr(result_color,
 				clr_mult(light->color, specular));
-		light_sources = light_sources->next;
+		++i;
 	}
 	result_color = normalize_color(result_color);
 	return (result_color);
@@ -90,10 +90,10 @@ t_color	apply_light(
 	t_color	result;
 
 	result = create_color(0, 0, 0);
-	if (scene->lights)
+	if (scene->lights[0])
 		result = get_diffuse_light(scene, shape_rec);
-	if (scene->ambient_lightings)
-		result = get_ambient_light(scene->ambient_lightings, &result);
+	// if (scene->ambient_lightings) TODO
+	// 	result = get_ambient_light(scene->ambient_lightings, &result);
 	result = clr_add_clr(result,
 			get_specular_light(camera_ray, scene, shape_rec));
 	return (result);

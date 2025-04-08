@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:28:07 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/03 22:56:39 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/07 22:49:36 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_color	ray_reflect(
 	while (scene->objects[i])
 	{
 		ref_ray = create_reflection_ray(rec);
-		if (ray_hit_objects(&ref_ray, scene->objects, &ref_hit_rec))
+		if (ray_hit_objects(&ref_ray, (const t_object **)scene->objects, &ref_hit_rec))
 		{
 			object_light = apply_light(camera_ray, scene, rec);
 			ref_light = apply_light(&ref_ray, scene, &ref_hit_rec);

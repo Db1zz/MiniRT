@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:24:53 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/03 22:11:15 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:10:44 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,8 @@ void	set_error(t_error *error, t_errorn errorn, const char *func)
 {
 	error->errorn = errorn;
 	error->func = func;
+}
+
+t_error	create_error(t_errorn errorn, const char *func) {
+	return ((t_error){errorn, func});
 }

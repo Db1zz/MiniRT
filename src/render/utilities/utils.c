@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:28:52 by gonische          #+#    #+#             */
-/*   Updated: 2025/02/11 18:31:35 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/07 21:23:27 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*rt_calloc(
 
 	result = malloc(count * size);
 	if (!result)
-		return (set_error(&scene->error, ERR_MALLOC_FAILED), NULL);
+		return (set_error(&scene->error, ERR_MALLOC_FAILED, __func__), NULL);
 	ft_bzero(result, count * size);
 	return (result);
 }
@@ -47,26 +47,6 @@ size_t	get_2dmatrix_size(char **matrix)
 	while (matrix[size])
 		size++;
 	return (size);
-}
-
-void	free_scene(t_scene **scene)
-{
-	if (!scene || !*scene)
-		return ;
-	free_object_list(&(*scene)->objects);
-	if ((*scene)->camera)
-		free((*scene)->camera);
-	if ((*scene)->win)
-		mlx_destroy_window((*scene)->mlx, (*scene)->win);
-	if ((*scene)->mlx)
-	{
-		#ifndef __APPLE__	// Temp macro
-			mlx_destroy_display((*scene)->mlx);
-		#endif	// __APPLE__
-		free((*scene)->mlx);
-	}
-	free(*scene);
-	*scene = NULL;
 }
 
 double	div_c(double v1, double v2)

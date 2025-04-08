@@ -23,28 +23,26 @@ typedef enum e_object_type
 typedef struct s_object
 {
 	void			*data;
-	t_aabb			box;
+	t_aabb			*box;
 	t_object_type	type;
 }	t_object;
 
 /*
 	Functions
 */
-t_object	*alloc_new_object(
-					void *data,
-					t_object_type type);
+t_object	*alloc_new_object(void *data, t_object_type type);
 
-void			free_object(t_object **object);
+void		free_object(t_object **object);
 
 /*
 	Objects
 */
 typedef struct s_sphere
 {
-	t_vector		pos;
-	t_color			color;
-	double			diameter;
-	double			radius;
+	t_vector	pos;
+	t_color		color;
+	double		diameter;
+	double		radius;
 }	t_sphere;
 
 typedef struct s_plane

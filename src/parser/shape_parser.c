@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:24 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/03 22:28:44 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:02:05 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	parse_sphere(t_scene *scene, char **line_data)
 	sphere->radius = sphere->diameter * 0.5;
 	str_to_color(&sphere->color, line_data[3], scene);
 	add_object_to_array(sphere, E_SPHERE, scene->objects, &scene->objects_size);
+	// ADD New box
+	scene->objects[scene->objects_size - 1]->box = compute_sphere_aabb(sphere);
 }
 
 void	parse_cylinder(t_scene *scene, char **line_data)

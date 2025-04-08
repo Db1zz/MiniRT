@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:25:03 by gonische          #+#    #+#             */
-/*   Updated: 2025/02/11 18:25:03 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:37:36 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,27 @@ bool	interval_surrounds(double val, const t_interval *interval)
 	return (interval->min < val && interval->max > val);
 }
 
-double	interval_bound(double val, const t_interval *interval)
-{
-	if (val < interval->min)
-		return (interval->min);
-	else if (val > interval->max)
-		return (interval->max);
-	return (val);
+double	interval_clamp(const t_interval *interval, double x) {
+	if (x > interval->max) {
+		return interval->max;
+	} else if (x < interval->min) {
+		return interval->min;
+	}
+	return (x);
+}
+
+t_interval	interval_expansion(const t_interval *i1, const t_interval *i2) {
+	t_interval	expanded_interval;
+
+	if (i1->min <= i2->min) {
+		expanded_interval.min = i1->min;
+	} else {
+		expanded_interval.min = i2->min;
+	}
+	if (i1->max <= i2->max) {
+		expanded_interval.max = i2->max;
+	} else {
+		expanded_interval.max = i1->max;
+	}
+	return (expanded_interval);
 }

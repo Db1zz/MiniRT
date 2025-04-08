@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:25:21 by gonische          #+#    #+#             */
-/*   Updated: 2025/03/26 22:26:02 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:12:18 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ void	render(t_scene *scene)
 
 	img = xpm_render_new_img(
 			scene->mlx,
-			WIN_WIDTH, 
-			WIN_HEIGHT);
+			VIEWPORT_WIDTH, 
+			VIEWPORT_HEIGHT);
 	x = 0;
-	while (x < WIN_HEIGHT)
+	while (x < VIEWPORT_HEIGHT)
 	{
 		y = 0;
-		while (y < WIN_WIDTH)
+		while (y < VIEWPORT_WIDTH)
 		{
 			ray_color = camera_get_pixel_color(scene->camera, scene, x, y);
 			// ray_color = apply_antialiasing(ray_color, scene, x, y);

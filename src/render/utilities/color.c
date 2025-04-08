@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:26:07 by gonische          #+#    #+#             */
-/*   Updated: 2025/02/11 18:26:07 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:15:38 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_color	create_color(double r, double g, double b)
 	return ((t_color){r, g, b});
 }
 
-t_error	set_color(t_color *color, double r, double g, double b)
+t_errorn	set_color(t_color *color, double r, double g, double b)
 {
 	if (!color)
 		return (ERR_NULL_PARAMETER);

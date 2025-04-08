@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gwagner <gwagner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:27:30 by gonische          #+#    #+#             */
-/*   Updated: 2025/03/24 17:17:13 by gwagner          ###   ########.fr       */
+/*   Updated: 2025/04/07 22:40:49 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,21 @@
 #include "minirt.h"
 #include "minirt_math.h"
 
-static t_vector	camera_get_pixel_center(const t_scene *scene, int x, int y)
-{
-	const t_viewport	*viewport = &scene->camera->viewport;
-	t_vector			pixel_center;
-	t_vector			offset;
+// static t_vector	camera_get_pixel_center(const t_scene *scene, int x, int y)
+// {
+// 	const t_viewport	*viewport = &scene->camera->viewport;
+// 	t_vector			pixel_center;
+// 	t_vector			offset;
 
-	offset = create_vector(0, 0, 0);
-	if (scene->antialiasing)
-		offset = get_random_vector_offset();
-	pixel_center = vec3_add_vec3(viewport->first_pixel,
-			vec3_add_vec3(
-				vec3_mult(viewport->pdelta_x, y + offset.y),
-				vec3_mult(viewport->pdelta_y, x + offset.x)));
-	return (pixel_center);
-}
+// 	offset = create_vector(0, 0, 0);
+// 	// if (scene->antialiasing)
+// 	// 	offset = get_random_vector_offset();
+// 	pixel_center = vec3_add_vec3(viewport->first_pixel,
+// 			vec3_add_vec3(
+// 				vec3_mult(viewport->pdelta_x, y + offset.y),
+// 				vec3_mult(viewport->pdelta_y, x + offset.x)));
+// 	return (pixel_center);
+// }
 
 // x[0] = -camera->orientation_vec
 // x[1] = camera_right
@@ -50,7 +50,7 @@ static t_vector	camera_calculate_ray_direction(
 	double		fov;
 	double		aspect_ratio;
 
-	aspect_ratio = (double)WIN_WIDTH / WIN_HEIGHT;
+	aspect_ratio = (double)VIEWPORT_WIDTH / VIEWPORT_HEIGHT;
 	fov = tan((FT_PI * 0.5 * camera->fov) / 180);
 	x[0] = vec3_negate(camera->orientation_vec);
 	if (camera->orientation_vec.y > 0 && camera->orientation_vec.x == 0
@@ -66,8 +66,8 @@ static t_vector	camera_calculate_ray_direction(
 			vec3_sub_vec3(
 				vec3_sub_vec3(camera->view_point,
 					vec3_mult(x[3], 0.5)), vec3_mult(x[4], 0.5)), x[0]);
-	x[6] = vec3_add_vec3(vec3_mult(x[3], ((double)x_pos + 0.5) / WIN_WIDTH), 
-		vec3_mult(x[4], ((double)y_pos + 0.5) / WIN_HEIGHT));
+	x[6] = vec3_add_vec3(vec3_mult(x[3], ((double)x_pos + 0.5) / VIEWPORT_WIDTH), 
+		vec3_mult(x[4], ((double)y_pos + 0.5) / VIEWPORT_HEIGHT));
 	x[7] = vec3_add_vec3(x[5], x[6]);
 	return (vec3_normalize(vec3_sub_vec3(x[7], camera->view_point)));
 }
