@@ -5,15 +5,15 @@
 
 #include <assert.h>
 
-void	merge(
-	t_object		**objects_start,
-	int				left_size,
-	int				right_size,
-	obj_comparator	comparator);
+void merge(
+	t_object **objects_start,
+	int left_size,
+	int right_size,
+	obj_comparator comparator);
 
-t_aabb	create_aabb_from_vectors(const t_vector *a, const t_vector *b)
+t_aabb create_aabb_from_vectors(const t_vector *a, const t_vector *b)
 {
-	t_aabb	aabb;
+	t_aabb aabb;
 
 	aabb.interval[0] = create_interval(fmin(a->x, b->x), fmax(a->x, b->x));
 	aabb.interval[1] = create_interval(fmin(a->y, b->y), fmax(a->y, b->y));
@@ -22,20 +22,23 @@ t_aabb	create_aabb_from_vectors(const t_vector *a, const t_vector *b)
 	return (aabb);
 }
 
-t_aabb	create_aabb_from_aabb(const t_aabb *a, const t_aabb *b) {
-	t_aabb	aabb;
+t_aabb create_aabb_from_aabb(const t_aabb *a, const t_aabb *b)
+{
+	t_aabb aabb;
 
-	for (int axis = 0; axis < 3; ++axis) {
+	for (int axis = 0; axis < 3; ++axis)
+	{
 		aabb.interval[axis] = interval_expansion(&a->interval[axis], &b->interval[axis]);
 	}
 	return (aabb);
 }
 
-t_aabb	*compute_sphere_aabb(t_sphere *sphere) {
-	t_vector	vec;
-	t_aabb		*aabb;
-	t_vector	a;
-	t_vector	b;
+t_aabb *compute_sphere_aabb(t_sphere *sphere)
+{
+	t_vector vec;
+	t_aabb *aabb;
+	t_vector a;
+	t_vector b;
 
 	vec = create_vector(sphere->radius, sphere->radius, sphere->radius);
 	a = vec3_sub_vec3(sphere->pos, vec);
@@ -45,20 +48,29 @@ t_aabb	*compute_sphere_aabb(t_sphere *sphere) {
 	return (aabb);
 }
 
-bool	hit_aabb(const t_aabb *aabb, const t_ray *r, t_interval ray_t) {
-	for (int axis = 0; axis < 3; axis++) {
+bool hit_aabb(const t_aabb *aabb, const t_ray *r, t_interval ray_t)
+{
+	for (int axis = 0; axis < 3; axis++)
+	{
 		const t_interval *ax = &aabb->interval[axis];
 		const double adinv = 1.0 / ((float *)(&r->direction))[axis];
 
 		float t0 = (ax->min - ((float *)(&r->origin))[axis]) * adinv;
 		float t1 = (ax->max - ((float *)(&r->origin))[axis]) * adinv;
 
-		if (t0 < t1) {
-			if (t0 > ray_t.min) ray_t.min = t0;
-			if (t1 < ray_t.max) ray_t.max = t1;
-		} else {
-			if (t1 > ray_t.min) ray_t.min = t1;
-			if (t0 < ray_t.max) ray_t.max = t0;
+		if (t0 < t1)
+		{
+			if (t0 > ray_t.min)
+				ray_t.min = t0;
+			if (t1 < ray_t.max)
+				ray_t.max = t1;
+		}
+		else
+		{
+			if (t1 > ray_t.min)
+				ray_t.min = t1;
+			if (t0 < ray_t.max)
+				ray_t.max = t0;
 		}
 		if (ray_t.max <= ray_t.min)
 			return false;
@@ -66,107 +78,132 @@ bool	hit_aabb(const t_aabb *aabb, const t_ray *r, t_interval ray_t) {
 	return true;
 }
 
-void	merge_sort_list(
-	t_object		**objects,
-	int				start,
-	int				end,
-	obj_comparator	comparator)
+void merge_sort_list(
+	t_object **objects,
+	int start,
+	int end,
+	obj_comparator comparator)
 {
-	int	mittel;
+	int mittel;
+	int left_size;
+	int right_size;
 
-	if (start >= end) {
-		return ;
+	if (start >= end || end - start == 0)
+	{
+		return;
 	}
 
 	mittel = start + (end - start) / 2;
+	left_size = mittel + 1 - start;
+	right_size = end - mittel;
 	merge_sort_list(objects, start, mittel, comparator);
 	merge_sort_list(objects, mittel + 1, end, comparator);
-	merge(&objects[start], mittel - start, end - mittel - 1, comparator);
+	merge(&objects[start], left_size, right_size, comparator);
 }
 
-void	merge(
-	t_object		**objects_start,
-	int				left_size,
-	int				right_size,
-	obj_comparator	comparator)
+void merge(
+	t_object **objects_start,
+	int left_size,
+	int right_size,
+	obj_comparator comparator)
 {
-	const int	sorting_size = right_size + left_size;
-	t_object	*buffer[left_size + right_size];
-	int			i;
-	int			j;
-	int			k;
+	const int sorting_size = right_size + left_size;
+	t_object *buffer[left_size + right_size];
+	int i;
+	int j;
+	int k;
 
 	if (left_size + right_size == 0)
 		return;
 	i = 0;
 	j = 0;
 	k = left_size;
-	while (j < left_size && k < right_size + left_size) {
-		if (comparator(objects_start[j], objects_start[k])) {
+	while (j < left_size && k < right_size + left_size)
+	{
+		if (comparator(objects_start[j], objects_start[k]))
+		{
 			buffer[i] = objects_start[j++];
-		} else {
+		}
+		else
+		{
 			buffer[i] = objects_start[k++];
 		}
 		++i;
 	}
 
-	while (j < left_size) {
+	while (j < left_size)
+	{
 		buffer[i] = objects_start[j++];
 		++i;
 	}
 
-	while (k < left_size + right_size) {
+	while (k < left_size + right_size)
+	{
 		buffer[i] = objects_start[k++];
 		++i;
 	}
 
 	i = 0;
-	while (i < sorting_size) {
+	while (i < sorting_size)
+	{
 		objects_start[i] = buffer[i];
 		++i;
 	}
 }
 
-bool	box_compare_is_less(const t_object *a, const t_object *b, int axis) {
+bool box_compare_is_less(const t_object *a, const t_object *b, int axis)
+{
 	return (a->box->interval[axis].min < b->box->interval[axis].min);
 }
 
-bool	box_x_compare_is_less(const t_object *a, const t_object *b) {
+bool box_x_compare_is_less(const t_object *a, const t_object *b)
+{
+	/*
+		for tests
+
+		// t_sphere *temp_a = a->data;
+		// t_sphere *temp_b = b->data;
+		// return (temp_a->pos.x < temp_b->pos.x);
+	*/
 	return (box_compare_is_less(a, b, 0));
 }
 
-bool	box_y_compare_is_less(const t_object *a, const t_object *b) {
+bool box_y_compare_is_less(const t_object *a, const t_object *b)
+{
 	return (box_compare_is_less(a, b, 1));
 }
 
-bool	box_z_compare_is_less(const t_object *a, const t_object *b) {
+bool box_z_compare_is_less(const t_object *a, const t_object *b)
+{
 	return (box_compare_is_less(a, b, 2));
 }
 
-obj_comparator	randomize_comparator() {
+obj_comparator randomize_comparator()
+{
 	static const obj_comparator comparator_array[3] = {
 		box_x_compare_is_less,
 		box_y_compare_is_less,
-		box_z_compare_is_less
-	};
+		box_z_compare_is_less};
 
 	return (comparator_array[rand_int(0, 2)]);
 }
 
-t_bvh_node	*init_bvh_node(
-	const t_aabb	*box,
-	t_object		*objects,
-	t_bvh_node		*left,
-	t_bvh_node		*right)
+t_bvh_node *init_bvh_node(
+	const t_aabb *box,
+	t_object *objects,
+	t_bvh_node *left,
+	t_bvh_node *right)
 {
-	t_bvh_node	*bvh_node;
+	t_bvh_node *bvh_node;
 
 	bvh_node = ft_calloc(1, sizeof(t_bvh_node));
-	if (!bvh_node) {
+	if (!bvh_node)
+	{
 		return (NULL);
 	}
 
-	if (box != NULL) {
+	if (box != NULL)
+	{
 		bvh_node->box = *box;
 	}
 
@@ -176,35 +213,46 @@ t_bvh_node	*init_bvh_node(
 	return (bvh_node);
 }
 
-t_bvh_node	*create_tree(t_object **objects, int start, int end)
+t_bvh_node *create_tree(t_object **objects, int start, int end)
 {
-	t_bvh_node	*tree;
-	int			object_span;
+	t_bvh_node *tree;
+	int object_span;
 	static int rec_level;
 
-	if (end - start < 0) {
+	if (end - start < 0)
+	{
 		return (NULL);
 	}
 	tree = init_bvh_node(NULL, NULL, NULL, NULL);
 	object_span = end - start;
-	if (object_span == 1) {
+	if (object_span == 1)
+	{
 		tree->objects = objects[start];
 		tree->box = *(objects[start]->box);
-	} else if (object_span == 2) {
+	}
+	else if (object_span == 2)
+	{
 		tree->left = create_tree(objects, start, end - 1);
 		tree->right = create_tree(objects, start + 1, end);
-	} else {
+	}
+	else
+	{
 		merge_sort_list(objects, start, end, randomize_comparator());
-		int	mid = start + object_span / 2;
+		int mid = start + object_span / 2;
 
 		tree->left = create_tree(objects, start, mid);
 		tree->right = create_tree(objects, mid + 1, end);
 	}
-	if (tree->left && tree->right) {
+	if (tree->left && tree->right)
+	{
 		tree->box = create_aabb_from_aabb(&tree->left->box, &tree->right->box);
-	} else if (tree->left) {
+	}
+	else if (tree->left)
+	{
 		tree->box = tree->left->box;
-	} else if (tree->right) {
+	}
+	else if (tree->right)
+	{
 		tree->box = tree->right->box;
 	}
 	return (tree);

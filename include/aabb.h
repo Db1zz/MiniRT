@@ -21,6 +21,14 @@ typedef struct s_bvh_node
 	struct s_bvh_node	*right;
 }	t_bvh_node;
 
+void	merge_sort_list(
+	t_object **objects, int	start, int end, obj_comparator comparator);
+
+bool	box_compare_is_less(const t_object *a, const t_object *b, int axis);
+bool	box_x_compare_is_less(const t_object *a, const t_object *b);
+bool	box_y_compare_is_less(const t_object *a, const t_object *b);
+bool	box_z_compare_is_less(const t_object *a, const t_object *b);
+
 t_bvh_node	*create_tree(t_object **objects, int start, int end);
 t_aabb		create_aabb_from_vectors(const t_vector *a, const t_vector *b);
 t_aabb		*compute_sphere_aabb(t_sphere *sphere);
