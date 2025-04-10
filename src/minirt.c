@@ -57,6 +57,60 @@ void display_interval(const t_interval *interval)
 	printf("[%f, %f]", interval->min, interval->max);
 }
 
+void test_merge_sort(t_scene *scene)
+{
+	merge_sort_list(scene->objects, 0, scene->objects_size - 1, box_x_compare_is_less);
+
+	for (int i = 0; i < scene->objects_size; ++i)
+	{
+		t_sphere *sphere = scene->objects[i]->data;
+		// printf("pos[%f, %f, %f]\n", sphere->pos.x, sphere->pos.y, sphere->pos.z);
+		display_interval(&scene->objects[i]->box->interval[0]);
+		display_interval(&scene->objects[i]->box->interval[1]);
+		display_interval(&scene->objects[i]->box->interval[2]);
+		printf("\n\n");
+	}
+}
+
+void print_spaces(int amount)
+{
+	for (int i = 0; i < amount; ++i)
+	{
+		printf(" ");
+	}
+}
+
+void tree_print(t_bvh_node *tree, int level)
+{
+	const char *volume_str = "volume";
+
+	if (tree == NULL)
+	{
+		return;
+	}
+
+	for (int i = 0; i < level; ++i)
+	{
+		printf(i == level - 1 ? "|-" : "  ");
+	}
+
+	printf("%s\n", volume_str);
+	if (tree->left)
+		tree_print(tree->left, level + 1);
+	else if (tree->objects)
+	{
+		print_spaces(level + ft_strlen(volume_str) + 2);
+		printf("└─ Sphere\n");
+	}
+	if (tree->right)
+		tree_print(tree->right, level + 1);
+	else if (tree->objects)
+	{
+		print_spaces(level + ft_strlen(volume_str) + 2);
+		printf("└─ Sphere\n");
+	}
+}
+
 int main(int argc, char **argv)
 {
 	t_scene *scene = parse_input(argc, argv);
@@ -65,19 +119,10 @@ int main(int argc, char **argv)
 
 	minirt_init(scene);
 
-	// t_bvh_node	*tree = create_tree(scene->objects, 0, scene->objects_size);
+	// test_merge_sort(scene);
 
-	merge_sort_list(scene->objects, 0, scene->objects_size - 1, box_x_compare_is_less);
-
-	for (int i = 0; i < scene->objects_size; ++i)
-	{
-		t_sphere *sphere = scene->objects[i]->data;
-		printf("pos[%f, %f, %f]\n", sphere->pos.x, sphere->pos.y, sphere->pos.z);
-		// display_interval(&scene->objects[i]->box->interval[0]);
-		// display_interval(&scene->objects[i]->box->interval[1]);
-		// display_interval(&scene->objects[i]->box->interval[2]);
-		// printf("\n\n");
-	}
+	t_bvh_node *tree = create_tree(scene->objects, 0, scene->objects_size - 1);
+	tree_print(tree, 0);
 
 	// t_aabb *box = scene->objects[1]->box;
 	// printf("interval[0]: {%f, %f}\n", box->interval[0].min, box->interval[0].max);
