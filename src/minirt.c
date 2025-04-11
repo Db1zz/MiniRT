@@ -96,18 +96,24 @@ void print_tree_line(
 	char *node_str, int level, char *buffer, size_t buffer_size)
 {
 	int i;
-	int printed;
 	int spaces_consumed;
+	int printed;
 
 	i = 0;
 	printed = 0;
 	spaces_consumed = 0;
-	while (buffer[i] && i < level)
+	while (i < level)
 	{
-		printed += printf("%c", buffer[i++]);
-		spaces_consumed += printf(" ");
+		if (buffer[i] != ':')
+		{
+			printed += printf("%c", buffer[i]);
+			spaces_consumed += printf(" ");
+		}
+		else
+			spaces_consumed += printf("  ");
+		++i;
 	}
-	print_spaces(level - spaces_consumed + (level - printed));
+	print_spaces((level - spaces_consumed + (level - printed)));
 	printf("%s\n", node_str);
 }
 
@@ -118,32 +124,15 @@ void print_tree_routine(
 {
 	if (tree == NULL)
 		return;
-	/*
-	   buffer_size = 1024
-	   [N,|-N,| └─N,|  └─N]
-		N
-		|-N
-		| └─N
-		|   └─ N
-		|      |-N
-		|      | |- N
-		|	   | └─ N
-		|      └─N
-		└─N
-		level == (depth level && buffer index)
-	*/
+
 	if (tree->left && tree->right)
 	{
 		print_tree_line("|-N", level, buffer, buffer_size);
 		buffer[level] = '|';
 		print_tree_routine(tree->left, level + 1, buffer, buffer_size);
 	}
-	buffer[level + 1] = '\0';
 	if (tree->objects)
-	{
-		assert(tree->objects && !tree->left && !tree->right); // REMOVEME
 		print_tree_line("└─Sphere", level, buffer, buffer_size);
-	}
 	else
 	{
 		print_tree_line("└─N", level, buffer, buffer_size);
@@ -153,7 +142,7 @@ void print_tree_routine(
 			print_tree_routine(tree->left, level + 1, buffer, buffer_size);
 	}
 	if (level - 1 >= 0)
-		buffer[level - 1] = '\0';
+		buffer[level - 1] = ':';
 }
 
 int main(int argc, char **argv)

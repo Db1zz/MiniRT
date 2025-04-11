@@ -158,13 +158,6 @@ bool box_compare_is_less(const t_object *a, const t_object *b, int axis)
 
 bool box_x_compare_is_less(const t_object *a, const t_object *b)
 {
-	/*
-		for tests
-
-		// t_sphere *temp_a = a->data;
-		// t_sphere *temp_b = b->data;
-		// return (temp_a->pos.x < temp_b->pos.x);
-	*/
 	return (box_compare_is_less(a, b, 0));
 }
 
@@ -219,21 +212,12 @@ t_bvh_node *create_tree(t_object **objects, int start, int end)
 	int object_span;
 	static int rec_level;
 
-	if (end - start < 0)
-	{
-		return (NULL);
-	}
-	tree = init_bvh_node(NULL, NULL, NULL, NULL);
 	object_span = end - start;
-	if (object_span == 1)
+	tree = init_bvh_node(NULL, NULL, NULL, NULL);
+	if (object_span == 0)
 	{
 		tree->objects = objects[start];
 		tree->box = *(objects[start]->box);
-	}
-	else if (object_span == 2)
-	{
-		tree->left = create_tree(objects, start, end - 1);
-		tree->right = create_tree(objects, start + 1, end);
 	}
 	else
 	{
@@ -244,16 +228,10 @@ t_bvh_node *create_tree(t_object **objects, int start, int end)
 		tree->right = create_tree(objects, mid + 1, end);
 	}
 	if (tree->left && tree->right)
-	{
 		tree->box = create_aabb_from_aabb(&tree->left->box, &tree->right->box);
-	}
 	else if (tree->left)
-	{
 		tree->box = tree->left->box;
-	}
 	else if (tree->right)
-	{
 		tree->box = tree->right->box;
-	}
 	return (tree);
 }
