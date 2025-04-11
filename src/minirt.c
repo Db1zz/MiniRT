@@ -72,43 +72,88 @@ void test_merge_sort(t_scene *scene)
 	}
 }
 
-void print_spaces(int amount)
+void print_tree_routine(
+	t_bvh_node *tree, int level, char *buffer, size_t buffer_size);
+
+void print_tree(t_bvh_node *tree)
 {
-	for (int i = 0; i < amount; ++i)
-	{
-		printf(" ");
-	}
+	size_t buffer_size = 1024;
+	char buffer[buffer_size + 1];
+	buffer[0] = '\0';
+	printf("N\n");
+	print_tree_routine(tree, 0, buffer, buffer_size);
 }
 
-void tree_print(t_bvh_node *tree, int level)
+void print_spaces(int x)
 {
-	const char *volume_str = "volume";
+	int i = 0;
 
+	while (i++ < x)
+		printf(" ");
+}
+
+void print_tree_line(
+	char *node_str, int level, char *buffer, size_t buffer_size)
+{
+	int i;
+	int printed;
+	int spaces_consumed;
+
+	i = 0;
+	printed = 0;
+	spaces_consumed = 0;
+	while (buffer[i] && i < level)
+	{
+		printed += printf("%c", buffer[i++]);
+		spaces_consumed += printf(" ");
+	}
+	print_spaces(level - spaces_consumed + (level - printed));
+	printf("%s\n", node_str);
+}
+
+#include <assert.h> // only for print_tree_routine
+
+void print_tree_routine(
+	t_bvh_node *tree, int level, char *buffer, size_t buffer_size)
+{
 	if (tree == NULL)
-	{
 		return;
-	}
-
-	for (int i = 0; i < level; ++i)
+	/*
+	   buffer_size = 1024
+	   [N,|-N,| └─N,|  └─N]
+		N
+		|-N
+		| └─N
+		|   └─ N
+		|      |-N
+		|      | |- N
+		|	   | └─ N
+		|      └─N
+		└─N
+		level == (depth level && buffer index)
+	*/
+	if (tree->left && tree->right)
 	{
-		printf(i == level - 1 ? "|-" : "  ");
+		print_tree_line("|-N", level, buffer, buffer_size);
+		buffer[level] = '|';
+		print_tree_routine(tree->left, level + 1, buffer, buffer_size);
 	}
-
-	printf("%s\n", volume_str);
-	if (tree->left)
-		tree_print(tree->left, level + 1);
-	else if (tree->objects)
+	buffer[level + 1] = '\0';
+	if (tree->objects)
 	{
-		print_spaces(level + ft_strlen(volume_str) + 2);
-		printf("└─ Sphere\n");
+		assert(tree->objects && !tree->left && !tree->right); // REMOVEME
+		print_tree_line("└─Sphere", level, buffer, buffer_size);
 	}
-	if (tree->right)
-		tree_print(tree->right, level + 1);
-	else if (tree->objects)
+	else
 	{
-		print_spaces(level + ft_strlen(volume_str) + 2);
-		printf("└─ Sphere\n");
+		print_tree_line("└─N", level, buffer, buffer_size);
+		if (tree->right)
+			print_tree_routine(tree->right, level + 1, buffer, buffer_size);
+		else
+			print_tree_routine(tree->left, level + 1, buffer, buffer_size);
 	}
+	if (level - 1 >= 0)
+		buffer[level - 1] = '\0';
 }
 
 int main(int argc, char **argv)
@@ -122,7 +167,7 @@ int main(int argc, char **argv)
 	// test_merge_sort(scene);
 
 	t_bvh_node *tree = create_tree(scene->objects, 0, scene->objects_size - 1);
-	tree_print(tree, 0);
+	print_tree(tree);
 
 	// t_aabb *box = scene->objects[1]->box;
 	// printf("interval[0]: {%f, %f}\n", box->interval[0].min, box->interval[0].max);
