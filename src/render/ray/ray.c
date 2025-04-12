@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:28:14 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/07 22:49:00 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/12 10:45:56 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 #include "scene.h"
 #include "minirt_math.h"
 
-t_ray	create_ray(t_vector origin, t_vector direction, t_color color)
+t_ray create_ray(t_vector origin, t_vector direction, t_color color)
 {
 	return ((t_ray){origin, direction, color});
 }
 
-bool	ray_hit_objects(
+bool ray_hit_objects(
 	const t_ray *ray,
 	const t_object **objects,
 	t_hit_record *result_rec)
 {
-	t_hit_record	current_rec;
-	bool			found;
-	size_t			i;
+	t_hit_record current_rec;
+	bool found;
+	size_t i;
 
 	found = false;
 	init_hit_record(&current_rec);
@@ -49,24 +49,25 @@ bool	ray_hit_objects(
 	return (found);
 }
 
-t_color	ray_get_background_color(const t_ray *ray)
+t_color ray_get_background_color(const t_ray *ray)
 {
-	double		a;
-	t_vector	color_vec;
+	double a;
+	t_vector color_vec;
 
 	a = 0.5 * (ray->direction.y + 1.0);
 	color_vec = vec3_mult(vec3_add_vec3(
-				vec3_mult(create_vector(1.0, 1.0, 1.0), 1.0 - a),
-				vec3_mult(create_vector(0.5, 0.7, 1), a)), 255);
+							  vec3_mult(create_vector(1.0, 1.0, 1.0), 1.0 - a),
+							  vec3_mult(create_vector(0.5, 0.7, 1), a)),
+						  255);
 	return (create_color(color_vec.x, color_vec.y, color_vec.z));
 }
 
-bool	ray_hit_light(
+bool ray_hit_light(
 	const t_ray *light_ray,
 	const t_object **objects,
 	t_hit_record *result_rec)
 {
-	double	light_intersect;
+	double light_intersect;
 
 	light_intersect = vec3_length(light_ray->direction);
 	if (ray_hit_objects(light_ray, objects, result_rec))
@@ -74,11 +75,11 @@ bool	ray_hit_light(
 	return (true);
 }
 
-t_color	ray_send(
+t_color ray_send(
 	const t_ray *ray,
 	const t_scene *scene)
 {
-	t_hit_record	rec;
+	t_hit_record rec;
 
 	init_hit_record(&rec);
 
@@ -88,7 +89,7 @@ t_color	ray_send(
 	*/
 	// static long counter;
 	// printf("Rays sent: %ld\n", ++counter);
-	
+
 	if (!ray_hit_objects(ray, (const t_object **)scene->objects, &rec))
 		return (ray_get_background_color(ray));
 	return (apply_light(ray, scene, &rec));

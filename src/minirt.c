@@ -117,8 +117,6 @@ void print_tree_line(
 	printf("%s\n", node_str);
 }
 
-#include <assert.h> // only for print_tree_routine
-
 void print_tree_routine(
 	t_bvh_node *tree, int level, char *buffer, size_t buffer_size)
 {

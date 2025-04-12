@@ -48,7 +48,7 @@ t_aabb *compute_sphere_aabb(t_sphere *sphere)
 	return (aabb);
 }
 
-bool hit_aabb(const t_aabb *aabb, const t_ray *r, t_interval ray_t)
+bool hit_aabb(const t_aabb *aabb, const t_ray *r, t_interval *ray_t)
 {
 	for (int axis = 0; axis < 3; axis++)
 	{
@@ -60,19 +60,19 @@ bool hit_aabb(const t_aabb *aabb, const t_ray *r, t_interval ray_t)
 
 		if (t0 < t1)
 		{
-			if (t0 > ray_t.min)
-				ray_t.min = t0;
-			if (t1 < ray_t.max)
-				ray_t.max = t1;
+			if (t0 > ray_t->min)
+				ray_t->min = t0;
+			if (t1 < ray_t->max)
+				ray_t->max = t1;
 		}
 		else
 		{
-			if (t1 > ray_t.min)
-				ray_t.min = t1;
-			if (t0 < ray_t.max)
-				ray_t.max = t0;
+			if (t1 > ray_t->min)
+				ray_t->min = t1;
+			if (t0 < ray_t->max)
+				ray_t->max = t0;
 		}
-		if (ray_t.max <= ray_t.min)
+		if (ray_t->max <= ray_t->min)
 			return false;
 	}
 	return true;
@@ -234,4 +234,30 @@ t_bvh_node *create_tree(t_object **objects, int start, int end)
 	else if (tree->right)
 		tree->box = tree->right->box;
 	return (tree);
+}
+
+bool ray_hit_tree_routine(
+	const t_ray *ray, const t_bvh_node *tree, t_interval *interval, t_hit_record *rec)
+{
+	bool left;
+	bool right;
+
+	left = false;
+	right = false;
+	if (tree->objects && !tree->left && !tree->right)
+		return (ray_hit_objects(ray, &tree->objects, rec));
+	else if (hit_aabb(&tree->box, ray, interval))
+	{
+		left = ray_hit_tree(ray, tree->left, rec);
+		right = ray_hit_tree(ray, tree->right, rec);
+	}
+	return (left || right);
+}
+
+bool ray_hit_tree(const t_ray *ray, const t_bvh_node *tree, t_hit_record *rec)
+{
+	t_interval interval;
+
+	interval = create_interval(0, FT_INFINITY);
+	return (ray_hit_tree_routine(ray, tree, &interval, rec));
 }
