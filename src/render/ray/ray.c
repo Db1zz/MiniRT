@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:28:14 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/12 10:45:56 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/12 12:54:42 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,7 @@ t_color ray_send(
 
 	init_hit_record(&rec);
 
-	/*
-		Perfomance measure:
-		2 objects: 737280r 1024 x 720
-	*/
-	// static long counter;
-	// printf("Rays sent: %ld\n", ++counter);
-
 	if (!ray_hit_objects(ray, (const t_object **)scene->objects, &rec))
 		return (ray_get_background_color(ray));
 	return (apply_light(ray, scene, &rec));
-	// return (ray_reflect(ray, scene, &rec));
 }

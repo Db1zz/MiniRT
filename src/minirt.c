@@ -3,6 +3,8 @@
 #include "minirt.h"
 #include "aabb.h"
 
+#include <assert.h>
+
 int exit_minirt(t_scene *scene)
 {
 	free_scene(&scene);
@@ -32,12 +34,16 @@ bool minirt_init(t_scene *scene)
 int minirt_routine(int argc, char **argv)
 {
 	t_scene *scene;
-
-	struct timeval start_time = getTime();
+	t_bvh_node *tree;
 
 	scene = parse_input(argc, argv);
 	if (!minirt_init(scene))
 		return (EXIT_FAILURE);
+	tree = create_tree(scene->objects, 0, scene->objects_size - 1);
+
+	struct timeval start_time = getTime();
+
+	render(scene, tree);
 
 	struct timeval end_time = getTime();
 
@@ -47,6 +53,7 @@ int minirt_routine(int argc, char **argv)
 		   getMilisecondsDiff(&start_time, &end_time));
 
 	mlx_loop(scene->mlx);
+	free_scene(&scene);
 	return (EXIT_SUCCESS);
 }
 
@@ -63,7 +70,7 @@ void test_merge_sort(t_scene *scene)
 
 	for (int i = 0; i < scene->objects_size; ++i)
 	{
-		t_sphere *sphere = scene->objects[i]->data;
+		// t_sphere *sphere = scene->objects[i]->data;
 		// printf("pos[%f, %f, %f]\n", sphere->pos.x, sphere->pos.y, sphere->pos.z);
 		display_interval(&scene->objects[i]->box->interval[0]);
 		display_interval(&scene->objects[i]->box->interval[1]);
@@ -93,7 +100,7 @@ void print_spaces(int x)
 }
 
 void print_tree_line(
-	char *node_str, int level, char *buffer, size_t buffer_size)
+	char *node_str, int level, char *buffer)
 {
 	int i;
 	int spaces_consumed;
@@ -125,15 +132,15 @@ void print_tree_routine(
 
 	if (tree->left && tree->right)
 	{
-		print_tree_line("|-N", level, buffer, buffer_size);
+		print_tree_line("|-N", level, buffer);
 		buffer[level] = '|';
 		print_tree_routine(tree->left, level + 1, buffer, buffer_size);
 	}
 	if (tree->objects)
-		print_tree_line("└─Sphere", level, buffer, buffer_size);
+		print_tree_line("└─Sphere", level, buffer);
 	else
 	{
-		print_tree_line("└─N", level, buffer, buffer_size);
+		print_tree_line("└─N", level, buffer);
 		if (tree->right)
 			print_tree_routine(tree->right, level + 1, buffer, buffer_size);
 		else
@@ -145,22 +152,23 @@ void print_tree_routine(
 
 int main(int argc, char **argv)
 {
-	t_scene *scene = parse_input(argc, argv);
-	if (!scene)
-		return (EXIT_FAILURE);
+	// t_scene *scene = parse_input(argc, argv);
+	// if (!scene)
+	// 	return (EXIT_FAILURE);
 
-	minirt_init(scene);
+	// minirt_init(scene);
+	minirt_routine(argc, argv);
 
 	// test_merge_sort(scene);
 
-	t_bvh_node *tree = create_tree(scene->objects, 0, scene->objects_size - 1);
-	print_tree(tree);
+	// t_bvh_node *tree = create_tree(scene->objects, 0, scene->objects_size - 1);
+	// print_tree(tree);
 
 	// t_aabb *box = scene->objects[1]->box;
 	// printf("interval[0]: {%f, %f}\n", box->interval[0].min, box->interval[0].max);
 	// printf("interval[1]: {%f, %f}\n", box->interval[1].min, box->interval[1].max);
 	// printf("interval[2]: {%f, %f}\n", box->interval[2].min, box->interval[2].max);
-	free_scene(&scene);
+	// free_scene(&scene);
 
 	return (EXIT_SUCCESS);
 }

@@ -248,16 +248,22 @@ bool ray_hit_tree_routine(
 		return (ray_hit_objects(ray, &tree->objects, rec));
 	else if (hit_aabb(&tree->box, ray, interval))
 	{
-		left = ray_hit_tree(ray, tree->left, rec);
-		right = ray_hit_tree(ray, tree->right, rec);
+		left = ray_hit_tree_routine(ray, tree->left, interval, rec);
+		right = ray_hit_tree_routine(ray, tree->right, interval, rec);
 	}
 	return (left || right);
 }
 
-bool ray_hit_tree(const t_ray *ray, const t_bvh_node *tree, t_hit_record *rec)
+#include "light.h"
+
+t_color ray_hit_tree(const t_ray *ray, const t_bvh_node *tree, const t_scene *scene)
 {
 	t_interval interval;
+	t_hit_record rec;
 
 	interval = create_interval(0, FT_INFINITY);
-	return (ray_hit_tree_routine(ray, tree, &interval, rec));
+	init_hit_record(&rec);
+	if (!ray_hit_tree_routine(ray, tree, &interval, &rec))
+		return (ray_get_background_color(ray));
+	return (apply_light(ray, scene, &rec));
 }
