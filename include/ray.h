@@ -9,7 +9,6 @@
 /*
 	Typedefs
 */
-
 typedef struct s_scene t_scene;
 typedef struct s_light t_light;
 typedef struct s_ray
@@ -30,6 +29,10 @@ typedef struct s_hit_record
 	t_vector ray_direction;
 } t_hit_record;
 
+typedef bool (*ray_hit_shape_funp)(const t_ray *ray,
+								   const t_object *shape,
+								   t_hit_record *rec);
+
 /*
 	Functions
 */
@@ -48,15 +51,19 @@ t_color ray_send(
 	const t_ray *ray,
 	const t_scene *scene);
 
-bool ray_hit_objects(
+bool ray_hit_shape(
 	const t_ray *ray,
-	const t_object **objects,
+	const t_object *shape,
 	t_hit_record *result_rec);
 
-bool ray_hit_light(
-	const t_ray *light_ray,
-	const t_object **objects,
+bool ray_hit_multiple_shapes(
+	const t_ray *ray,
+	const t_object **shapes,
 	t_hit_record *result_rec);
+
+bool ray_hit_light(const t_ray *light_ray,
+				   const t_object **objects,
+				   t_hit_record *result_rec);
 
 t_color ray_reflect(
 	const t_ray *camera_ray,
@@ -64,36 +71,34 @@ t_color ray_reflect(
 	const t_hit_record *camera_hit_rec);
 
 bool ray_hit_sphere(
-	const t_object *sphere_object,
 	const t_ray *ray,
+	const t_object *sphere_object,
 	t_hit_record *rec);
 
 bool ray_hit_plane(
-	const t_object *plane_object,
 	const t_ray *ray,
+	const t_object *plane_object,
 	t_hit_record *rec);
 
 bool ray_hit_cylinder(
-	const t_object *cylinder_object,
 	const t_ray *ray,
+	const t_object *cylinder_object,
+	t_hit_record *rec);
+
+bool ray_hit_gyper(
+	const t_ray *ray,
+	const t_object *gyper,
 	t_hit_record *rec);
 
 t_vector get_ray_direction(
 	t_vector origin,
 	t_vector endpoint);
 
-bool ray_hit_gyper(
-	const t_object *gyper,
-	const t_ray *ray,
-	t_hit_record *rec);
-
-bool ray_hit_cone(const t_object *objects, const t_ray *ray, t_hit_record *rec);
-
 void init_hit_record(t_hit_record *rec);
 
-t_hit_record get_closest_hit(
-	const t_hit_record *first,
-	const t_hit_record *second);
+t_hit_record *get_closest_hit(
+	t_hit_record *first,
+	t_hit_record *second);
 
 t_vector hit_record_to_ray_origin(const t_hit_record *rec);
 #endif // RAY_H

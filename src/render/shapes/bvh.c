@@ -3,6 +3,9 @@
 #include "minirt_math.h"
 #include "interval.h"
 #include "libft.h"
+#include "light.h"
+
+#include <assert.h>
 
 static void merge(
 	t_object **objects_start,
@@ -102,7 +105,7 @@ t_bvh_node *init_bvh_node(
 	return (bvh_node);
 }
 
-t_bvh_node *create_tree(t_object **objects, int start, int end)
+t_bvh_node *create_tree(t_object **objects, int start, int end, int depth)
 {
 	t_bvh_node *tree;
 	int object_span;
@@ -118,8 +121,8 @@ t_bvh_node *create_tree(t_object **objects, int start, int end)
 	{
 		merge_sort_objects_array(objects, start, end, randomize_comparator());
 		int mid = start + object_span / 2;
-		tree->left = create_tree(objects, start, mid);
-		tree->right = create_tree(objects, mid + 1, end);
+		tree->left = create_tree(objects, start, mid, depth + 1);
+		tree->right = create_tree(objects, mid + 1, end, depth + 1);
 	}
 	if (tree->left && tree->right)
 		tree->box = create_aabb_from_aabb(&tree->left->box, &tree->right->box);
@@ -127,6 +130,7 @@ t_bvh_node *create_tree(t_object **objects, int start, int end)
 		tree->box = tree->left->box;
 	else if (tree->right)
 		tree->box = tree->right->box;
+	tree->box.aabb_color = clr_mult(tree->box.aabb_color, 100 - depth * 0.1);
 	return (tree);
 }
 
@@ -139,18 +143,20 @@ bool ray_hit_tree_routine(
 	left = false;
 	right = false;
 	if (tree->objects && !tree->left && !tree->right)
-		return (ray_hit_objects(ray, ((const t_object **)&tree->objects), rec));
+	{
+		if (ray_hit_shape(ray, tree->objects, rec))
+			return true;
+		return true;
+	}
 	else if (hit_aabb(&tree->box, ray, interval))
 	{
-		left = ray_hit_tree_routine(ray, tree->left, interval, rec);
-		t_interval interval_right = create_interval(
-			interval->min, left ? rec->ray_distance : interval->max);
-		right = ray_hit_tree_routine(ray, tree->right, &interval_right, rec);
+		t_interval left_interval = create_interval(0, FT_INFINITY);
+		t_interval right_interval = create_interval(0, FT_INFINITY);
+		left = ray_hit_tree_routine(ray, tree->left, &left_interval, rec);
+		right = ray_hit_tree_routine(ray, tree->right, &right_interval, rec);
 	}
 	return (left || right);
 }
-
-#include "light.h"
 
 t_color ray_hit_tree(const t_ray *ray, const t_bvh_node *tree, const t_scene *scene)
 {

@@ -10,6 +10,7 @@ t_aabb create_aabb_from_vectors(const t_vector *a, const t_vector *b)
 	aabb.interval[0] = create_interval(fmin(a->x, b->x), fmax(a->x, b->x));
 	aabb.interval[1] = create_interval(fmin(a->y, b->y), fmax(a->y, b->y));
 	aabb.interval[2] = create_interval(fmin(a->z, b->z), fmax(a->z, b->z));
+	aabb.aabb_color = create_color(random_double_range(0, 255), random_double_range(0, 255), random_double_range(0, 255));
 	return (aabb);
 }
 
@@ -21,6 +22,7 @@ t_aabb create_aabb_from_aabb(const t_aabb *a, const t_aabb *b)
 	{
 		aabb.interval[axis] = interval_expansion(&a->interval[axis], &b->interval[axis]);
 	}
+	aabb.aabb_color = create_color(random_double_range(0, 255), random_double_range(0, 255), random_double_range(0, 255));
 	return (aabb);
 }
 

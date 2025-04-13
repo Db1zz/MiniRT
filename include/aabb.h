@@ -3,6 +3,7 @@
 
 #include "vector.h"
 #include "interval.h"
+#include "color.h"
 
 typedef struct s_scene t_scene;
 typedef struct s_ray t_ray;
@@ -12,6 +13,7 @@ typedef struct s_object t_object;
 typedef struct s_aabb
 {
 	t_interval interval[3];
+	t_color aabb_color;
 } t_aabb;
 
 t_aabb create_aabb_from_vectors(const t_vector *a, const t_vector *b);

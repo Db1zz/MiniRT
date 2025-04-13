@@ -32,8 +32,6 @@ bool minirt_init(t_scene *scene)
 	return (true);
 }
 
-void print_tree(t_bvh_node *tree);
-
 int minirt_routine(int argc, char **argv)
 {
 	t_scene *scene;
@@ -43,7 +41,7 @@ int minirt_routine(int argc, char **argv)
 	if (!minirt_init(scene))
 		return (EXIT_FAILURE);
 
-	tree = create_tree(scene->objects, 0, scene->objects_size - 1);
+	tree = create_tree(scene->objects, 0, scene->objects_size - 1, 0);
 	print_tree(tree);
 
 	struct timeval start_time = getTime();

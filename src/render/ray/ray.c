@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:28:14 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/12 16:36:48 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:35:02 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,32 +20,40 @@ t_ray create_ray(t_vector origin, t_vector direction, t_color color)
 	return ((t_ray){origin, direction, color});
 }
 
-bool ray_hit_objects(
+bool ray_hit_shape(
 	const t_ray *ray,
-	const t_object **objects,
+	const t_object *shape,
 	t_hit_record *result_rec)
 {
-	t_hit_record current_rec;
-	bool found;
-	size_t i;
+	static const ray_hit_shape_funp arr[] = {
+		ray_hit_sphere,
+		ray_hit_plane,
+		ray_hit_cylinder,
+		ray_hit_gyper};
 
-	found = false;
-	init_hit_record(&current_rec);
+	return (arr[(int)shape->type])(ray, shape, result_rec);
+}
+
+bool ray_hit_multiple_shapes(
+	const t_ray *ray,
+	const t_object **shapes,
+	t_hit_record *result_rec)
+{
+	int i;
+	bool found;
+	t_hit_record closest_rec;
+	t_hit_record *closest_rec_ptr;
+
 	i = 0;
-	while (objects[i])
+	found = false;
+	while (shapes[i])
 	{
-		if (ray_hit_sphere(objects[i], ray, &current_rec))
-			found = true;
-		else if (ray_hit_plane(objects[i], ray, &current_rec))
-			found = true;
-		else if (ray_hit_cylinder(objects[i], ray, &current_rec))
-			found = true;
-		else if (ray_hit_gyper(objects[i], ray, &current_rec))
-			found = true;
+		found = ray_hit_shape(ray, shapes[i], &closest_rec);
 		if (found)
-			*result_rec = get_closest_hit(&current_rec, result_rec);
+			closest_rec_ptr = get_closest_hit(result_rec, &closest_rec);
 		++i;
 	}
+	*result_rec = *closest_rec_ptr;
 	return (found);
 }
 
@@ -64,26 +72,26 @@ t_color ray_get_background_color(const t_ray *ray)
 
 bool ray_hit_light(
 	const t_ray *light_ray,
-	const t_object **objects,
+	const t_object **shapes,
 	t_hit_record *result_rec)
 {
 	double light_intersect;
 
 	light_intersect = vec3_length(light_ray->direction);
-	if (ray_hit_objects(light_ray, objects, result_rec))
+	if (ray_hit_multiple_shapes(light_ray, shapes, result_rec))
 		return (light_intersect <= result_rec->ray_distance - EPSILON);
 	return (true);
 }
 
-t_color ray_send(
-	const t_ray *ray,
-	const t_scene *scene)
-{
-	t_hit_record rec;
+// t_color ray_send(
+// 	const t_ray *ray,
+// 	const t_scene *scene)
+// {
+// 	t_hit_record rec;
 
-	init_hit_record(&rec);
+// 	init_hit_record(&rec);
 
-	if (!ray_hit_objects(ray, (const t_object **)scene->objects, &rec))
-		return (ray_get_background_color(ray));
-	return (apply_light(ray, scene, &rec));
-}
+// 	if (!ray_hit_objects(ray, (const t_object **)scene->objects, &rec))
+// 		return (ray_get_background_color(ray));
+// 	return (apply_light(ray, scene, &rec));
+// }

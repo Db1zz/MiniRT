@@ -4,7 +4,7 @@
 
 #ifndef EPSILON
 #define EPSILON 1e-4
-#endif  // EPSILON
+#endif // EPSILON
 
 #define A 0
 #define B 1
@@ -37,7 +37,8 @@ static bool find_cylinder_solutions(
 	return (true);
 }
 
-void set_double(double *var, double val) {
+void set_double(double *var, double val)
+{
 	if (!var)
 		return;
 	*var = val;
@@ -54,11 +55,11 @@ static t_vector calc_cylinder_normal(
 	bool dist_valid[2];
 
 	dist_valid[0] = dist[0] >= 0 && dist[0] <= cy->height && s2[0] > EPSILON;
-	dist_valid[1] = dist[1] >= 0  && dist[1] <= cy->height && s2[1] > EPSILON;
+	dist_valid[1] = dist[1] >= 0 && dist[1] <= cy->height && s2[1] > EPSILON;
 	(set_double(&r_dist, dist[1]), set_double(&s, s2[1]));
 	if (dist_valid[0] || dist_valid[1])
 	{
-		if(dist_valid[0] && dist_valid[1] && s2[0] < s2[1])
+		if (dist_valid[0] && dist_valid[1] && s2[0] < s2[1])
 			(set_double(&r_dist, dist[0]), set_double(&s, s2[0]));
 		else if (dist_valid[0] && !dist_valid[1])
 			(set_double(&r_dist, dist[0]), set_double(&s, s2[0]));
@@ -80,7 +81,7 @@ static void set_cylinder_hit_rec(
 	rec->ray_direction = ray->direction;
 	rec->normal = *normal;
 	rec->intersection_p = vec3_add_vec3(ray->origin,
-					vec3_mult(ray->direction, rec->ray_distance));
+										vec3_mult(ray->direction, rec->ray_distance));
 }
 
 static bool tube_intersection(
@@ -96,17 +97,15 @@ static bool tube_intersection(
 		return false;
 
 	dist[0] = vec3_dot(cy->axis, vec3_sub_vec3(
-			vec3_mult(ray->direction, s2[0]),
-			vec3_sub_vec3(cy->pos, ray->origin)));
+									 vec3_mult(ray->direction, s2[0]),
+									 vec3_sub_vec3(cy->pos, ray->origin)));
 	dist[1] = vec3_dot(cy->axis, vec3_sub_vec3(
-			vec3_mult(ray->direction, s2[1]),
-			vec3_sub_vec3(cy->pos, ray->origin)));
+									 vec3_mult(ray->direction, s2[1]),
+									 vec3_sub_vec3(cy->pos, ray->origin)));
 
-	if (!((dist[0] >= 0 && dist[0] <= cy->height && s2[0] > EPSILON)
-		|| (dist[1] >= 0 && dist[1] <= cy->height && s2[1] > EPSILON)))
+	if (!((dist[0] >= 0 && dist[0] <= cy->height && s2[0] > EPSILON) || (dist[1] >= 0 && dist[1] <= cy->height && s2[1] > EPSILON)))
 		return (false);
-	if (dist[0] >= 0 && dist[0] <= cy->height && s2[0] > EPSILON
-		&& !(dist[1] >= 0 && dist[1] <= cy->height && s2[1] > EPSILON))
+	if (dist[0] >= 0 && dist[0] <= cy->height && s2[0] > EPSILON && !(dist[1] >= 0 && dist[1] <= cy->height && s2[1] > EPSILON))
 		s2[1] = s2[0];
 	else if (dist[1] >= 0 && dist[1] <= cy->height && s2[1] > EPSILON && !(dist[0] >= 0 && dist[0] <= cy->height && s2[0] > EPSILON))
 		s2[0] = s2[1];
@@ -115,10 +114,10 @@ static bool tube_intersection(
 	return (true);
 }
 
-static t_object	**init_caps(const t_cylinder *cy, t_vector *p2)
+static t_object **init_caps(const t_cylinder *cy, t_vector *p2)
 {
-	t_plane		*cap_plane;
-	t_object	**caps;
+	t_plane *cap_plane;
+	t_object **caps;
 
 	caps = ft_calloc(2, sizeof(t_object *));
 	cap_plane = malloc(sizeof(t_plane) * 2);
@@ -143,27 +142,25 @@ static void free_caps(t_object **cap)
 	free(cap);
 }
 
-static bool	caps_intersection(
+static bool caps_intersection(
 	const t_cylinder *cy,
 	const t_ray *ray,
 	t_hit_record *rec)
 {
-	t_vector		p2;
-	t_hit_record	cap_rec[2];
-	t_object		**caps;
-	bool			hit[2];
+	t_vector p2;
+	t_hit_record cap_rec[2];
+	t_object **caps;
+	bool hit[2];
 
 	init_hit_record(&cap_rec[0]);
 	init_hit_record(&cap_rec[1]);
 	caps = init_caps(cy, &p2);
-	hit[0] = ray_hit_plane(caps[0], ray, &cap_rec[0]);
-	hit[1] = ray_hit_plane(caps[1], ray, &cap_rec[1]);
+	hit[0] = ray_hit_plane(ray, caps[0], &cap_rec[0]);
+	hit[1] = ray_hit_plane(ray, caps[1], &cap_rec[1]);
 	free_caps(caps);
 	if (hit[0] || hit[1])
 	{
-		if ((hit[0] 
-			&& vec3_distance(cap_rec[0].intersection_p, cy->pos) <= cy->diameter / 2)
-			&& (hit[1] && vec3_distance(cap_rec[1].intersection_p, p2) <= cy->diameter / 2))
+		if ((hit[0] && vec3_distance(cap_rec[0].intersection_p, cy->pos) <= cy->diameter / 2) && (hit[1] && vec3_distance(cap_rec[1].intersection_p, p2) <= cy->diameter / 2))
 		{
 			if (cap_rec[0].ray_distance < cap_rec[1].ray_distance)
 				*rec = cap_rec[0];
@@ -171,8 +168,7 @@ static bool	caps_intersection(
 				*rec = cap_rec[1];
 			return (true);
 		}
-		else if (hit[0] 
-			&& vec3_distance(cap_rec[0].intersection_p, cy->pos) <= cy->diameter / 2)
+		else if (hit[0] && vec3_distance(cap_rec[0].intersection_p, cy->pos) <= cy->diameter / 2)
 		{
 			*rec = cap_rec[0];
 			return (true);
@@ -188,14 +184,14 @@ static bool	caps_intersection(
 }
 
 bool ray_hit_cylinder(
-	const t_object *cylinder_object,
 	const t_ray *ray,
+	const t_object *cylinder_object,
 	t_hit_record *rec)
 {
-	t_cylinder		*cylinder;
-	t_hit_record 	cylinder_rec;
-	t_hit_record 	cap_rec;
-	bool			hit[2];
+	t_cylinder *cylinder;
+	t_hit_record cylinder_rec;
+	t_hit_record cap_rec;
+	bool hit[2];
 
 	if (!cylinder_object || cylinder_object->type != E_CYLINDER)
 		return (false);

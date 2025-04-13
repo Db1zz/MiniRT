@@ -8,15 +8,21 @@
 /*
 	Typedefs
 */
+
+/*
+	typedef enum e_object_type
+
+	The order of the enums are important, do not change it,
+	because some functions are depend on it e.g ray_hit_shape().
+*/
 typedef enum e_object_type
 {
 	E_SPHERE,
 	E_CYLINDER,
 	E_PLANE,
+	E_GYPER, // Add new Shape after this one, and move this line to the last shape.
 	E_LIGHT,
 	E_AMBIENT_LIGHT,
-	E_CONE,
-	E_GYPER,
 	E_TOTAL_OBJECTS,
 } t_object_type;
 

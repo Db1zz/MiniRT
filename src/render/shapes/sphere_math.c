@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:28:28 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/07 18:55:57 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:32:47 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "interval.h"
 #include <math.h>
 
-static void	ray_hit_record_set_face_normal(
+static void ray_hit_record_set_face_normal(
 	const t_ray *ray,
 	const t_vector *outward_normal,
 	t_hit_record *rec)
@@ -28,13 +28,13 @@ static void	ray_hit_record_set_face_normal(
 	rec->normal = vec3_normalize(rec->normal);
 }
 
-static double	sphere_solve_qf(
+static double sphere_solve_qf(
 	double discriminant,
 	double qf[3],
 	const t_interval *interval)
 {
-	double	root;
-	double	sqrtd;
+	double root;
+	double sqrtd;
 
 	sqrtd = sqrt(discriminant);
 	root = (qf[1] - sqrtd) / qf[0];
@@ -47,15 +47,15 @@ static double	sphere_solve_qf(
 	return (root);
 }
 
-static bool	sphere_find_solutions(
+static bool sphere_find_solutions(
 	const t_sphere *sphere,
 	const t_ray *ray,
 	const t_interval *interval,
 	t_hit_record *rec)
 {
-	t_vector	oc;
-	double		qf[3];
-	double		discriminant;
+	t_vector oc;
+	double qf[3];
+	double discriminant;
 
 	oc = vec3_sub_vec3(sphere->pos, ray->origin);
 	qf[0] = vec3_length_squared(ray->direction);
@@ -67,18 +67,18 @@ static bool	sphere_find_solutions(
 	else
 		return (false);
 	rec->intersection_p = vec3_add_vec3(ray->origin,
-			vec3_mult(ray->direction, rec->ray_distance));
+										vec3_mult(ray->direction, rec->ray_distance));
 	return (rec->ray_distance >= 0);
 }
 
-bool	ray_hit_sphere(
-	const t_object *sphere_object,
+bool ray_hit_sphere(
 	const t_ray *ray,
+	const t_object *sphere_object,
 	t_hit_record *rec)
 {
-	const t_interval	interval = create_interval(0.01, FT_INFINITY);
-	t_vector			outward_normal;
-	t_sphere			*sphere;
+	const t_interval interval = create_interval(0.01, FT_INFINITY);
+	t_vector outward_normal;
+	t_sphere *sphere;
 
 	if (sphere_object->type != E_SPHERE || sphere_object->data == NULL)
 		return (false);
@@ -86,7 +86,7 @@ bool	ray_hit_sphere(
 	if (!sphere_find_solutions(sphere, ray, &interval, rec))
 		return (false);
 	outward_normal = vec3_div(
-			vec3_sub_vec3(rec->intersection_p, sphere->pos), sphere->radius);
+		vec3_sub_vec3(rec->intersection_p, sphere->pos), sphere->radius);
 	ray_hit_record_set_face_normal(ray, &outward_normal, rec);
 	rec->color = sphere->color;
 	rec->ray_direction = ray->direction;

@@ -22,10 +22,10 @@ bool box_y_compare_is_less(const t_object *a, const t_object *b);
 bool box_z_compare_is_less(const t_object *a, const t_object *b);
 obj_comparator randomize_comparator();
 
-	void merge_sort_objects_array(
-		t_object **objects, int start, int end, obj_comparator comparator);
+void merge_sort_objects_array(
+	t_object **objects, int start, int end, obj_comparator comparator);
 
-t_bvh_node *create_tree(t_object **objects, int start, int end);
+t_bvh_node *create_tree(t_object **objects, int start, int end, int depth);
 
 t_color ray_hit_tree(const t_ray *ray, const t_bvh_node *tree, const t_scene *scene);
 

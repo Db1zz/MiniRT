@@ -6,12 +6,13 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:24 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/12 19:33:26 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:35:46 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "utils.h"
+#include "minirt_math.h"
 
 void parse_sphere(t_scene *scene, char **line_data)
 {
@@ -31,7 +32,8 @@ void parse_sphere(t_scene *scene, char **line_data)
 	// ADD New box
 	scene->objects[scene->objects_size - 1]
 		->box = compute_sphere_aabb(sphere);
-	sphere->id = scene->objects_size;
+	sphere->id = scene->objects_size; // Removeme
+	scene->objects[scene->objects_size - 1]->box->aabb_color = create_color(random_double_range(0, 255), random_double_range(0, 255), random_double_range(0, 255));
 }
 
 void parse_cylinder(t_scene *scene, char **line_data)
