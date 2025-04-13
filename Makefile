@@ -24,7 +24,10 @@ SRCS =	src/minirt.c	\
 		src/render/shapes/plane_math.c	\
 		src/render/shapes/sphere_math.c	\
 		src/render/utilities/antialiasing.c	\
-		src/render/utilities/aabb.c	\
+		src/render/shapes/aabb.c	\
+		src/render/shapes/bvh.c	\
+		src/render/utilities/bvh_utils.c	\
+		src/render/utilities/bvh_print_tree.c	\
 		src/render/utilities/color_math1.c	\
 		src/render/utilities/color_math2.c	\
 		src/render/utilities/color_math3.c	\

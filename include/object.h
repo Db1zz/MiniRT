@@ -44,6 +44,7 @@ typedef struct s_sphere
 	t_color color;
 	double diameter;
 	double radius;
+	int id; // Removeme
 } t_sphere;
 
 typedef struct s_plane

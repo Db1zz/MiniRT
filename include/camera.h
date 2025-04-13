@@ -5,6 +5,7 @@
 #include "viewport.h"
 #include "object.h"
 #include "ray.h"
+#include "bvh.h"
 #include <math.h>
 
 #define CAMERA_FOV_MIN 0
