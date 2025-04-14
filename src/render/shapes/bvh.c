@@ -152,8 +152,22 @@ bool ray_hit_tree_routine(
 	{
 		t_interval left_interval = create_interval(0, FT_INFINITY);
 		t_interval right_interval = create_interval(0, FT_INFINITY);
-		left = ray_hit_tree_routine(ray, tree->left, &left_interval, rec);
-		right = ray_hit_tree_routine(ray, tree->right, &right_interval, rec);
+		t_hit_record temp_left;
+		t_hit_record temp_right;
+		t_hit_record *temp_ptr;
+		init_hit_record(&temp_left);
+		init_hit_record(&temp_right);
+		left = ray_hit_tree_routine(ray, tree->left, &left_interval, &temp_left);
+		right = ray_hit_tree_routine(ray, tree->right, &right_interval, &temp_right);
+		if (left && right)
+		{
+			temp_ptr = get_closest_hit(&temp_left, &temp_right);
+			*rec = *get_closest_hit(temp_ptr, rec);
+		}
+		else if (left)
+			*rec = *get_closest_hit(rec, &temp_left);
+		else if (right)
+			*rec = *get_closest_hit(rec, &temp_right);
 	}
 	return (left || right);
 }
