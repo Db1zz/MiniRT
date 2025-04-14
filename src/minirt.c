@@ -39,11 +39,10 @@ int minirt_routine(int argc, char **argv)
 
 	scene = parse_input(argc, argv);
 	if (!minirt_init(scene))
-		return (EXIT_FAILURE);
-
+	return (EXIT_FAILURE);
+	
 	tree = create_tree(scene->objects, 0, scene->objects_size - 1, 0);
 	print_tree(tree);
-
 	struct timeval start_time = getTime();
 	render(scene, tree);
 	struct timeval end_time = getTime();

@@ -55,16 +55,17 @@ static t_color get_specular_light(
 	double specular;
 	t_light *light;
 	t_color result_color;
+	t_color specular_color;
 	int i;
 
 	result_color = create_color(0, 0, 0);
-	i = 0;
+	specular_color = create_color(255, 255, 255);
+		i = 0;
 	while (scene->lights[i])
 	{
 		light = scene->lights[i]->data;
-		specular = calculate_specular_light(light, camera_ray, hit_rec, 0.5);
-		result_color = clr_add_clr(result_color,
-								   clr_mult(light->color, specular));
+		specular = calculate_specular_light(light, camera_ray, hit_rec, 0.8);
+		result_color = clr_add_clr(result_color, clr_mult(specular_color, specular));
 		++i;
 	}
 	result_color = normalize_color(result_color);
@@ -95,7 +96,7 @@ t_color apply_light(
 		result = get_diffuse_light(scene, shape_rec);
 	// if (scene->ambient_lightings) FIXME
 	// 	result = get_ambient_light(scene->ambient_lightings, &result);
-	result = clr_add_clr(result,
-						 get_specular_light(camera_ray, scene, shape_rec));
+	result = normalize_color(clr_add_clr(result,
+										get_specular_light(camera_ray, scene, shape_rec)));
 	return (result);
 }
