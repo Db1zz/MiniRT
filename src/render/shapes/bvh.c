@@ -130,12 +130,20 @@ t_bvh_node *create_tree(t_object **objects, int start, int end, int depth)
 		tree->box = tree->left->box;
 	else if (tree->right)
 		tree->box = tree->right->box;
-	tree->box.aabb_color = clr_mult(tree->box.aabb_color, 100 - depth * 0.1);
+
+	// Removeme
+	// tree->box.aabb_color = clr_mult(tree->box.aabb_color, 100 - depth * 0.1);
 	return (tree);
 }
 
+/*
+	Performance issues:
+	1. Recursion itself doesn't harm much, but the data which are
+		recursively gets copied is the most significant drawback
+		in performance...
+*/
 bool ray_hit_tree_routine(
-	const t_ray *ray, const t_bvh_node *tree, t_interval *interval, t_hit_record *rec)
+	const t_ray *ray, const t_bvh_node *tree, t_hit_record *rec)
 {
 	bool left;
 	bool right;
@@ -143,22 +151,16 @@ bool ray_hit_tree_routine(
 	left = false;
 	right = false;
 	if (tree->objects && !tree->left && !tree->right)
+		return (ray_hit_shape(ray, tree->objects, rec));
+	else if (hit_aabb(&tree->box, ray))
 	{
-		if (ray_hit_shape(ray, tree->objects, rec))
-			return true;
-		return true;
-	}
-	else if (hit_aabb(&tree->box, ray, interval))
-	{
-		t_interval left_interval = create_interval(0, FT_INFINITY);
-		t_interval right_interval = create_interval(0, FT_INFINITY);
 		t_hit_record temp_left;
 		t_hit_record temp_right;
 		t_hit_record *temp_ptr;
 		init_hit_record(&temp_left);
 		init_hit_record(&temp_right);
-		left = ray_hit_tree_routine(ray, tree->left, &left_interval, &temp_left);
-		right = ray_hit_tree_routine(ray, tree->right, &right_interval, &temp_right);
+		left = ray_hit_tree_routine(ray, tree->left, &temp_left);
+		right = ray_hit_tree_routine(ray, tree->right, &temp_right);
 		if (left && right)
 		{
 			temp_ptr = get_closest_hit(&temp_left, &temp_right);
@@ -177,9 +179,8 @@ t_color ray_hit_tree(const t_ray *ray, const t_bvh_node *tree, const t_scene *sc
 	t_interval interval;
 	t_hit_record rec;
 
-	interval = create_interval(0, FT_INFINITY);
 	init_hit_record(&rec);
-	if (!ray_hit_tree_routine(ray, tree, &interval, &rec))
+	if (!ray_hit_tree_routine(ray, tree, &rec))
 		return (ray_get_background_color(ray));
 	return (apply_light(ray, scene, &rec));
 }

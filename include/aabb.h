@@ -13,12 +13,12 @@ typedef struct s_object t_object;
 typedef struct s_aabb
 {
 	t_interval interval[3];
-	t_color aabb_color;
+	// 	t_color aabb_color;
 } t_aabb;
 
 t_aabb create_aabb_from_vectors(const t_vector *a, const t_vector *b);
 t_aabb create_aabb_from_aabb(const t_aabb *a, const t_aabb *b);
 t_aabb *compute_sphere_aabb(t_sphere *sphere);
-bool hit_aabb(const t_aabb *aabb, const t_ray *r, t_interval *ray_t);
+bool hit_aabb(const t_aabb *aabb, const t_ray *r);
 
 #endif // AABB_H
