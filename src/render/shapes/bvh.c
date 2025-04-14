@@ -136,40 +136,30 @@ t_bvh_node *create_tree(t_object **objects, int start, int end, int depth)
 	return (tree);
 }
 
-/*
-	Performance issues:
-	1. Recursion itself doesn't harm much, but the data which are
-		recursively gets copied is the most significant drawback
-		in performance...
-*/
 bool ray_hit_tree_routine(
-	const t_ray *ray, const t_bvh_node *tree, t_hit_record *rec)
+	const t_ray *ray,
+	const t_bvh_node *tree,
+	t_hit_record *rec,
+	t_hit_record *temp)
 {
 	bool left;
 	bool right;
 
 	left = false;
 	right = false;
-	if (tree->objects && !tree->left && !tree->right)
-		return (ray_hit_shape(ray, tree->objects, rec));
+	if (tree->objects)
+	{
+		if (ray_hit_shape(ray, tree->objects, rec))
+		{
+			*rec = *get_closest_hit(temp, rec);
+			return (true);
+		}
+		return (false);
+	}
 	else if (hit_aabb(&tree->box, ray))
 	{
-		t_hit_record temp_left;
-		t_hit_record temp_right;
-		t_hit_record *temp_ptr;
-		init_hit_record(&temp_left);
-		init_hit_record(&temp_right);
-		left = ray_hit_tree_routine(ray, tree->left, &temp_left);
-		right = ray_hit_tree_routine(ray, tree->right, &temp_right);
-		if (left && right)
-		{
-			temp_ptr = get_closest_hit(&temp_left, &temp_right);
-			*rec = *get_closest_hit(temp_ptr, rec);
-		}
-		else if (left)
-			*rec = *get_closest_hit(rec, &temp_left);
-		else if (right)
-			*rec = *get_closest_hit(rec, &temp_right);
+		left = ray_hit_tree_routine(ray, tree->left, rec, temp);
+		right = ray_hit_tree_routine(ray, tree->right, rec, temp);
 	}
 	return (left || right);
 }
@@ -178,9 +168,11 @@ t_color ray_hit_tree(const t_ray *ray, const t_bvh_node *tree, const t_scene *sc
 {
 	t_interval interval;
 	t_hit_record rec;
+	t_hit_record temp;
 
 	init_hit_record(&rec);
-	if (!ray_hit_tree_routine(ray, tree, &rec))
+	temp = rec;
+	if (!ray_hit_tree_routine(ray, tree, &rec, &temp))
 		return (ray_get_background_color(ray));
 	return (apply_light(ray, scene, &rec));
 }
