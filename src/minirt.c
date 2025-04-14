@@ -82,23 +82,6 @@ void test_merge_sort(t_scene *scene)
 
 int main(int argc, char **argv)
 {
-	// t_scene *scene = parse_input(argc, argv);
-	// if (!scene)
-	// 	return (EXIT_FAILURE);
-
-	// minirt_init(scene);
 	minirt_routine(argc, argv);
-
-	// test_merge_sort(scene);
-
-	// t_bvh_node *tree = create_tree(scene->objects, 0, scene->objects_size - 1);
-	// print_tree(tree);
-
-	// t_aabb *box = scene->objects[1]->box;
-	// printf("interval[0]: {%f, %f}\n", box->interval[0].min, box->interval[0].max);
-	// printf("interval[1]: {%f, %f}\n", box->interval[1].min, box->interval[1].max);
-	// printf("interval[2]: {%f, %f}\n", box->interval[2].min, box->interval[2].max);
-	// free_scene(&scene);
-
 	return (EXIT_SUCCESS);
 }

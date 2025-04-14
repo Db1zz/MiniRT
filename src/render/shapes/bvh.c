@@ -63,14 +63,12 @@ void merge_sort_objects_array(
 	int end,
 	obj_comparator comparator)
 {
-	int mittel;
-	int left_size;
-	int right_size;
+	int	mittel;
+	int	left_size;
+	int	right_size;
 
 	if (start >= end || end - start == 0)
-	{
 		return;
-	}
 
 	mittel = start + (end - start) / 2;
 	left_size = mittel + 1 - start;
@@ -86,19 +84,13 @@ t_bvh_node *init_bvh_node(
 	t_bvh_node *left,
 	t_bvh_node *right)
 {
-	t_bvh_node *bvh_node;
+	t_bvh_node	*bvh_node;
 
 	bvh_node = ft_calloc(1, sizeof(t_bvh_node));
 	if (!bvh_node)
-	{
 		return (NULL);
-	}
-
 	if (box != NULL)
-	{
 		bvh_node->box = *box;
-	}
-
 	bvh_node->left = left;
 	bvh_node->right = right;
 	bvh_node->objects = objects;
@@ -149,7 +141,7 @@ bool ray_hit_tree_routine(
 	right = false;
 	if (tree->objects)
 	{
-		if (ray_hit_shape(ray, tree->objects, rec))
+		if (ray_hit_shape(ray, tree->objects, temp))
 		{
 			*rec = *get_closest_hit(temp, rec);
 			return (true);
@@ -164,7 +156,8 @@ bool ray_hit_tree_routine(
 	return (left || right);
 }
 
-t_color ray_hit_tree(const t_ray *ray, const t_bvh_node *tree, const t_scene *scene)
+t_color ray_hit_tree(
+	const t_ray *ray, const t_bvh_node *tree, const t_scene *scene)
 {
 	t_interval interval;
 	t_hit_record rec;
