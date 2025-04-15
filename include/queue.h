@@ -20,6 +20,6 @@ t_queue			*queue_init();
 void			queue_push(t_queue *queue, t_queue_data *data);
 t_queue_data	*queue_pop(t_queue *queue);
 t_queue_node	*queue_create_node(t_queue_data *data, t_queue_node *next);
-void			queue_free_node(t_queue_data *data);
+void			queue_free_node(t_queue_node **node);
 
 #endif // QUEUE_H

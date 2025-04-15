@@ -48,19 +48,23 @@ t_queue_data *queue_pop(t_queue *queue)
 	return (data);
 }
 
-// Destroy queue xd TODO
 void	queue_destroy(t_queue **queue) {
 	t_queue *temp;
+	t_queue_node	*node_to_free;
 
+	assert(queue != NULL);
 	temp = *queue;
 	assert(temp != NULL);
 
-	if (temp->data) {
-		free(temp->data);
-		temp->data = NULL;
+	if (temp->size > 0) {
+		while (temp->first)
+		{
+			node_to_free = temp->first;
+			temp->first = temp->first->next;
+			queue_free_node(&node_to_free);
+		}
 	}
-	free(temp);
-
+	free(*queue);
 	*queue = NULL;
 }
 
@@ -74,6 +78,8 @@ t_queue_node	*queue_create_node(t_queue_data *data, t_queue_node *next) {
 	return (new_node);
 }
 
-void queue_free_node(t_queue_data *data) {
-
+void	queue_free_node(t_queue_node **node)
+{
+	free(*node);
+	*node = NULL;
 }
