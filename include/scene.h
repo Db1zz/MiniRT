@@ -4,6 +4,8 @@
 # include "camera.h"
 # include "object.h"
 # include "ft_error.h"
+# include "bvh.h"
+# include "xpm_render.h"
 
 # define SCENE_LIGHTS_LIMIT 10
 # define SCENE_AMBIENT_LIGHTNING_LIMIT 10
@@ -18,10 +20,12 @@ typedef struct s_scene
 	t_object	**lights; // [SCENE_LIGHTS_LIMIT + 1];
 	t_object	**ambient_light; // [SCENE_AMBIENT_LIGHTNING_LIMIT + 1];
 	t_object	**objects; // [SCENE_OBJECTS_LIMIT + 1];
+	t_bvh_node	*tree;
 	size_t		lights_size;
 	size_t		ambient_light_size;
 	size_t		objects_size;
-	t_error		error;
+	t_xpm_image img;
+	t_error error;
 }	t_scene;
 
 t_scene	*scene_alloc(void);

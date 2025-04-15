@@ -1,12 +1,16 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#include "ray.h"
 #include <stdlib.h> // size_t
 
-typedef int t_queue_data;
+typedef struct s_queue_data {
+	int	x;
+	int	y;
+}	t_queue_data;
 
 typedef struct s_queue_node {
-	t_queue_data *data;
+	t_queue_data		*data;
 	struct s_queue_node *next;
 }	t_queue_node;
 

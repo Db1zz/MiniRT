@@ -30,5 +30,4 @@ int	main(void) {
 
 	queue_destroy(&queue);
 	return 0;
-
 }

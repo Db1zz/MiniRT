@@ -27,6 +27,12 @@ bool minirt_init(t_scene *scene)
 	scene->win = mlx_new_window(
 		scene->mlx, VIEWPORT_WIDTH, VIEWPORT_HEIGHT, "The rats have taken over");
 	update_viewport(scene->camera);
+
+	scene->img = xpm_render_new_img(
+		scene->mlx,
+		VIEWPORT_WIDTH,
+		VIEWPORT_HEIGHT);
+
 	mlx_hook(scene->win, 2, 1, input_handler, scene);
 	mlx_hook(scene->win, 17, 1L << 17, exit_minirt, scene);
 	return (true);
@@ -40,11 +46,11 @@ int minirt_routine(int argc, char **argv)
 	scene = parse_input(argc, argv);
 	if (!minirt_init(scene))
 	return (EXIT_FAILURE);
-	
-	tree = create_tree(scene->objects, 0, scene->objects_size - 1, 0);
-	print_tree(tree);
+
+	scene->tree = create_tree(scene->objects, 0, scene->objects_size - 1, 0);
+	print_tree(scene->tree);
 	struct timeval start_time = getTime();
-	render(scene, tree);
+	render(scene);
 	struct timeval end_time = getTime();
 
 	printf("Rendered for [m:%ld, s:%ld, ms:%ld]\n",

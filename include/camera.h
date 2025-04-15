@@ -22,7 +22,6 @@ typedef struct s_camera
 t_color camera_get_pixel_color(
 	const t_camera *camera,
 	const t_scene *scene,
-	const t_bvh_node *tree,
 	int x, int y);
 
 #endif // CAMERA_H
