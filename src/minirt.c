@@ -3,6 +3,7 @@
 #include "minirt.h"
 #include "aabb.h"
 #include "bvh.h"
+#include "minirt_threads.h"
 
 #include <assert.h>
 
@@ -38,16 +39,34 @@ bool minirt_init(t_scene *scene)
 	return (true);
 }
 
+void init_threads(t_scene *scene) {
+	t_ray_thread_ctx	*thread_data;
+	size_t				i;
+
+	thread_data = ft_calloc(1, sizeof(t_ray_thread_ctx));
+	pthread_mutex_init(&thread_data->queue_mutex, NULL);
+	thread_data->scene = scene;
+
+	i = 0;
+	while (i < SCENE_THREADS_AMOUNT) {
+		pthread_create(&scene->threads[i], NULL, ray_task_handler, thread_data);
+		++i;
+	}
+}
+
 int minirt_routine(int argc, char **argv)
 {
-	t_scene *scene;
-	t_bvh_node *tree;
+	t_scene		*scene;
+	t_bvh_node	*tree;
 
 	scene = parse_input(argc, argv);
 	if (!minirt_init(scene))
 	return (EXIT_FAILURE);
 
 	scene->tree = create_tree(scene->objects, 0, scene->objects_size - 1, 0);
+	scene->queue = queue_init();
+	init_threads(scene);
+
 	print_tree(scene->tree);
 	struct timeval start_time = getTime();
 	render(scene);

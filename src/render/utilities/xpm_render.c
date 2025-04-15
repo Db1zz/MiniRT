@@ -1,6 +1,7 @@
 #include "xpm_render.h"
-#include <mlx.h>
+#include "mlx.h"
 #include <assert.h>
+#include <stdlib.h>
 
 /*
 	Documentation:

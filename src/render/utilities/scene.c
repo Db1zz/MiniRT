@@ -3,6 +3,7 @@
 #include "libft.h" // ft_calloc
 #include "viewport.h" // update_viewport + viewport dimensions
 #include "mlx.h" // mlx stuff
+#include "xpm_render.h"
 
 #include <stdlib.h>
 

@@ -10,7 +10,6 @@
 typedef struct s_ray_thread_ctx
 {
 	t_scene	*scene;
-	t_queue *queue;
 	pthread_mutex_t queue_mutex;
 
 }	t_ray_thread_ctx;

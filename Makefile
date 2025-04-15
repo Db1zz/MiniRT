@@ -2,7 +2,7 @@
 NAME = miniRT
 CC = cc
 UNAME_S := $(shell uname -s)
-FLAGS := -Wall -Wextra -O2 #-Werror
+FLAGS := -Wall -Wextra -O3 #-Werror
 MINILIBX_DIR = minilibx
 MINILIBX := $(MINILIBX_DIR)/libmlx.a
 LIBFT = libft/libft.a
@@ -19,7 +19,9 @@ SRCS =	src/minirt.c	\
 		src/render/ray/ray_reflections.c	\
 		src/render/ray/ray_utils.c	\
 		src/render/ray/ray.c	\
-		src/render/ray/threads.c \
+		src/render/ray/queue/queue.c \
+		src/render/ray/queue/queue_utils.c \
+		src/render/ray/threads/threads.c \
 		src/render/shapes/cylinder_math.c	\
 		src/render/shapes/gyper_math.c	\
 		src/render/shapes/plane_math.c	\
@@ -75,7 +77,7 @@ $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
-	@mkdir -p $(OBJS_DIR) $(OBJS_DIR)/render $(OBJS_DIR)/parser $(OBJS_DIR)/render/camera $(OBJS_DIR)/render/ray $(OBJS_DIR)/render/utilities $(OBJS_DIR)/render/shapes
+	@mkdir -p $(OBJS_DIR) $(OBJS_DIR)/render $(OBJS_DIR)/parser $(OBJS_DIR)/render/camera $(OBJS_DIR)/render/ray $(OBJS_DIR)/render/utilities $(OBJS_DIR)/render/shapes $(OBJS_DIR)/render/ray/queue $(OBJS_DIR)/render/ray/threads
 	$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@
 
 $(NAME): $(OBJS)

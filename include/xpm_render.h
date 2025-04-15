@@ -1,7 +1,7 @@
 #ifndef XPM_RENDER_H
 # define XPM_RENDER_H
 
-#include <scene.h>
+#include "color.h"
 #include <mlx.h>
 
 typedef struct s_xpm_image

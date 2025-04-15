@@ -23,7 +23,6 @@ void render(t_scene *scene)
 {
 	unsigned int x;
 	unsigned int y;
-	t_color ray_color;
 
 	x = 0;
 	while (x < VIEWPORT_HEIGHT)
@@ -31,9 +30,10 @@ void render(t_scene *scene)
 		y = 0;
 		while (y < VIEWPORT_WIDTH)
 		{
-			ray_color = camera_get_pixel_color(scene->camera, scene, x, y);
-			// ray_color = apply_antialiasing(ray_color, scene, x, y);
-			// draw_pixel(scene, y, x, &ray_color);
+			t_queue_data *qdata = malloc(sizeof(t_queue_data));
+			qdata->x = x;
+			qdata->y = y;
+			queue_push(scene->queue, qdata);
 			y++;
 		}
 		x++;

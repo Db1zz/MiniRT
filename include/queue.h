@@ -4,10 +4,16 @@
 #include "ray.h"
 #include <stdlib.h> // size_t
 
-typedef struct s_queue_data {
-	int	x;
-	int	y;
-}	t_queue_data;
+#ifndef QUEUE_QUEUE_DATA
+#define QUEUE_QUEUE_DATA
+
+typedef struct s_queue_data
+{
+	int x;
+	int y;
+} t_queue_data;
+
+#endif // QUEUE_QUEUE_DATA
 
 typedef struct s_queue_node {
 	t_queue_data		*data;

@@ -159,7 +159,6 @@ bool ray_hit_tree_routine(
 t_color ray_hit_tree(
 	const t_ray *ray, const t_bvh_node *tree, const t_scene *scene)
 {
-	t_interval interval;
 	t_hit_record rec;
 	t_hit_record temp;
 

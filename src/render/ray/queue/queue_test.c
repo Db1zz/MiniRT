@@ -1,11 +1,16 @@
-#include "queue.h"
+#define QUEUE_QUEUE_DATA
+
 #include <stdio.h>
+#include "queue.h"
+
+typedef int t_queue_data;
+
 
 /*
- cc -o test queue.c queue_test.c queue_utils.c ../../../../libft/libft.a -I ../../../../include -I ../../../../libft
+	cc -o test queue.c queue_test.c queue_utils.c ../../../../libft/libft.a -I ../../../../include -I ../../../../libft
 */
 
-int	main(void) {
+int main(void) {
 	t_queue *queue = queue_init();
 	t_queue_data data1 = 1;
 	t_queue_data data2 = 2;

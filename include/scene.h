@@ -6,11 +6,18 @@
 # include "ft_error.h"
 # include "bvh.h"
 # include "xpm_render.h"
+# include "queue.h"
+# include "minirt_threads.h"
+
+// typedef struct s_xpm_image t_xpm_image;
+
+#include <pthread.h>
 
 # define SCENE_LIGHTS_LIMIT 10
 # define SCENE_AMBIENT_LIGHTNING_LIMIT 10
 # define SCENE_OBJECTS_LIMIT 1024
 # define SCENE_ANTIALIASING_SAMPLES 10
+# define SCENE_THREADS_AMOUNT 8
 
 typedef struct s_scene
 {
@@ -25,6 +32,8 @@ typedef struct s_scene
 	size_t		ambient_light_size;
 	size_t		objects_size;
 	t_xpm_image img;
+	t_queue		*queue;
+	pthread_t	threads[SCENE_THREADS_AMOUNT];
 	t_error error;
 }	t_scene;
 
