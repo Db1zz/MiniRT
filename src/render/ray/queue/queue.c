@@ -14,7 +14,7 @@ t_queue	*queue_init()
 	return (queue);
 }
 
-void queue_push(t_queue *queue, t_queue_data *data){
+void	queue_push(t_queue *queue, t_queue_data *data){
 	t_queue_node	*node;
 
 	node = queue_create_node(data, NULL);
@@ -56,7 +56,8 @@ void	queue_destroy(t_queue **queue) {
 	temp = *queue;
 	assert(temp != NULL);
 
-	if (temp->size > 0) {
+	if (temp->size > 0)
+	{
 		while (temp->first)
 		{
 			node_to_free = temp->first;
@@ -66,20 +67,4 @@ void	queue_destroy(t_queue **queue) {
 	}
 	free(*queue);
 	*queue = NULL;
-}
-
-t_queue_node	*queue_create_node(t_queue_data *data, t_queue_node *next) {
-	t_queue_node	*new_node;
-
-	new_node = malloc(sizeof(data));
-	new_node->data = data;
-	new_node->next = next;
-
-	return (new_node);
-}
-
-void	queue_free_node(t_queue_node **node)
-{
-	free(*node);
-	*node = NULL;
 }
