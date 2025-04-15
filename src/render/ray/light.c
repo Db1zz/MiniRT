@@ -89,14 +89,15 @@ t_color apply_light(
 	const t_scene *scene,
 	const t_hit_record *shape_rec)
 {
-	t_color result;
+	t_color	result;
+	t_color	specular_light;
 
 	result = create_color(0, 0, 0);
 	if (scene->lights[0])
 		result = get_diffuse_light(scene, shape_rec);
 	// if (scene->ambient_lightings) FIXME
 	// 	result = get_ambient_light(scene->ambient_lightings, &result);
-	result = normalize_color(clr_add_clr(result,
-										get_specular_light(camera_ray, scene, shape_rec)));
+	specular_light = get_specular_light(camera_ray, scene, shape_rec);
+	result = normalize_color(clr_add_clr(result, specular_light));
 	return (result);
 }
