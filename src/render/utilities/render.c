@@ -18,11 +18,12 @@
 #include "queue.h"
 
 #include <assert.h>
+#include <unistd.h>
 
 void render(t_scene *scene)
 {
-	unsigned int x;
-	unsigned int y;
+	unsigned int	x;
+	unsigned int	y;
 
 	x = 0;
 	while (x < VIEWPORT_HEIGHT)
@@ -30,13 +31,16 @@ void render(t_scene *scene)
 		y = 0;
 		while (y < VIEWPORT_WIDTH)
 		{
-			t_queue_data *qdata = malloc(sizeof(t_queue_data));
+			t_queue_data	*qdata = malloc(sizeof(t_queue_data));
 			qdata->x = x;
 			qdata->y = y;
 			queue_push(scene->queue, qdata);
 			y++;
 		}
 		x++;
+	}
+	while (scene->queue->size > 0) {
+		usleep(1000);
 	}
 	mlx_put_image_to_window(scene->mlx, scene->win, scene->img.img, 0, 0);
 }

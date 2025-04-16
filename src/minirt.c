@@ -39,16 +39,22 @@ bool minirt_init(t_scene *scene)
 	return (true);
 }
 
+#include <stdlib.h>
+#include <unistd.h>
+
 void init_threads(t_scene *scene) {
 	t_ray_thread_ctx	*thread_data;
 	size_t				i;
+	size_t				threads_amount;
 
 	thread_data = ft_calloc(1, sizeof(t_ray_thread_ctx));
 	pthread_mutex_init(&thread_data->queue_mutex, NULL);
 	thread_data->scene = scene;
+	threads_amount = sysconf(_SC_NPROCESSORS_CONF);
+	scene->threads = ft_calloc(threads_amount, sizeof(pthread_t));
 
 	i = 0;
-	while (i < SCENE_THREADS_AMOUNT) {
+	while (i < threads_amount) {
 		pthread_create(&scene->threads[i], NULL, ray_task_handler, thread_data);
 		++i;
 	}
