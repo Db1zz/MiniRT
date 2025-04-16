@@ -33,7 +33,6 @@ bool minirt_init(t_scene *scene)
 		scene->mlx,
 		VIEWPORT_WIDTH,
 		VIEWPORT_HEIGHT);
-
 	mlx_hook(scene->win, 2, 1, input_handler, scene);
 	mlx_hook(scene->win, 17, 1L << 17, exit_minirt, scene);
 	return (true);
@@ -41,20 +40,28 @@ bool minirt_init(t_scene *scene)
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/mman.h>
 
 void init_threads(t_scene *scene) {
-	t_ray_thread_ctx	*thread_data;
 	size_t				i;
-	size_t				threads_amount;
-
-	thread_data = ft_calloc(1, sizeof(t_ray_thread_ctx));
-	pthread_mutex_init(&thread_data->queue_mutex, NULL);
-	thread_data->scene = scene;
-	threads_amount = sysconf(_SC_NPROCESSORS_CONF);
-	scene->threads = ft_calloc(threads_amount, sizeof(pthread_t));
+	t_ray_thread_ctx	*thread_data;
 
 	i = 0;
-	while (i < threads_amount) {
+	scene->threads_amount = sysconf(_SC_NPROCESSORS_CONF);
+	scene->threads = ft_calloc(scene->threads_amount, sizeof(pthread_t));
+	init_semaphore(&scene->thread_task_sem, "minirt_thread_task_sem", scene->threads_amount);
+	init_semaphore(&scene->global_sem, "minirt_global_sem", 1);
+	scene->tasks_fineshed = 0;
+
+	while (i < scene->threads_amount)
+	{
+		thread_data = ft_calloc(1, sizeof(t_ray_thread_ctx));
+		thread_data->scene = scene;
+		thread_data->x_start = VIEWPORT_HEIGHT / scene->threads_amount * i;
+		thread_data->x_end = thread_data->x_start + VIEWPORT_HEIGHT / scene->threads_amount;
+		if (i == scene->threads_amount - 1) {
+			thread_data->x_end += VIEWPORT_HEIGHT % scene->threads_amount;
+		}
 		pthread_create(&scene->threads[i], NULL, ray_task_handler, thread_data);
 		++i;
 	}
@@ -63,18 +70,17 @@ void init_threads(t_scene *scene) {
 int minirt_routine(int argc, char **argv)
 {
 	t_scene		*scene;
-	t_bvh_node	*tree;
 
 	scene = parse_input(argc, argv);
 	if (!minirt_init(scene))
 	return (EXIT_FAILURE);
 
 	scene->tree = create_tree(scene->objects, 0, scene->objects_size - 1, 0);
-	scene->queue = queue_init();
+	print_tree(scene->tree);
+
 	init_threads(scene);
 
-	print_tree(scene->tree);
-	struct timeval start_time = getTime();
+		struct timeval start_time = getTime();
 	render(scene);
 	struct timeval end_time = getTime();
 

@@ -12,6 +12,8 @@
 // typedef struct s_xpm_image t_xpm_image;
 
 #include <pthread.h>
+#include <semaphore.h>
+
 
 # define SCENE_LIGHTS_LIMIT 10
 # define SCENE_AMBIENT_LIGHTNING_LIMIT 10
@@ -31,8 +33,11 @@ typedef struct s_scene
 	size_t		ambient_light_size;
 	size_t		objects_size;
 	t_xpm_image img;
-	t_queue		*queue;
 	pthread_t	*threads;
+	size_t		threads_amount;
+	sem_t		*thread_task_sem;
+	sem_t		*global_sem;
+	size_t		tasks_fineshed;
 	t_error		error;
 }	t_scene;
 

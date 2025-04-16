@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:25:21 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/12 13:06:13 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/16 22:57:42 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,44 @@
 #include <assert.h>
 #include <unistd.h>
 
+void	semaphore_decrement(sem_t *sem, size_t sem_amount) {
+	size_t	i;
+
+	i = 0;
+	while (i < sem_amount) {
+		sem_wait(sem);
+		++i;
+	}
+}
+
+void semaphore_increment(sem_t *sem, size_t sem_amount) {
+	size_t i;
+
+	i = 0;
+	while (i < sem_amount)
+	{
+		sem_post(sem);
+		++i;
+	}
+}
+
 void render(t_scene *scene)
 {
-	unsigned int	x;
-	unsigned int	y;
+	scene->tasks_fineshed = 0;
+	semaphore_increment(scene->thread_task_sem, scene->threads_amount);
 
-	x = 0;
-	while (x < VIEWPORT_HEIGHT)
+	while (true)
 	{
-		y = 0;
-		while (y < VIEWPORT_WIDTH)
+		sem_wait(scene->global_sem);
+		if (scene->tasks_fineshed == scene->threads_amount)
 		{
-			t_queue_data	*qdata = malloc(sizeof(t_queue_data));
-			qdata->x = x;
-			qdata->y = y;
-			queue_push(scene->queue, qdata);
-			y++;
+			sem_post(scene->global_sem);
+			break;
 		}
-		x++;
-	}
-	while (scene->queue->size > 0) {
+		sem_post(scene->global_sem);
 		usleep(1000);
 	}
-	mlx_put_image_to_window(scene->mlx, scene->win, scene->img.img, 0, 0);
+
+	mlx_put_image_to_window(
+		scene->mlx, scene->win, scene->img.img, 0, 0);
 }

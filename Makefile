@@ -2,7 +2,7 @@
 NAME = miniRT
 CC = cc
 UNAME_S := $(shell uname -s)
-FLAGS := -Wall -Wextra -O3 #-Werror
+FLAGS := -Wall -Wextra -O3 -pthread #-Werror
 MINILIBX_DIR = minilibx
 MINILIBX := $(MINILIBX_DIR)/libmlx.a
 LIBFT = libft/libft.a
@@ -22,6 +22,7 @@ SRCS =	src/minirt.c	\
 		src/render/ray/queue/queue.c \
 		src/render/ray/queue/queue_utils.c \
 		src/render/ray/threads/threads.c \
+		src/render/ray/threads/semaphores.c \
 		src/render/shapes/cylinder_math.c	\
 		src/render/shapes/gyper_math.c	\
 		src/render/shapes/plane_math.c	\
