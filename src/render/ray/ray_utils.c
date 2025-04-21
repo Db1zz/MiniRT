@@ -18,7 +18,6 @@
 
 void init_hit_record(t_hit_record *rec)
 {
-	ft_memset(rec, 0, sizeof(t_hit_record));
 	rec->color = create_color(0, 0, 0);
 	rec->front_face = false;
 	rec->intersection_p = create_vector(0, 0, 0);
