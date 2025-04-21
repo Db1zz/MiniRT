@@ -6,8 +6,8 @@
 
 typedef struct s_xpm_image
 {
-	void *mlx;
 	void *img;
+	void *mlx;
 	unsigned char *data;
 	unsigned int width;
 	unsigned int height;
@@ -17,16 +17,13 @@ typedef struct s_xpm_image
 	int endian;
 }	t_xpm_image;
 
-void		xpm_render_put_pixel(
+void xpm_render_put_pixel(
 	t_xpm_image *img,
 	unsigned int x,
 	unsigned int y,
 	const t_color *color);
 
-/*
-	Hueta)
-*/
-t_xpm_image	xpm_render_new_img(
+t_xpm_image	*xpm_render_new_img(
 	void *mlx,
 	int width,
 	int height);

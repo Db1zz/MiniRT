@@ -6,6 +6,9 @@
 #include "minirt_threads.h"
 
 #include <assert.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/mman.h>
 
 int exit_minirt(t_scene *scene)
 {
@@ -38,9 +41,17 @@ bool minirt_init(t_scene *scene)
 	return (true);
 }
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/mman.h>
+int **alloc_matrix(size_t matrix_size) {
+	int		**matrix;
+	size_t	rows = matrix_size;
+	size_t	columns = VIEWPORT_WIDTH * VIEWPORT_HEIGHT / rows;
+
+	matrix = ft_calloc(rows, sizeof(int *));
+	for (size_t i = 0; i < matrix_size; ++i) {
+		matrix[i] = ft_calloc(columns, sizeof(int));
+	}
+	return (matrix);
+}
 
 void init_threads(t_scene *scene) {
 	size_t				i;
@@ -56,12 +67,12 @@ void init_threads(t_scene *scene) {
 	while (i < scene->threads_amount)
 	{
 		thread_data = ft_calloc(1, sizeof(t_ray_thread_ctx));
+		thread_data->start_x = VIEWPORT_HEIGHT / scene->threads_amount * i;
+		thread_data->end_x = thread_data->start_x + VIEWPORT_HEIGHT / scene->threads_amount;
+		if (i == scene->threads_amount - 1)
+			thread_data->end_x += VIEWPORT_HEIGHT % scene->threads_amount;
 		thread_data->scene = scene;
-		thread_data->x_start = VIEWPORT_HEIGHT / scene->threads_amount * i;
-		thread_data->x_end = thread_data->x_start + VIEWPORT_HEIGHT / scene->threads_amount;
-		if (i == scene->threads_amount - 1) {
-			thread_data->x_end += VIEWPORT_HEIGHT % scene->threads_amount;
-		}
+		thread_data->tid = i;
 		pthread_create(&scene->threads[i], NULL, ray_task_handler, thread_data);
 		++i;
 	}
@@ -80,7 +91,7 @@ int minirt_routine(int argc, char **argv)
 
 	init_threads(scene);
 
-		struct timeval start_time = getTime();
+	struct timeval start_time = getTime();
 	render(scene);
 	struct timeval end_time = getTime();
 

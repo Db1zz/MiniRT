@@ -32,7 +32,8 @@ typedef struct s_scene
 	size_t		lights_size;
 	size_t		ambient_light_size;
 	size_t		objects_size;
-	t_xpm_image img;
+	t_xpm_image *img;
+	int 		**matrix;
 	pthread_t	*threads;
 	size_t		threads_amount;
 	sem_t		*thread_task_sem;

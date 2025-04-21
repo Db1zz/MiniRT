@@ -11,9 +11,10 @@
 
 typedef struct s_ray_thread_ctx
 {
-	int		x_start;
-	int		x_end;
 	t_scene	*scene;
+	int start_x;
+	int end_x;
+	size_t	tid;
 }	t_ray_thread_ctx;
 
 void	*ray_task_handler(void *ray_thread_ctx);

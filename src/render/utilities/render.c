@@ -59,5 +59,5 @@ void render(t_scene *scene)
 	}
 
 	mlx_put_image_to_window(
-		scene->mlx, scene->win, scene->img.img, 0, 0);
+		scene->mlx, scene->win, scene->img->img, 0, 0);
 }

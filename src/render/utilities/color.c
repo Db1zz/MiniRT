@@ -41,9 +41,9 @@ bool	validate_colors(double r, double g, double b)
 	return (check_color(r) && check_color(g) && check_color(b));
 }
 
-int	rgb_to_int(t_color color)
+int	rgb_to_int(const t_color *color)
 {
-	return (65536 * (int)color.r + 256 * (int)color.g + (int)color.b);
+	return (65536 * (int)color->r + 256 * (int)color->g + (int)color->b);
 }
 
 void	print_color(t_color *c)

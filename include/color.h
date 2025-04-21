@@ -18,7 +18,7 @@ typedef struct s_color
 t_color		create_color(double r, double g, double b);
 t_errorn	set_color(t_color *color, double r, double g, double b);
 bool		check_color(double c);
-int			rgb_to_int(t_color color);
+int			rgb_to_int(const t_color *color);
 bool		validate_colors(double r, double g, double b);
 void		print_color(t_color *c);
 

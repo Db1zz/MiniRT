@@ -2,15 +2,17 @@
 #include <assert.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <sys/types.h>
 
-static void thread_render(t_ray_thread_ctx *data)
+static void	thread_render(t_ray_thread_ctx *data)
 {
-	t_color ray_color;
-	unsigned int x;
-	unsigned int y;
+	t_xpm_image		*img = data->scene->img;
+	t_color			ray_color;
+	unsigned int	x;
+	unsigned int	y;
 
-	x = data->x_start;
-	while (x < data->x_end)
+	x = data->start_x;
+	while (x < data->end_x)
 	{
 		y = 0;
 		while (y < VIEWPORT_WIDTH)
@@ -19,17 +21,17 @@ static void thread_render(t_ray_thread_ctx *data)
 				data->scene->camera,
 				data->scene,
 				x, y);
-			xpm_render_put_pixel(&data->scene->img, x, y, &ray_color);
-			y++;
+			xpm_render_put_pixel(img, x, y, &ray_color);
+			++y;
 		}
-		x++;
+		++x;
 	}
 }
 
 void *ray_task_handler(void *ray_thread_ctx)
 {
-	t_ray_thread_ctx *data;
-	t_scene *scene;
+	t_ray_thread_ctx	*data;
+	t_scene				*scene;
 
 	data = (t_ray_thread_ctx *)ray_thread_ctx;
 	scene = data->scene;
