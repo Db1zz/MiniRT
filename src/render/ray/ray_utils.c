@@ -16,7 +16,7 @@
 #include "light.h"
 #include "libft.h"
 
-void init_hit_record(t_hit_record *rec)
+void	init_hit_record(t_hit_record *rec)
 {
 	rec->color = create_color(0, 0, 0);
 	rec->front_face = false;

@@ -26,15 +26,15 @@ double	vec3_length(t_vector v)
 
 t_vector	vec3_random(void)
 {
-	return (create_vector(random_double(), random_double(), random_double()));
+	return ((t_vector){random_double(), random_double(), random_double()});
 }
 
 t_vector	vec3_random_range(double min, double max)
 {
-	return (create_vector(
+	return ((t_vector){
 			random_double_range(min, max),
 			random_double_range(min, max),
-			random_double_range(min, max)));
+			random_double_range(min, max)});
 }
 
 t_vector	vec3_random_unit_vec(void)

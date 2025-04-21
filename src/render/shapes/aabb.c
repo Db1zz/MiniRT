@@ -41,7 +41,7 @@ t_aabb *compute_sphere_aabb(t_sphere *sphere)
 	return (aabb);
 }
 
-bool hit_aabb(const t_aabb *aabb, const t_ray *r)
+bool	hit_aabb(const t_aabb *aabb, const t_ray *r)
 {
 	t_interval ray_t = create_interval(0, FT_INFINITY);
 

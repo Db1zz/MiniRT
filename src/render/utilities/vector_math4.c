@@ -14,15 +14,15 @@
 
 t_vector	vec3_cross(t_vector a, t_vector b)
 {
-	return (create_vector(
+	return ((t_vector){
 			a.y * b.z - a.z * b.y,
 			a.z * b.x - a.x * b.z,
-			a.x * b.y - a.y * b.x));
+			a.x * b.y - a.y * b.x});
 }
 
 t_vector	vec3_negate(t_vector a)
 {
-	return (create_vector(-a.x, -a.y, -a.z));
+	return ((t_vector){-a.x, -a.y, -a.z});
 }
 
 double	vec3_distance(t_vector a, t_vector b)
@@ -35,7 +35,7 @@ double	vec3_distance(t_vector a, t_vector b)
 
 t_vector    vec3_abs(t_vector a)
 {
-    return (create_vector(fabs(a.x), fabs(a.y), fabs(a.z)));
+    return ((t_vector){fabs(a.x), fabs(a.y), fabs(a.z)});
 }
 
 t_vector	vec3_random_on_hemisphere(const t_vector *sphere_normal_vec)

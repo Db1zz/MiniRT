@@ -55,9 +55,9 @@ static t_vector camera_calculate_ray_direction(
 	fov = tan((FT_PI * 0.5 * camera->fov) / 180);
 	x[0] = vec3_negate(camera->orientation_vec);
 	if (camera->orientation_vec.y > 0 && camera->orientation_vec.x == 0 && camera->orientation_vec.z == 0)
-		x[1] = vec3_negate(vec3_normalize(vec3_cross(camera->orientation_vec, create_vector(0, 0, 1))));
+		x[1] = vec3_negate(vec3_normalize(vec3_cross(camera->orientation_vec, (t_vector){0, 0, 1})));
 	else
-		x[1] = vec3_negate(vec3_normalize(vec3_cross(camera->orientation_vec, create_vector(0, 1, 0))));
+		x[1] = vec3_negate(vec3_normalize(vec3_cross(camera->orientation_vec, (t_vector){0, 1, 0})));
 	// x[2] = vec3_cross(x[1], camera->orientation_vec);
 	x[2] = vec3_cross(x[0], x[1]);
 	x[3] = vec3_mult(x[1], 2 * aspect_ratio * fov);

@@ -33,6 +33,8 @@ static t_color get_diffuse_light(
 		light = scene->lights[i]->data;
 		init_hit_record(&light_ray_rec);
 		light_ray = create_light_ray(shape_rec, light);
+
+		// TODO: traverse tree instead array of objects bro wtf lol
 		if (ray_hit_light(&light_ray, (const t_object **)scene->objects, &light_ray_rec))
 		{
 			result_color = clr_add_clr(
