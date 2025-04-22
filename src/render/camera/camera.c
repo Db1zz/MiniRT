@@ -80,11 +80,35 @@ t_color camera_get_pixel_color(
 	int x, int y)
 {
 	t_vector ray_direction;
-	// t_vector	pixel_center;
 	t_ray ray;
 
-	// pixel_center = camera_get_pixel_center(scene, x, y);
 	ray_direction = camera_calculate_ray_direction(camera, y, x);
 	ray = create_ray(camera->view_point, ray_direction, create_color(0, 0, 0));
 	return (ray_hit_tree(&ray, scene->tree, scene));
+}
+
+int	move_camera(int key, t_scene *scene)
+{
+	if (key == K_A)
+		scene->camera->view_point.x -= 0.05;
+	else if (key == K_W)
+		scene->camera->view_point.y += 0.05;
+	else if (key == K_D)
+		scene->camera->view_point.x += 0.05;
+	else if (key == K_S)
+		scene->camera->view_point.y -= 0.05;
+	else if (key == K_Z)
+		scene->camera->view_point.z += 0.05;
+	else if (key == K_X)
+		scene->camera->view_point.z -= 0.05;
+	else if (key == K_AR_L)
+		scene->camera->orientation_vec.x -=0.05;
+	else if (key == K_AR_R)
+		scene->camera->orientation_vec.x += 0.05;
+	else if (key == K_AR_U)
+		scene->camera->orientation_vec.y += 0.05;
+	else if (key == K_AR_D)
+		scene->camera->orientation_vec.y -= 0.05;
+
+	render(scene);
 }

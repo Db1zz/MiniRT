@@ -24,4 +24,6 @@ t_color camera_get_pixel_color(
 	const t_scene *scene,
 	int x, int y);
 
+int		move_camera(int key, t_scene *scene);
+
 #endif // CAMERA_H
