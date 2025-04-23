@@ -87,28 +87,67 @@ t_color camera_get_pixel_color(
 	return (ray_hit_tree(&ray, scene->tree, scene));
 }
 
-int	move_camera(int key, t_scene *scene)
+int	move_camera_view_point(int key, t_scene *scene)
 {
-	if (key == K_A)
-		scene->camera->view_point.x -= 0.05;
-	else if (key == K_W)
-		scene->camera->view_point.y += 0.05;
-	else if (key == K_D)
-		scene->camera->view_point.x += 0.05;
-	else if (key == K_S)
-		scene->camera->view_point.y -= 0.05;
-	else if (key == K_Z)
-		scene->camera->view_point.z += 0.05;
-	else if (key == K_X)
-		scene->camera->view_point.z -= 0.05;
-	else if (key == K_AR_L)
-		scene->camera->orientation_vec.x -=0.05;
-	else if (key == K_AR_R)
-		scene->camera->orientation_vec.x += 0.05;
-	else if (key == K_AR_U)
-		scene->camera->orientation_vec.y += 0.05;
-	else if (key == K_AR_D)
-		scene->camera->orientation_vec.y -= 0.05;
+
+	const double	step = 0.1;
+	const t_vector	*ov = &scene->camera->orientation_vec;
+	t_vector		*p;
+	double			degrees;
+	int				operation;
+
+	operation = 1;
+	p = &scene->camera->view_point;
+	if (key == K_A || key == K_D)
+	{
+		degrees = atan2(ov->x, ov->z);
+		p->x -= step * cos(degrees);
+		p->z += step * sin(degrees);
+	}
+	else  if (key == K_D) {
+		degrees = atan2(ov->x, ov->z);
+		p->x += step * cos(degrees);
+		p->z -= step * sin(degrees);
+	}
+	else if (key == K_W || key == K_S)
+	{
+		if (key == K_S)	
+			operation = -1;
+		p->x +=	operation * (step * ov->x);
+		p->y += operation * (step * ov->y);
+		p->z += operation * (step * ov->z);
+	}
 
 	render(scene);
+	return (key);
+}
+
+int change_camera_orientation_vec(int key, t_scene *scene)
+{
+	const double	angle = 0.05;
+	const t_vector	*v = &scene->camera->orientation_vec;
+	t_vector		rotated;
+	double			theta;
+
+	if (key == K_AR_L || key == K_AR_R) {
+		theta = angle;
+		if (key == K_AR_L)
+			theta = -angle;
+		rotated.x = cos(theta) * v->x + sin(theta) * v->z;
+		rotated.y = v->y;
+		rotated.z = -sin(theta) * v->x + cos(theta) * v->z;
+	}
+	else {
+		theta = -angle;
+		if (key == K_AR_U)
+			theta = angle;
+		rotated.x = v->x;
+		rotated.y = cos(theta) * v->y - sin(theta) * v->z;
+		rotated.z = sin(theta) * v->y + cos(theta) * v->z;
+	}
+
+	scene->camera->orientation_vec = vec3_normalize(rotated);
+
+	render(scene);
+	return (key);
 }

@@ -21,11 +21,11 @@ int input_handler(int key, t_scene *scene)
 	if (key == K_ESC)
 		return (exit_minirt(scene));
 	else if (key == K_D || key == K_S || key == K_A || key == K_W)
-		return (move_camera(key, scene));
+		return (move_camera_view_point(key, scene));
 	else if (key == K_Z || key == K_X)
-		return (move_camera(key, scene));
+		return (move_camera_view_point(key, scene));
 	else if (key == K_AR_L || key == K_AR_R || key == K_AR_U || key == K_AR_D)
-		return (move_camera(key, scene));
+		return (change_camera_orientation_vec(key, scene));
 	return (0);
 }
 
