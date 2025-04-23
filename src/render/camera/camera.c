@@ -122,6 +122,7 @@ int	move_camera_view_point(int key, t_scene *scene)
 	return (key);
 }
 
+// TODO: up and down works wierdly xd
 int change_camera_orientation_vec(int key, t_scene *scene)
 {
 	const double	angle = 0.05;
