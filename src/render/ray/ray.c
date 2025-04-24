@@ -15,9 +15,9 @@
 #include "scene.h"
 #include "minirt_math.h"
 
-t_ray create_ray(t_vector origin, t_vector direction, t_color color)
+t_ray create_ray(t_vector origin, t_vector direction, t_color color, double length)
 {
-	return ((t_ray){origin, direction, color});
+	return ((t_ray){origin, direction, color, length});
 }
 
 bool ray_hit_shape(
@@ -29,7 +29,8 @@ bool ray_hit_shape(
 		ray_hit_sphere,
 		ray_hit_plane,
 		ray_hit_cylinder,
-		ray_hit_gyper};
+		ray_hit_gyper
+	};
 
 	return (arr[(int)shape->type])(ray, shape, result_rec);
 }
@@ -39,21 +40,21 @@ bool ray_hit_multiple_shapes(
 	const t_object **shapes,
 	t_hit_record *result_rec)
 {
-	int i;
-	bool found;
-	t_hit_record closest_rec;
-	t_hit_record *closest_rec_ptr;
+	int				i;
+	bool			found;
+	t_hit_record current_rec;
 
 	i = 0;
 	found = false;
+	init_hit_record(&current_rec);
 	while (shapes[i])
 	{
-		found = ray_hit_shape(ray, shapes[i], &closest_rec);
+		if (ray_hit_shape(ray, shapes[i], &current_rec))
+			found = true;
 		if (found)
-			closest_rec_ptr = get_closest_hit(result_rec, &closest_rec);
+			*result_rec = *get_closest_hit(&current_rec, result_rec);
 		++i;
 	}
-	*result_rec = *closest_rec_ptr;
 	return (found);
 }
 
@@ -75,13 +76,12 @@ bool ray_hit_light(
 	const t_bvh_node *tree,
 	t_hit_record *result_rec)
 {
-	double light_intersect;
-	t_hit_record temp_rec;
+	t_hit_record	temp_rec;
 
 	init_hit_record(&temp_rec);
-	light_intersect = vec3_length(light_ray->direction);
-	if (ray_hit_tree_routine(light_ray, tree, result_rec, &temp_rec))
-		return (light_intersect <= result_rec->ray_distance - EPSILON);
+	if (ray_hit_tree_routine(light_ray, tree, result_rec, &temp_rec)) {
+		return (light_ray->length <= result_rec->ray_distance - EPSILON);
+	}
 	return (true);
 }
 

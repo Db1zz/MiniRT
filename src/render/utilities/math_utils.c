@@ -23,7 +23,7 @@ double	degrees_to_radians(double degrees)
 
 double	random_double(void)
 {
-	return (rand() / (RAND_MAX + 1.0));
+	return (rand() / (RAND_MAX + 1.0f));
 }
 
 double	random_double_range(double min, double max)

@@ -82,7 +82,7 @@ t_color camera_get_pixel_color(
 	t_ray ray;
 
 	ray_direction = camera_calculate_ray_direction(camera, y, x);
-	ray = create_ray(camera->view_point, ray_direction, create_color(0, 0, 0));
+	ray = create_ray(camera->view_point, ray_direction, create_color(0, 0, 0), 0);
 	return (ray_hit_tree(&ray, scene->tree, scene));
 }
 

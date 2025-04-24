@@ -37,17 +37,13 @@ t_vector	vec3_random_range(double min, double max)
 			random_double_range(min, max)});
 }
 
-t_vector	vec3_random_unit_vec(void)
+t_vector vec3_random_unit_vec(void)
 {
-	const double	epsilon = 1e-4;
-	t_vector		random_vec;
-	double			vec_lenght;
+	const double z = 2.0f * random_double() - 1.0f;
+	const double a = 2.0f * M_PI * random_double();
+	const double r = sqrtf(1.0f - z * z);
+	const double x = r * cosf(a);
+	const double y = r * sinf(a);
 
-	while (true)
-	{
-		random_vec = vec3_random_range(-1, 1);
-		vec_lenght = vec3_length_squared(random_vec);
-		if (epsilon < vec_lenght && vec_lenght <= 1)
-			return (vec3_div(random_vec, sqrt(vec_lenght)));
-	}
+	return (t_vector){x, y, z};
 }

@@ -38,11 +38,8 @@ t_hit_record *get_closest_hit(
 
 t_vector hit_record_to_ray_origin(const t_hit_record *rec)
 {
-	t_vector origin;
-
-	origin = vec3_add_vec3(rec->intersection_p,
-						   vec3_mult(rec->normal, EPSILON));
-	return (origin);
+	return (vec3_add_vec3(rec->intersection_p,
+						  vec3_mult(rec->normal, EPSILON)));
 }
 
 t_vector get_ray_direction(t_vector origin, t_vector endpoint)
@@ -56,10 +53,13 @@ t_ray create_light_ray(
 {
 	t_vector ray_origin;
 	t_vector ray_direction;
+	double length;
 	t_ray light_ray;
 
 	ray_origin = hit_record_to_ray_origin(shape_rec);
-	ray_direction = vec3_normalize(vec3_sub_vec3(light->pos, ray_origin));
-	light_ray = create_ray(ray_origin, ray_direction, create_color(0, 0, 0));
+	ray_direction = vec3_sub_vec3(light->pos, ray_origin);
+	length = vec3_length(ray_direction);
+	ray_direction = vec3_normalize(ray_direction);
+	light_ray = create_ray(ray_origin, ray_direction, light->color, length);
 	return (light_ray);
 }

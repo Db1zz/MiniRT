@@ -72,9 +72,9 @@ static bool sphere_find_solutions(
 }
 
 bool ray_hit_sphere(
-	const t_ray *ray,
-	const t_object *sphere_object,
-	t_hit_record *rec)
+		const t_ray *ray,
+		const t_object *sphere_object,
+		t_hit_record *rec)
 {
 	const t_interval interval = create_interval(0.01, FT_INFINITY);
 	t_vector outward_normal;

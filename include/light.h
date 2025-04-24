@@ -17,8 +17,9 @@ typedef struct s_amb_lighting
 typedef struct s_light
 {
 	t_vector	pos;
-	double		ratio;
 	t_color		color;
+	double		ratio;
+	double		radius;
 }	t_light;
 
 double	calculate_specular_light(
@@ -33,7 +34,11 @@ t_color	apply_light(
 			const t_hit_record *shape_rec);
 
 double	get_diffuse_intensity(
-			const t_light *light_source,
+			const t_light *light,
 			const t_hit_record *shape_rec);
+
+t_vector sample_point_on_light(const t_light *light);
+
+t_ray create_light_ray_sampled(const t_hit_record *rec, const t_light *light);
 
 #endif	// LIGHT_H

@@ -30,7 +30,8 @@ static t_ray create_reflection_ray(const t_hit_record *hit_rec)
 
 	origin = hit_record_to_ray_origin(hit_rec);
 	direction = reflect(hit_rec->ray_direction, hit_rec->normal);
-	reflection_ray = create_ray(origin, direction, hit_rec->color);
+	// TODO
+	reflection_ray = create_ray(origin, direction, hit_rec->color, 0);
 	return (reflection_ray);
 }
 

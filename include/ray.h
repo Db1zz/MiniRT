@@ -17,17 +17,18 @@ typedef struct s_ray
 	t_vector origin;
 	t_vector direction;
 	t_color color;
+	double length;
 } t_ray;
 
 typedef struct s_hit_record
 {
 	t_vector intersection_p;
 	t_vector normal;
+	t_color color;
+	t_vector ray_direction;
+	t_object_type obj_type;
 	double ray_distance;
 	bool front_face;
-	t_color color;
-	t_object_type obj_type;
-	t_vector ray_direction;
 } t_hit_record;
 
 typedef bool (*ray_hit_shape_funp)(const t_ray *ray,
@@ -40,7 +41,8 @@ typedef bool (*ray_hit_shape_funp)(const t_ray *ray,
 t_ray create_ray(
 	t_vector origin,
 	t_vector direction,
-	t_color color);
+	t_color color,
+	double length);
 
 t_ray create_light_ray(
 	const t_hit_record *shape_rec,
