@@ -58,7 +58,6 @@ static t_vector camera_calculate_ray_direction(
 		x[1] = vec3_negate(vec3_normalize(vec3_cross(camera->orientation_vec, (t_vector){0, 0, 1})));
 	else
 		x[1] = vec3_negate(vec3_normalize(vec3_cross(camera->orientation_vec, (t_vector){0, 1, 0})));
-	// x[2] = vec3_cross(x[1], camera->orientation_vec);
 	x[2] = vec3_cross(x[0], x[1]);
 	x[3] = vec3_mult(x[1], 2 * aspect_ratio * fov);
 	x[4] = vec3_mult(x[2], 2 * fov);
@@ -101,13 +100,13 @@ int	move_camera_view_point(int key, t_scene *scene)
 	if (key == K_A || key == K_D)
 	{
 		degrees = atan2(ov->x, ov->z);
-		p->x -= step * cos(degrees);
-		p->z += step * sin(degrees);
-	}
-	else  if (key == K_D) {
-		degrees = atan2(ov->x, ov->z);
-		p->x += step * cos(degrees);
-		p->z -= step * sin(degrees);
+		if (key == K_D) {
+			p->x += step * cos(degrees);
+			p->z -= step * sin(degrees);
+		} else {
+			p->x -= step * cos(degrees);
+			p->z += step * sin(degrees);
+		}
 	}
 	else if (key == K_W || key == K_S)
 	{

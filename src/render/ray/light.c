@@ -15,6 +15,7 @@
 #include "ray.h"
 #include "math.h"
 #include "minirt_math.h"
+#include "bvh.h"
 
 static t_color get_diffuse_light(
 	const t_scene *scene,
@@ -26,7 +27,7 @@ static t_color get_diffuse_light(
 	t_color result_color;
 	int i;
 
-	result_color = create_color(0, 0, 0);
+	result_color = clr_mult(shape_rec->color, 0.1);
 	i = 0;
 	while (scene->lights[i])
 	{
@@ -34,8 +35,7 @@ static t_color get_diffuse_light(
 		init_hit_record(&light_ray_rec);
 		light_ray = create_light_ray(shape_rec, light);
 
-		// TODO: traverse tree instead array of objects bro wtf lol
-		if (ray_hit_light(&light_ray, (const t_object **)scene->objects, &light_ray_rec))
+		if (ray_hit_light(&light_ray, scene->tree, &light_ray_rec))
 		{
 			result_color = clr_add_clr(
 				clr_mult(
@@ -66,7 +66,7 @@ static t_color get_specular_light(
 	while (scene->lights[i])
 	{
 		light = scene->lights[i]->data;
-		specular = calculate_specular_light(light, camera_ray, hit_rec, 0.8);
+		specular = calculate_specular_light(light, camera_ray, hit_rec, 0.7);
 		result_color = clr_add_clr(result_color, clr_mult(specular_color, specular));
 		++i;
 	}

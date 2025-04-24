@@ -11,6 +11,7 @@
 */
 typedef struct s_scene t_scene;
 typedef struct s_light t_light;
+typedef struct s_bvh_node t_bvh_node ;
 typedef struct s_ray
 {
 	t_vector origin;
@@ -47,10 +48,6 @@ t_ray create_light_ray(
 
 t_color ray_get_background_color(const t_ray *ray);
 
-t_color ray_send(
-	const t_ray *ray,
-	const t_scene *scene);
-
 bool ray_hit_shape(
 	const t_ray *ray,
 	const t_object *shape,
@@ -61,9 +58,16 @@ bool ray_hit_multiple_shapes(
 	const t_object **shapes,
 	t_hit_record *result_rec);
 
-bool ray_hit_light(const t_ray *light_ray,
-				   const t_object **objects,
-				   t_hit_record *result_rec);
+bool ray_hit_light(
+	const t_ray *light_ray,
+	const t_bvh_node *tree,
+	t_hit_record *result_rec);
+
+bool ray_hit_tree_routine(
+	const t_ray *ray,
+	const t_bvh_node *tree,
+	t_hit_record *rec,
+	t_hit_record *temp);
 
 t_color ray_reflect(
 	const t_ray *camera_ray,

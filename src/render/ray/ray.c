@@ -72,13 +72,15 @@ t_color ray_get_background_color(const t_ray *ray)
 
 bool ray_hit_light(
 	const t_ray *light_ray,
-	const t_object **shapes,
+	const t_bvh_node *tree,
 	t_hit_record *result_rec)
 {
 	double light_intersect;
+	t_hit_record temp_rec;
 
+	init_hit_record(&temp_rec);
 	light_intersect = vec3_length(light_ray->direction);
-	if (ray_hit_multiple_shapes(light_ray, shapes, result_rec))
+	if (ray_hit_tree_routine(light_ray, tree, result_rec, &temp_rec))
 		return (light_intersect <= result_rec->ray_distance - EPSILON);
 	return (true);
 }

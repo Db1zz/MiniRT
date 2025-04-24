@@ -27,13 +27,9 @@ static void merge(
 	while (j < left_size && k < right_size + left_size)
 	{
 		if (comparator(objects_start[j], objects_start[k]))
-		{
 			buffer[i] = objects_start[j++];
-		}
 		else
-		{
 			buffer[i] = objects_start[k++];
-		}
 		++i;
 	}
 
