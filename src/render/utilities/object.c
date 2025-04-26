@@ -33,6 +33,7 @@ const char *get_object_type_name(t_object_type type) {
 	static const char *strs[] = {
 		"Sphere",
 		"Cylinder",
+		"Plane",
 		"Gyper",
 		"Light",
 		"Ambient Light"

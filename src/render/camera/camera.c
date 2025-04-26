@@ -89,7 +89,7 @@ t_color camera_get_pixel_color(
 int	move_camera_view_point(int key, t_scene *scene)
 {
 
-	const double	step = 0.1;
+	const double	step = 0.5;
 	const t_vector	*ov = &scene->camera->orientation_vec;
 	t_vector		*p;
 	double			degrees;

@@ -118,9 +118,6 @@ t_bvh_node *create_tree(t_object **objects, int start, int end, int depth)
 		tree->box = tree->left->box;
 	else if (tree->right)
 		tree->box = tree->right->box;
-
-	// Removeme
-	// tree->box.aabb_color = clr_mult(tree->box.aabb_color, 100 - depth * 0.1);
 	return (tree);
 }
 
