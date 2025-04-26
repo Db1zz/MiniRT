@@ -4,7 +4,7 @@
 #include "libft.h"
 #include <stdlib.h>
 
-static void print_spaces(int x)
+static void	print_spaces(int x)
 {
 	int i = 0;
 
@@ -12,8 +12,8 @@ static void print_spaces(int x)
 		printf(" ");
 }
 
-static void print_tree_line(
-	char *node_str, int level, char *buffer)
+static void	print_tree_line(
+	const char *tree_symbol, const char *node_str, int level, char *buffer)
 {
 	int i;
 	int spaces_consumed;
@@ -34,10 +34,10 @@ static void print_tree_line(
 		++i;
 	}
 	print_spaces((level - spaces_consumed + (level - printed)));
-	printf("%s\n", node_str);
+	printf("%s%s", tree_symbol, node_str);
 }
 
-static void print_tree_routine(
+static void	print_tree_routine(
 	t_bvh_node *tree, int level, char *buffer, size_t buffer_size)
 {
 	if (tree == NULL)
@@ -45,19 +45,17 @@ static void print_tree_routine(
 
 	if (tree->left && tree->right)
 	{
-		print_tree_line("|-N", level, buffer);
+		print_tree_line("|-", "N\n", level, buffer);
 		buffer[level] = '|';
 		print_tree_routine(tree->left, level + 1, buffer, buffer_size);
 	}
-	if (tree->objects)
-	{
-		char *temp = ft_strjoin("└─Sphere: ", ft_itoa(((t_sphere *)tree->objects->data)->id)); // Removeme
-		print_tree_line(temp, level, buffer);
-		free(temp);
+	if (tree->objects) {
+		print_tree_line("└─", tree->objects->type_name, level, buffer);
+		printf(": %zu\n", tree->objects->id);
 	}
 	else
 	{
-		print_tree_line("└─N", level, buffer);
+		print_tree_line("└─", "N\n", level, buffer);
 		if (tree->right)
 			print_tree_routine(tree->right, level + 1, buffer, buffer_size);
 		else
@@ -67,7 +65,7 @@ static void print_tree_routine(
 		buffer[level - 1] = ':';
 }
 
-void print_tree(t_bvh_node *tree)
+void	print_tree(t_bvh_node *tree)
 {
 	size_t buffer_size = 1024;
 	char buffer[buffer_size + 1];

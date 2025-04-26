@@ -142,7 +142,7 @@ bool ray_hit_tree_routine(
 			*rec = *get_closest_hit(temp, rec);
 			return (true);
 		}
-		return (false); // Switch to true to see BVHs
+		return (true); // Switch to true to see BVHs
 	}
 	else if (hit_aabb(&tree->box, ray))
 	{

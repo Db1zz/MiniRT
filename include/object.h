@@ -14,6 +14,8 @@
 
 	The order of the enums are important, do not change it,
 	because some functions are depend on it e.g ray_hit_shape().
+
+	If new object is added, don't forget to update object_type_string function.
 */
 typedef enum e_object_type
 {
@@ -31,14 +33,15 @@ typedef struct s_object
 	void *data;
 	t_aabb *box;
 	t_object_type type;
-	char *temp_name;
+	const char *type_name;
+	size_t id;
 } t_object;
 
 /*
 	Functions
 */
 t_object *alloc_new_object(void *data, t_object_type type);
-
+const char *get_object_type_name(t_object_type type);
 void free_object(t_object **object);
 
 /*
@@ -50,8 +53,17 @@ typedef struct s_sphere
 	t_color color;
 	double diameter;
 	double radius;
-	int id; // Removeme
 } t_sphere;
+
+typedef struct s_cylinder
+{
+	t_object *caps;
+	t_vector pos;
+	t_color color;
+	t_vector axis;
+	double diameter;
+	double height;
+} t_cylinder;
 
 typedef struct s_plane
 {
@@ -59,15 +71,6 @@ typedef struct s_plane
 	t_color color;
 	t_vector normal_vec;
 } t_plane;
-
-typedef struct s_cylinder
-{
-	t_vector pos;
-	t_color color;
-	t_vector axis;
-	double diameter;
-	double height;
-} t_cylinder;
 
 typedef struct s_cone
 {

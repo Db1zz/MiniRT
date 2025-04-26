@@ -41,6 +41,21 @@ t_aabb *compute_sphere_aabb(t_sphere *sphere)
 	return (aabb);
 }
 
+t_aabb	*compute_cylinder_aabb(t_cylinder *cylinder)
+{
+	t_vector vec;
+	t_aabb *aabb;
+	t_vector a;
+	t_vector b;
+
+	vec = create_vector(cylinder->diameter / 2, cylinder->diameter / 2, cylinder->height / 2);
+	a = vec3_sub_vec3(vec3_sub_vec3(cylinder->pos, cylinder->axis), vec);
+	b = vec3_add_vec3(vec3_add_vec3(cylinder->pos, cylinder->axis), vec);
+	aabb = ft_calloc(1, sizeof(t_aabb));
+	*aabb = create_aabb_from_vectors(&a, &b);
+	return (aabb);
+}
+
 bool	hit_aabb(const t_aabb *aabb, const t_ray *r)
 {
 	t_interval ray_t = create_interval(0, FT_INFINITY);

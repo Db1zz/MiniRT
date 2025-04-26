@@ -27,8 +27,8 @@ bool ray_hit_shape(
 {
 	static const ray_hit_shape_funp arr[] = {
 		ray_hit_sphere,
-		ray_hit_plane,
 		ray_hit_cylinder,
+		ray_hit_plane,
 		ray_hit_gyper
 	};
 

@@ -37,8 +37,4 @@ double	get_diffuse_intensity(
 			const t_light *light,
 			const t_hit_record *shape_rec);
 
-t_vector sample_point_on_light(const t_light *light);
-
-t_ray create_light_ray_sampled(const t_hit_record *rec, const t_light *light);
-
 #endif	// LIGHT_H

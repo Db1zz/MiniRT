@@ -17,6 +17,7 @@
 void parse_sphere(t_scene *scene, char **line_data)
 {
 	t_sphere *sphere;
+	t_object *object;
 
 	if (scene->objects_size > SCENE_OBJECTS_LIMIT)
 		return (set_error(&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
@@ -28,17 +29,39 @@ void parse_sphere(t_scene *scene, char **line_data)
 	sphere->diameter = rt_atof(line_data[2], scene);
 	sphere->radius = sphere->diameter * 0.5;
 	str_to_color(&sphere->color, line_data[3], scene);
-	add_object_to_array(sphere, E_SPHERE, scene->objects, &scene->objects_size);
-	// ADD New box
-	scene->objects[scene->objects_size - 1]
-		->box = compute_sphere_aabb(sphere);
-	sphere->id = scene->objects_size; // Removeme
-	//	scene->objects[scene->objects_size - 1]->box->aabb_color = create_color(random_double_range(0, 255), random_double_range(0, 255), random_double_range(0, 255));
+	object = add_object_to_array(sphere, E_SPHERE, scene->objects, &scene->objects_size);
+	/*
+		TODO: This function should be moved to some generic function,
+			which also should be moved inside add_object_to_array.
+	*/
+	object->box = compute_sphere_aabb(sphere);
 }
 
-void parse_cylinder(t_scene *scene, char **line_data)
+void	cylinder_init_caps(t_cylinder *cy) {
+	t_plane *cap_plane;
+	t_object *cap1;
+	t_object *cap2;
+
+	cy->caps = ft_calloc(2, sizeof(t_object));
+	cap_plane = ft_calloc(2, sizeof(t_plane));
+	cap_plane[0].pos = vec3_mult(cy->pos, 1);
+	cap_plane[0].normal_vec = vec3_mult(cy->axis, -1);
+	cap_plane[0].color = cy->color;
+	cap_plane[1].pos = vec3_add_vec3(cy->pos, vec3_mult(cy->axis, cy->height));
+	cap_plane[1].normal_vec = cy->axis;
+	cap_plane[1].color = cy->color;
+	cap1 = alloc_new_object(&cap_plane[0], E_PLANE);
+	cap2 = alloc_new_object(&cap_plane[1], E_PLANE);
+	cy->caps[0] = *cap1;
+	cy->caps[1] = *cap2;
+	(free(cap1), free(cap2));
+}
+
+void	parse_cylinder(t_scene *scene, char **line_data)
 {
-	t_cylinder *cylinder;
+	t_cylinder	*cylinder;
+	t_object	*object;
+
 	if (scene->objects_size > SCENE_OBJECTS_LIMIT)
 		return (set_error(&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
 
@@ -50,10 +73,12 @@ void parse_cylinder(t_scene *scene, char **line_data)
 	cylinder->diameter = rt_atof(line_data[3], scene);
 	cylinder->height = rt_atof(line_data[4], scene);
 	str_to_color(&cylinder->color, line_data[5], scene);
-	add_object_to_array(cylinder, E_CYLINDER, scene->objects, &scene->objects_size);
+	object = add_object_to_array(cylinder, E_CYLINDER, scene->objects, &scene->objects_size);
+	object->box = compute_cylinder_aabb(cylinder);
+	cylinder_init_caps(cylinder);
 }
 
-void parse_plane(t_scene *scene, char **line_data)
+void	parse_plane(t_scene *scene, char **line_data)
 {
 	t_plane *plane;
 	if (scene->objects_size > SCENE_OBJECTS_LIMIT)
@@ -68,7 +93,7 @@ void parse_plane(t_scene *scene, char **line_data)
 	add_object_to_array(plane, E_PLANE, scene->objects, &scene->objects_size);
 }
 
-void parse_gyper(t_scene *scene, char **line_data)
+void	parse_gyper(t_scene *scene, char **line_data)
 {
 	t_gyper *gyper;
 	if (scene->objects_size > SCENE_OBJECTS_LIMIT)

@@ -10,15 +10,12 @@
 
 t_scene	*parse_input(int argc, char **argv);
 
-void	add_object_to_array(
-		void *object,
-		t_object_type type,
-		t_object **arr,
-		size_t *arr_size);
+t_object *add_object_to_array(
+	void *object, t_object_type type, t_object **arr, size_t *arr_size);
 
-void	parse_gyper(
-			t_scene *scene,
-			char **line_data);
+void parse_gyper(
+	t_scene *scene,
+	char **line_data);
 
 void	parse_sphere(
 			t_scene *scene,

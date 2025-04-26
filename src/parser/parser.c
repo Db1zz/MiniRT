@@ -40,15 +40,16 @@ static void line_parser(t_scene *scene, char **line_data)
 		set_error(&scene->error, ERR_UNKNOWN_OBJECT_SPECIFIER, __func__);
 }
 
-void add_object_to_array(
+t_object	*add_object_to_array(
 	void *object, t_object_type type, t_object **arr, size_t *arr_size)
 {
 	t_object *new_object;
 
 	new_object = alloc_new_object(object, type);
-	new_object->box = NULL;
+	new_object->id = *arr_size;
 	arr[(*arr_size)++] = new_object;
 	arr[*arr_size] = NULL;
+	return (new_object);
 }
 
 static void scene_parser(t_scene *scene, int scene_fd)

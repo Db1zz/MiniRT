@@ -120,9 +120,7 @@ static t_object **init_caps(const t_cylinder *cy, t_vector *p2)
 	t_object **caps;
 
 	caps = ft_calloc(2, sizeof(t_object *));
-	cap_plane = malloc(sizeof(t_plane) * 2);
-	*p2 = vec3_add_vec3(cy->pos, vec3_mult(cy->axis, cy->height));
-	cap_plane[0].pos = vec3_mult(cy->pos, 1);
+	cap_plane = malloc(sizeof(t_plane) * 2);cap_plane[0].pos = vec3_mult(cy->pos, 1);
 	cap_plane[0].normal_vec = vec3_mult(cy->axis, -1);
 	cap_plane[0].color = cy->color;
 	cap_plane[1].pos = *p2;
@@ -133,15 +131,6 @@ static t_object **init_caps(const t_cylinder *cy, t_vector *p2)
 	return (caps);
 }
 
-static void free_caps(t_object **cap)
-{
-	free(cap[0]->data);
-	free(cap[0]);
-	free(cap[1]->data);
-	free(cap[1]);
-	free(cap);
-}
-
 static bool caps_intersection(
 	const t_cylinder *cy,
 	const t_ray *ray,
@@ -149,15 +138,13 @@ static bool caps_intersection(
 {
 	t_vector p2;
 	t_hit_record cap_rec[2];
-	t_object **caps;
 	bool hit[2];
 
 	init_hit_record(&cap_rec[0]);
 	init_hit_record(&cap_rec[1]);
-	caps = init_caps(cy, &p2);
-	hit[0] = ray_hit_plane(ray, caps[0], &cap_rec[0]);
-	hit[1] = ray_hit_plane(ray, caps[1], &cap_rec[1]);
-	free_caps(caps);
+	p2 = ((const t_plane *)(cy->caps[1].data))->pos;
+	hit[0] = ray_hit_plane(ray, (const t_object *)&(cy->caps[0]), &cap_rec[0]);
+	hit[1] = ray_hit_plane(ray, (const t_object *)&(cy->caps[1]), &cap_rec[1]);
 	if (hit[0] || hit[1])
 	{
 		if ((hit[0] && vec3_distance(cap_rec[0].intersection_p, cy->pos) <= cy->diameter / 2) && (hit[1] && vec3_distance(cap_rec[1].intersection_p, p2) <= cy->diameter / 2))
