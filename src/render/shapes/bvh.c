@@ -95,8 +95,8 @@ t_bvh_node *init_bvh_node(
 
 t_bvh_node *create_tree(t_object **objects, int start, int end, int depth)
 {
-	t_bvh_node *tree;
-	int object_span;
+	t_bvh_node	*tree;
+	int			object_span;
 
 	object_span = end - start;
 	tree = init_bvh_node(NULL, NULL, NULL, NULL);
@@ -139,7 +139,7 @@ bool ray_hit_tree_routine(
 			*rec = *get_closest_hit(temp, rec);
 			return (true);
 		}
-		return (true); // Switch to true to see BVHs
+		return (false); // Switch to true to see BVHs
 	}
 	else if (hit_aabb(&tree->box, ray))
 	{

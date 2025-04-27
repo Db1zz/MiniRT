@@ -71,6 +71,7 @@ void	parse_cylinder(t_scene *scene, char **line_data)
 	str_to_vector(&cylinder->pos, line_data[1], false, scene);
 	str_to_vector(&cylinder->axis, line_data[2], true, scene);
 	cylinder->diameter = rt_atof(line_data[3], scene);
+	cylinder->radius = cylinder->diameter / 2;
 	cylinder->height = rt_atof(line_data[4], scene);
 	str_to_color(&cylinder->color, line_data[5], scene);
 	object = add_object_to_array(cylinder, E_CYLINDER, scene->objects, &scene->objects_size);

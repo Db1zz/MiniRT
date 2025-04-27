@@ -62,6 +62,7 @@ typedef struct s_cylinder
 	t_color color;
 	t_vector axis;
 	double diameter;
+	double radius;
 	double height;
 } t_cylinder;
 

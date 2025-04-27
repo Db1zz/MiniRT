@@ -10,7 +10,6 @@ t_aabb create_aabb_from_vectors(const t_vector *a, const t_vector *b)
 	aabb.interval[0] = create_interval(fmin(a->x, b->x), fmax(a->x, b->x));
 	aabb.interval[1] = create_interval(fmin(a->y, b->y), fmax(a->y, b->y));
 	aabb.interval[2] = create_interval(fmin(a->z, b->z), fmax(a->z, b->z));
-	// aabb.aabb_color = create_color(random_double_range(0, 255), random_double_range(0, 255), random_double_range(0, 255));
 	return (aabb);
 }
 
@@ -22,7 +21,6 @@ t_aabb create_aabb_from_aabb(const t_aabb *a, const t_aabb *b)
 	{
 		aabb.interval[axis] = interval_expansion(&a->interval[axis], &b->interval[axis]);
 	}
-	// aabb.aabb_color = create_color(random_double_range(0, 255), random_double_range(0, 255), random_double_range(0, 255));
 	return (aabb);
 }
 
@@ -41,18 +39,28 @@ t_aabb *compute_sphere_aabb(t_sphere *sphere)
 	return (aabb);
 }
 
-t_aabb	*compute_cylinder_aabb(t_cylinder *cylinder)
+t_aabb *compute_cylinder_aabb(t_cylinder *cylinder)
 {
-	t_vector vec;
 	t_aabb *aabb;
-	t_vector a;
-	t_vector b;
+	t_vector top_center;
+	t_vector bottom_center;
+	t_vector min_corner;
+	t_vector max_corner;
 
-	vec = create_vector(cylinder->diameter / 2, cylinder->diameter / 2, cylinder->height / 2);
-	a = vec3_sub_vec3(vec3_sub_vec3(cylinder->pos, cylinder->axis), vec);
-	b = vec3_add_vec3(vec3_add_vec3(cylinder->pos, cylinder->axis), vec);
+	t_vector half_axis = vec3_mult(cylinder->axis, cylinder->height);
+	top_center = vec3_add_vec3(cylinder->pos, half_axis);
+	bottom_center = cylinder->pos;
+
+	min_corner.x = fmin(top_center.x, bottom_center.x) - cylinder->radius;
+	min_corner.y = fmin(top_center.y, bottom_center.y) - cylinder->radius;
+	min_corner.z = fmin(top_center.z, bottom_center.z) - cylinder->radius;
+
+	max_corner.x = fmax(top_center.x, bottom_center.x) + cylinder->radius;
+	max_corner.y = fmax(top_center.y, bottom_center.y) + cylinder->radius;
+	max_corner.z = fmax(top_center.z, bottom_center.z) + cylinder->radius;
+
 	aabb = ft_calloc(1, sizeof(t_aabb));
-	*aabb = create_aabb_from_vectors(&a, &b);
+	*aabb = create_aabb_from_vectors(&min_corner, &max_corner);
 	return (aabb);
 }
 
