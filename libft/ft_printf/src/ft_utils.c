@@ -37,8 +37,8 @@ void	ft_calc_width_precision(t_format *f)
 
 void	ft_validate_flags(t_format *f)
 {
-	int			i;
-	const char	flags[][2] = {
+	const size_t	flags_size = 9;
+	const char		flags[][2] = {
 	{'c', MINUS_FLAG | WIDTH_FLAG},
 	{'%', MINUS_FLAG | WIDTH_FLAG},
 	{'p', MINUS_FLAG | WIDTH_FLAG},
@@ -50,9 +50,10 @@ void	ft_validate_flags(t_format *f)
 	{'u', MINUS_FLAG | ZERO_FLAG | WIDTH_FLAG | DOT_FLAG},
 	{'x', MINUS_FLAG | ZERO_FLAG | HASH_FLAG | WIDTH_FLAG | DOT_FLAG},
 	{'X', MINUS_FLAG | ZERO_FLAG | HASH_FLAG | WIDTH_FLAG | DOT_FLAG}};
+	size_t			i;
 
 	i = 0;
-	while (flags[i] && flags[i][0] != f->specifier)
+	while (i < flags_size && flags[i][0] != f->specifier)
 		i++;
 	if (flags[i][0] == f->specifier)
 		ft_adjust_bits(&f->flags, flags[i][1]);

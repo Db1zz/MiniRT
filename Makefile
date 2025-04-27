@@ -59,7 +59,7 @@ OBJS_DIR = objs
 INCLUDE := -I include -I libft -I libft/get_next_line -I $(MINILIBX_DIR)
 ifeq ($(UNAME_S), Linux)
 	LIB_URL = https://github.com/42Paris/minilibx-linux
-	FLAGS_MINILIBX = -I/usr/include -Imlx_linux -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+FLAGS_MINILIBX = -I /usr/include/X11/Xlib.h -L/usr/lib/aarch64-linux-gnu/ -L/usr/include/X11 -L/usr/lib -L/usr/include -Lminilibx -lmlx -lXext -lX11 -lm -I/usr/include -I/usr/include/X11
 else ifeq ($(UNAME_S), Darwin)
 	LIB_URL = https://github.com/Db1zz/minilibx_opengl
 	FLAGS_MINILIBX = -framework OpenGL -framework AppKit #-Lmlx
