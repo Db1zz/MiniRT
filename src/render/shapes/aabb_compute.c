@@ -5,10 +5,10 @@
 
 t_aabb	*compute_sphere_aabb(t_sphere *sphere)
 {
-	t_vector vec;
-	t_aabb *aabb;
-	t_vector a;
-	t_vector b;
+	t_vector	vec;
+	t_aabb		*aabb;
+	t_vector	a;
+	t_vector	b;
 
 	vec = create_vector(sphere->radius, sphere->radius, sphere->radius);
 	a = vec3_sub_vec3(sphere->pos, vec);
@@ -20,11 +20,11 @@ t_aabb	*compute_sphere_aabb(t_sphere *sphere)
 
 t_aabb	*compute_cylinder_aabb(t_cylinder *cylinder)
 {
-	t_aabb *aabb;
-	t_vector top_center;
-	t_vector bottom_center;
-	t_vector min_corner;
-	t_vector max_corner;
+	t_aabb		*aabb;
+	t_vector	top_center;
+	t_vector	bottom_center;
+	t_vector	min_corner;
+	t_vector	max_corner;
 
 	t_vector half_axis = vec3_mult(cylinder->axis, cylinder->height);
 	top_center = vec3_add_vec3(cylinder->pos, half_axis);
@@ -43,11 +43,25 @@ t_aabb	*compute_cylinder_aabb(t_cylinder *cylinder)
 	return (aabb);
 }
 
-t_aabb	*compute_plane_aabb(t_plane *plane)
+t_aabb	*compute_plane_aabb()
 {
-	t_aabb *aabb;
-	t_vector min_corner;
-	t_vector max_corner;
+	t_aabb		*aabb;
+	t_vector	min_corner;
+	t_vector	max_corner;
+
+	min_corner = create_vector(-SCENE_RENDER_DISTANCE, -SCENE_RENDER_DISTANCE, -SCENE_RENDER_DISTANCE);
+	max_corner = create_vector(SCENE_RENDER_DISTANCE, SCENE_RENDER_DISTANCE, SCENE_RENDER_DISTANCE);
+
+	aabb = ft_calloc(1, sizeof(t_aabb));
+	*aabb = create_aabb_from_vectors(&min_corner, &max_corner);
+	return (aabb);
+}
+
+t_aabb	*compute_hyperboloid_aabb()
+{
+	t_aabb		*aabb;
+	t_vector	min_corner;
+	t_vector	max_corner;
 
 	min_corner = create_vector(-SCENE_RENDER_DISTANCE, -SCENE_RENDER_DISTANCE, -SCENE_RENDER_DISTANCE);
 	max_corner = create_vector(SCENE_RENDER_DISTANCE, SCENE_RENDER_DISTANCE, SCENE_RENDER_DISTANCE);

@@ -95,7 +95,9 @@ void	parse_plane(t_scene *scene, char **line_data)
 
 void	parse_gyper(t_scene *scene, char **line_data)
 {
-	t_gyper *gyper;
+	t_gyper		*gyper;
+	t_object	*object;
+
 	if (scene->objects_size > SCENE_OBJECTS_LIMIT)
 		return (set_error(&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
 
@@ -107,5 +109,6 @@ void	parse_gyper(t_scene *scene, char **line_data)
 	str_to_vector(&gyper->squish, line_data[3], true, scene);
 	gyper->diameter = rt_atof(line_data[4], scene);
 	str_to_color(&gyper->color, line_data[5], scene);
-	add_object_to_array(gyper, E_GYPER, scene->objects, &scene->objects_size);
+	object = add_object_to_array(gyper, E_GYPER, scene->objects, &scene->objects_size);
+	object->box = compute_hyperboloid_aabb(gyper);
 }

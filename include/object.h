@@ -73,15 +73,6 @@ typedef struct s_plane
 	t_vector normal_vec;
 } t_plane;
 
-typedef struct s_cone
-{
-	t_vector pos;
-	t_color color;
-	t_vector axis;
-	double diameter;
-	double height;
-} t_cone;
-
 typedef struct s_gyper
 {
 	t_vector pos;
