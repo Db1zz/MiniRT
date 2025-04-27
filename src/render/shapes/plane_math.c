@@ -46,8 +46,7 @@ bool ray_hit_plane(
 	if (fabs(denom) > epsilon)
 	{
 		t = vec3_dot(vec3_sub_vec3(plane->pos, ray->origin),
-					 plane->normal_vec) /
-			denom;
+					 plane->normal_vec) / denom;
 		if (t >= 0)
 		{
 			if (denom > epsilon)

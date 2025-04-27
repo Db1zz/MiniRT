@@ -50,19 +50,3 @@ t_vector	vec3_random_on_hemisphere(const t_vector *sphere_normal_vec)
 	else
 		return (vec3_invert(&random_unit_vec));
 }
-
-t_vector vec3_max(const t_vector *t1, const t_vector *t2)
-{
-	return ((t_vector){
-		fmax(t1->x, t2->x),
-		fmax(t1->y, t2->y),
-		fmax(t1->z, t2->z)});
-}
-
-t_vector	vec3_min(const t_vector *t1, const t_vector *t2) {
-	return ((t_vector){
-		fmin(t1->x, t2->x),
-		fmin(t1->y, t2->y),
-		fmin(t1->z, t2->z)}
-	);
-}

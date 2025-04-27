@@ -30,7 +30,7 @@ double	calculate_specular_light(
 	view_dir = get_ray_direction(camera_ray->origin, hit_rec->intersection_p);
 	halfway_vector = vec3_normalize(vec3_add_vec3(light_dir, view_dir));
 	dot = vec3_dot(hit_rec->normal, halfway_vector);
-	specular = pow(dot, 12);
+	specular = pow(dot, 20);
 	return (specular * light->ratio * specular_reflection_coefficient);
 }
 

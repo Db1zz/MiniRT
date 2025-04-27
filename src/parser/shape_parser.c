@@ -30,10 +30,6 @@ void parse_sphere(t_scene *scene, char **line_data)
 	sphere->radius = sphere->diameter * 0.5;
 	str_to_color(&sphere->color, line_data[3], scene);
 	object = add_object_to_array(sphere, E_SPHERE, scene->objects, &scene->objects_size);
-	/*
-		TODO: This function should be moved to some generic function,
-			which also should be moved inside add_object_to_array.
-	*/
 	object->box = compute_sphere_aabb(sphere);
 }
 
@@ -82,6 +78,8 @@ void	parse_cylinder(t_scene *scene, char **line_data)
 void	parse_plane(t_scene *scene, char **line_data)
 {
 	t_plane *plane;
+	t_object *object;
+
 	if (scene->objects_size > SCENE_OBJECTS_LIMIT)
 		return (set_error(&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
 
@@ -91,7 +89,8 @@ void	parse_plane(t_scene *scene, char **line_data)
 	str_to_vector(&plane->normal_vec, line_data[1], true, scene);
 	str_to_vector((&plane->pos), line_data[2], false, scene);
 	str_to_color((&plane->color), line_data[3], scene);
-	add_object_to_array(plane, E_PLANE, scene->objects, &scene->objects_size);
+	object = add_object_to_array(plane, E_PLANE, scene->objects, &scene->objects_size);
+	object->box = compute_plane_aabb(plane);
 }
 
 void	parse_gyper(t_scene *scene, char **line_data)

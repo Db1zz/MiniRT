@@ -41,8 +41,6 @@ t_vector	vec3_cross(t_vector a, t_vector b);
 t_vector	vec3_negate(t_vector a);
 double		vec3_distance(t_vector a, t_vector b);
 t_vector    vec3_abs(t_vector a);
-t_vector	vec3_max(const t_vector *t1, const t_vector *t2);
-t_vector	vec3_min(const t_vector *t1, const t_vector *t2);
 
 // debug functions
 void print_vec3(t_vector *vec);
