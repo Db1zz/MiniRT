@@ -1,5 +1,4 @@
 #include "ft_error.h"
-#include "timer.h"
 #include "minirt.h"
 #include "aabb.h"
 #include "bvh.h"
@@ -59,14 +58,7 @@ int minirt_routine(int argc, char **argv)
 
 	init_threads(scene);
 
-	struct timeval start_time = getTime();
 	threads_render_image(scene);
-	struct timeval end_time = getTime();
-
-	printf("Rendered for [m:%ld, s:%ld, ms:%ld]\n",
-		   getMinutesDiff(&start_time, &end_time),
-		   getSecondsDiff(&start_time, &end_time),
-		   getMilisecondsDiff(&start_time, &end_time));
 
 	mlx_loop(scene->mlx);
 	free_scene(&scene);

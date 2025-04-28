@@ -1,4 +1,6 @@
 #include "minirt_threads.h"
+#include "timer.h"
+
 #include <assert.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -86,6 +88,7 @@ bool	init_threads(t_scene *scene)
 
 void	threads_render_image(t_scene *scene)
 {
+	struct timeval start_time = getTime();
 	scene->tasks_fineshed = 0;
 	semaphore_increment(scene->thread_task_sem, scene->threads_amount);
 	while (true)
@@ -101,4 +104,9 @@ void	threads_render_image(t_scene *scene)
 	}
 	mlx_put_image_to_window(
 		scene->mlx, scene->win, scene->img->img, 0, 0);
+	struct timeval end_time = getTime();
+	printf("Rendered for [m:%ld, s:%ld, ms:%ld]\n",
+		   getMinutesDiff(&start_time, &end_time),
+		   getSecondsDiff(&start_time, &end_time),
+		   getMilisecondsDiff(&start_time, &end_time));
 }
