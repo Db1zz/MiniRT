@@ -37,22 +37,13 @@ static void	*thread_render_routine(void *ray_thread_ctx)
 	scene = data->scene;
 	while (true)
 	{
-		sem_wait(scene->thread_task_sem);
+		pthread_mutex_lock(&data->thread_lock);
 		thread_render(data);
-		sem_wait(scene->global_sem);
+		pthread_mutex_lock(&scene->global_mutex);
 		++scene->tasks_fineshed;
-		sem_post(scene->global_sem);
+		pthread_mutex_unlock(&scene->global_mutex);
 	}
 	return (NULL);
-}
-
-static bool	threads_init_semaphores(t_scene *scene)
-{
-	size_t	ta = scene->threads_amount;
-
-	init_semaphore(&scene->global_sem, MINIRT_GLOBAL_SEM_NAME, 1);
-	init_semaphore(&scene->thread_task_sem, MINIRT_THREAD_SEM_NAME, ta);
-	return (scene->global_sem && scene->thread_task_sem);
 }
 
 bool	init_threads(t_scene *scene)
@@ -62,22 +53,22 @@ bool	init_threads(t_scene *scene)
 	size_t				perv_end;
 
 	i = 0;
+	pthread_mutex_init(&scene->global_mutex, NULL);
 	scene->threads_amount = sysconf(_SC_NPROCESSORS_CONF);
-	printf("CPU: %zu\n", scene->threads_amount);
 	scene->threads_ctx = ft_calloc(scene->threads_amount, sizeof(t_ray_thread_ctx));
 	scene->tasks_fineshed = 0;
 	threads_ctx = scene->threads_ctx;
 	perv_end = 0;
-	if (!threads_init_semaphores(scene))
-		return (free(scene->threads_ctx), false);
 	while (i < scene->threads_amount)
 	{
+		pthread_mutex_init(&threads_ctx[i].thread_lock, NULL);
+		pthread_mutex_lock(&threads_ctx[i].thread_lock);
 		threads_ctx[i].start_x = perv_end;
 		threads_ctx[i].end_x = perv_end + (VIEWPORT_HEIGHT / scene->threads_amount + ((VIEWPORT_HEIGHT - perv_end) % (scene->threads_amount - i)));
 		threads_ctx[i].scene = scene;
 		threads_ctx[i].tid = i;
 		perv_end = threads_ctx[i].end_x;
-		printf("thread[%zu]render_start: %zu, thread[%zu]render_end: %zu\n", i, threads_ctx[i].start_x, i, threads_ctx[i].end_x);
+		printf("thread[%zu].render_start: %zu, thread[%zu].render_end: %zu\n", i, threads_ctx[i].start_x, i, threads_ctx[i].end_x);
 		pthread_create(&scene->threads_ctx[i].pt, NULL, thread_render_routine, &threads_ctx[i]);
 		++i;
 	}
@@ -86,19 +77,20 @@ bool	init_threads(t_scene *scene)
 
 void	threads_render_image(t_scene *scene)
 {
-	scene->tasks_fineshed = 0;
-	semaphore_increment(scene->thread_task_sem, scene->threads_amount);
+	unlock_threads(scene->threads_ctx, scene->threads_amount);
 	while (true)
 	{
-		sem_wait(scene->global_sem);
+		pthread_mutex_lock(&scene->global_mutex);
 		if (scene->tasks_fineshed == scene->threads_amount)
 		{
-			sem_post(scene->global_sem);
+			pthread_mutex_unlock(&scene->global_mutex);
 			break;
 		}
-		sem_post(scene->global_sem);
+		pthread_mutex_unlock(&scene->global_mutex);
 		usleep(1000);
 	}
+	printf("Displaying img\n");
 	mlx_put_image_to_window(
 		scene->mlx, scene->win, scene->img->img, 0, 0);
+	scene->tasks_fineshed = 0;
 }

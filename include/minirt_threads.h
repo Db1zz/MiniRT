@@ -7,25 +7,19 @@
 # include "bvh.h"
 
 # include <pthread.h>
-# include <semaphore.h>
-
-# define MINIRT_THREAD_SEM_NAME "minirt_thread_task_sem"
-# define MINIRT_GLOBAL_SEM_NAME "minirt_global_sem"
 
 typedef struct s_ray_thread_ctx
 {
-	t_scene		*scene;
-	pthread_t	pt;
-	size_t		start_x;
-	size_t		end_x;
-	size_t		tid;
+	t_scene			*scene;
+	pthread_mutex_t	thread_lock;
+	pthread_t		pt;
+	size_t			start_x;
+	size_t			end_x;
+	size_t			tid;
 }	t_ray_thread_ctx;
 
-bool	open_semaphore(sem_t **sem, const char *sem_name, int sem_size);
-bool	init_semaphore(sem_t **sem, const char *sem_name, int sem_size);
-void	close_semaphore(sem_t *sem);
-void	semaphore_decrement(sem_t *sem, size_t sem_amount);
-void	semaphore_increment(sem_t *sem, size_t sem_amount);
+void	unlock_threads(t_ray_thread_ctx *threads_ctx, size_t threads_amount);
+void	lock_threads(t_ray_thread_ctx *threads_ctx, size_t threads_amount);
 bool	init_threads(t_scene *scene);
 void	threads_render_image(t_scene *scene);
 
