@@ -25,10 +25,10 @@ bool open_semaphore(sem_t **sem, char *sem_name, int sem_size)
 	return (true);
 }
 
-void 	init_semaphore(sem_t **sem, char *sem_name, int sem_size)
+bool 	init_semaphore(sem_t **sem, char *sem_name, int sem_size)
 {
 	sem_unlink(sem_name);
-	open_semaphore(sem, sem_name, sem_size);
+	return (open_semaphore(sem, sem_name, sem_size));
 }
 
 void	close_semaphore(sem_t *sem)
@@ -37,4 +37,28 @@ void	close_semaphore(sem_t *sem)
 
 	if (sem_close(sem))
 		printf("%s sem_close failed\n", msg_err_issuer);
+}
+
+void	semaphore_decrement(sem_t *sem, size_t sem_amount)
+{
+	size_t i;
+
+	i = 0;
+	while (i < sem_amount)
+	{
+		sem_wait(sem);
+		++i;
+	}
+}
+
+void	semaphore_increment(sem_t *sem, size_t sem_amount)
+{
+	size_t i;
+
+	i = 0;
+	while (i < sem_amount)
+	{
+		sem_post(sem);
+		++i;
+	}
 }

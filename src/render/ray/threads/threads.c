@@ -8,8 +8,8 @@ static void	thread_render(t_ray_thread_ctx *data)
 {
 	t_xpm_image		*img = data->scene->img;
 	t_color			ray_color;
-	unsigned int	x;
-	unsigned int	y;
+	size_t	x;
+	size_t	y;
 
 	x = data->start_x;
 	while (x < data->end_x)
@@ -28,14 +28,13 @@ static void	thread_render(t_ray_thread_ctx *data)
 	}
 }
 
-void *ray_task_handler(void *ray_thread_ctx)
+static void	*thread_render_routine(void *ray_thread_ctx)
 {
 	t_ray_thread_ctx	*data;
 	t_scene				*scene;
 
 	data = (t_ray_thread_ctx *)ray_thread_ctx;
 	scene = data->scene;
-
 	while (true)
 	{
 		sem_wait(scene->thread_task_sem);
@@ -44,6 +43,63 @@ void *ray_task_handler(void *ray_thread_ctx)
 		++scene->tasks_fineshed;
 		sem_post(scene->global_sem);
 	}
-
 	return (NULL);
+}
+
+static bool	threads_init_semaphores(t_scene *scene)
+{
+	sem_t	**global_sem;
+	sem_t	**thread_task_sem;
+	size_t	ta = scene->threads_amount;
+
+	global_sem = &scene->global_sem;
+	thread_task_sem = &scene->thread_task_sem;
+	return (init_semaphore(global_sem, MINIRT_GLOBAL_SEM_NAME, 1)
+		|| init_semaphore(thread_task_sem, MINIRT_THREAD_SEM_NAME, ta));
+}
+
+bool	init_threads(t_scene *scene)
+{
+	t_ray_thread_ctx	*thread_data;
+	size_t				i;
+	size_t				perv_start;
+
+	i = 0;
+	scene->threads_amount = sysconf(_SC_NPROCESSORS_CONF);
+	scene->threads_ctx = ft_calloc(scene->threads_amount, sizeof(t_ray_thread_ctx));
+	scene->tasks_fineshed = 0;
+	perv_start = 0;
+	if (!threads_init_semaphores(scene))
+		return (ft_free(&scene->threads_ctx), false);
+	while (i < scene->threads_amount)
+	{
+		thread_data = ft_calloc(1, sizeof(t_ray_thread_ctx));
+		thread_data->start_x = perv_start;
+		thread_data->end_x = perv_start + VIEWPORT_HEIGHT / scene->threads_amount + VIEWPORT_HEIGHT % scene->threads_amount;
+		thread_data->scene = scene;
+		thread_data->tid = i;
+		pthread_create(&scene->threads[i], NULL, thread_render_routine, thread_data);
+		perv_start = 
+		++i;
+	}
+	return (true);
+}
+
+void	threads_render_image(t_scene *scene)
+{
+	scene->tasks_fineshed = 0;
+	semaphore_increment(scene->thread_task_sem, scene->threads_amount);
+	while (true)
+	{
+		sem_wait(scene->global_sem);
+		if (scene->tasks_fineshed == scene->threads_amount)
+		{
+			sem_post(scene->global_sem);
+			break;
+		}
+		sem_post(scene->global_sem);
+		usleep(1000);
+	}
+	mlx_put_image_to_window(
+		scene->mlx, scene->win, scene->img->img, 0, 0);
 }

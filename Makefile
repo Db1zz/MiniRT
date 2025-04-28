@@ -42,7 +42,6 @@ SRCS =	src/minirt.c	\
 		src/render/utilities/math_utils.c	\
 		src/render/utilities/object.c	\
 		src/render/utilities/pixel.c	\
-		src/render/utilities/render.c	\
 		src/render/utilities/utils.c	\
 		src/render/utilities/vector_math1.c	\
 		src/render/utilities/vector_math2.c	\

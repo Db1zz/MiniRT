@@ -117,7 +117,7 @@ int	move_camera_view_point(int key, t_scene *scene)
 		p->z += operation * (step * ov->z);
 	}
 
-	render(scene);
+	threads_render_image(scene);
 	return (key);
 }
 
@@ -148,6 +148,6 @@ int change_camera_orientation_vec(int key, t_scene *scene)
 
 	scene->camera->orientation_vec = vec3_normalize(rotated);
 
-	render(scene);
+	threads_render_image(scene);
 	return (key);
 }
