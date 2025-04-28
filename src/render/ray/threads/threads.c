@@ -62,7 +62,7 @@ bool	init_threads(t_scene *scene)
 	size_t				perv_end;
 
 	i = 0;
-	scene->threads_amount = 12;
+	scene->threads_amount = sysconf(_SC_NPROCESSORS_CONF);
 	printf("CPU: %zu\n", scene->threads_amount);
 	scene->threads_ctx = ft_calloc(scene->threads_amount, sizeof(t_ray_thread_ctx));
 	scene->tasks_fineshed = 0;
@@ -77,7 +77,7 @@ bool	init_threads(t_scene *scene)
 		threads_ctx[i].scene = scene;
 		threads_ctx[i].tid = i;
 		perv_end = threads_ctx[i].end_x;
-		printf("threads_ctx[%zu].start_x: %zu, threads_ctx[%zu].end_x: %zu\n", i, threads_ctx[i].start_x, i, threads_ctx[i].end_x);
+		printf("thread[%zu]render_start: %zu, thread[%zu]render_end: %zu\n", i, threads_ctx[i].start_x, i, threads_ctx[i].end_x);
 		pthread_create(&scene->threads_ctx[i].pt, NULL, thread_render_routine, &threads_ctx[i]);
 		++i;
 	}
