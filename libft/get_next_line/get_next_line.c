@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 17:05:07 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/14 22:54:31 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/28 13:30:59 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 
-int	ft_read(int fd, t_data *data)
+static int	ft_read(int fd, t_data *data)
 {
 	data->bytes_read = read(fd, &data->buffer[0], BUFFER_SIZE);
 	data->i = 0;
@@ -25,7 +25,7 @@ int	ft_read(int fd, t_data *data)
 	return (data->bytes_read);
 }
 
-void	ft_free(t_node_list *line)
+static void	ft_free_ln(t_node_list *line)
 {
 	t_node_list	*next;
 
@@ -38,7 +38,7 @@ void	ft_free(t_node_list *line)
 	}
 }
 
-void	ft_parse_line(int fd, t_data *data, const t_node_list *line)
+static void	ft_parse_line(int fd, t_data *data, const t_node_list *line)
 {
 	int			i;
 	t_node_list	*tail;
@@ -65,7 +65,7 @@ void	ft_parse_line(int fd, t_data *data, const t_node_list *line)
 	}
 }
 
-char	*ft_get_result(t_node_list *line)
+static char	*ft_get_result(t_node_list *line)
 {
 	char		*result;
 	size_t		line_len;
@@ -105,7 +105,7 @@ char	*get_next_line(int fd)
 		ft_parse_line(fd, &data, line);
 		if (line->data[0])
 			result = ft_get_result(line);
-		ft_free(line);
+		ft_free_ln(line);
 	}
 	return (result);
 }

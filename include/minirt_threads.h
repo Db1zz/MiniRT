@@ -14,14 +14,15 @@
 
 typedef struct s_ray_thread_ctx
 {
-	t_scene	*scene;
-	size_t	start_x;
-	size_t	end_x;
-	size_t	tid;
+	t_scene		*scene;
+	pthread_t	pt;
+	size_t		start_x;
+	size_t		end_x;
+	size_t		tid;
 }	t_ray_thread_ctx;
 
-bool	open_semaphore(sem_t **sem, char *sem_name, int sem_size);
-bool	init_semaphore(sem_t **sem, char *sem_name, int sem_size);
+bool	open_semaphore(sem_t **sem, const char *sem_name, int sem_size);
+bool	init_semaphore(sem_t **sem, const char *sem_name, int sem_size);
 void	close_semaphore(sem_t *sem);
 void	semaphore_decrement(sem_t *sem, size_t sem_amount);
 void	semaphore_increment(sem_t *sem, size_t sem_amount);

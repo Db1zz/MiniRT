@@ -48,38 +48,35 @@ static void	*thread_render_routine(void *ray_thread_ctx)
 
 static bool	threads_init_semaphores(t_scene *scene)
 {
-	sem_t	**global_sem;
-	sem_t	**thread_task_sem;
 	size_t	ta = scene->threads_amount;
 
-	global_sem = &scene->global_sem;
-	thread_task_sem = &scene->thread_task_sem;
-	return (init_semaphore(global_sem, MINIRT_GLOBAL_SEM_NAME, 1)
-		|| init_semaphore(thread_task_sem, MINIRT_THREAD_SEM_NAME, ta));
+	init_semaphore(&scene->global_sem, MINIRT_GLOBAL_SEM_NAME, 1);
+	init_semaphore(&scene->thread_task_sem, MINIRT_THREAD_SEM_NAME, ta);
+	return (scene->global_sem && scene->thread_task_sem);
 }
 
 bool	init_threads(t_scene *scene)
 {
-	t_ray_thread_ctx	*thread_data;
+	t_ray_thread_ctx	*threads_ctx;
 	size_t				i;
-	size_t				perv_start;
+	size_t				perv_end;
 
 	i = 0;
 	scene->threads_amount = sysconf(_SC_NPROCESSORS_CONF);
 	scene->threads_ctx = ft_calloc(scene->threads_amount, sizeof(t_ray_thread_ctx));
 	scene->tasks_fineshed = 0;
-	perv_start = 0;
+	threads_ctx = scene->threads_ctx;
+	perv_end = 0;
 	if (!threads_init_semaphores(scene))
-		return (ft_free(&scene->threads_ctx), false);
+		return (free(scene->threads_ctx), false);
 	while (i < scene->threads_amount)
 	{
-		thread_data = ft_calloc(1, sizeof(t_ray_thread_ctx));
-		thread_data->start_x = perv_start;
-		thread_data->end_x = perv_start + VIEWPORT_HEIGHT / scene->threads_amount + VIEWPORT_HEIGHT % scene->threads_amount;
-		thread_data->scene = scene;
-		thread_data->tid = i;
-		pthread_create(&scene->threads[i], NULL, thread_render_routine, thread_data);
-		perv_start = 
+		threads_ctx[i].start_x = perv_end;
+		threads_ctx[i].end_x = perv_end + VIEWPORT_HEIGHT / scene->threads_amount + VIEWPORT_HEIGHT % scene->threads_amount;
+		threads_ctx[i].scene = scene;
+		threads_ctx[i].tid = i;
+		perv_end = threads_ctx[i].end_x;
+		pthread_create(&scene->threads_ctx[i].pt, NULL, thread_render_routine, &threads_ctx[i]);
 		++i;
 	}
 	return (true);

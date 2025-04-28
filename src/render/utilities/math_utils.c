@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:25:32 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/02 14:06:07 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/28 13:38:10 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ double	degrees_to_radians(double degrees)
 
 double	random_double(void)
 {
-	return (rand() / (RAND_MAX + 1.0f));
+	return (rand() / ((double)RAND_MAX + 1.0f));
 }
 
 double	random_double_range(double min, double max)

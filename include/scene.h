@@ -1,24 +1,26 @@
 #ifndef SCENE_H
-#define SCENE_H
+# define SCENE_H
 
-#include "camera.h"
-#include "object.h"
-#include "ft_error.h"
-#include "bvh.h"
-#include "xpm_render.h"
-#include "queue.h"
-#include "minirt_threads.h"
+# include "camera.h"
+# include "object.h"
+# include "ft_error.h"
+# include "bvh.h"
+# include "xpm_render.h"
+# include "queue.h"
+# include "minirt_threads.h"
 
 // typedef struct s_xpm_image t_xpm_image;
 
-#include <pthread.h>
-#include <semaphore.h>
+# include <pthread.h>
+# include <semaphore.h>
 
-#define SCENE_LIGHTS_LIMIT 10
-#define SCENE_AMBIENT_LIGHTNING_LIMIT 10
-#define SCENE_OBJECTS_LIMIT 1024
-#define SCENE_ANTIALIASING_SAMPLES 10
-#define SCENE_RENDER_DISTANCE 10.0f
+# define SCENE_LIGHTS_LIMIT 10
+# define SCENE_AMBIENT_LIGHTNING_LIMIT 10
+# define SCENE_OBJECTS_LIMIT 1024
+# define SCENE_ANTIALIASING_SAMPLES 10
+# define SCENE_RENDER_DISTANCE 10.0f
+
+typedef struct s_ray_thread_ctx t_ray_thread_ctx;
 
 typedef struct s_scene
 {

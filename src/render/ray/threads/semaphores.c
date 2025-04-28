@@ -2,7 +2,7 @@
 #include <fcntl.h>		/* For O_* constants */
 #include <sys/stat.h>	/* For mode constants */
 
-bool open_semaphore(sem_t **sem, char *sem_name, int sem_size)
+bool open_semaphore(sem_t **sem, const char *sem_name, int sem_size)
 {
 	const char *msg_err_issuer = "open_semaphore Error:";
 
@@ -25,7 +25,7 @@ bool open_semaphore(sem_t **sem, char *sem_name, int sem_size)
 	return (true);
 }
 
-bool 	init_semaphore(sem_t **sem, char *sem_name, int sem_size)
+bool 	init_semaphore(sem_t **sem, const char *sem_name, int sem_size)
 {
 	sem_unlink(sem_name);
 	return (open_semaphore(sem, sem_name, sem_size));

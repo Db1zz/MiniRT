@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:27:44 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/14 15:52:22 by gonische         ###   ########.fr       */
+/*   Updated: 2025/04/28 13:42:49 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static t_color get_diffuse_light(
 	return (rc);
 }
 
-static t_color get_ambient_light(
+static t_color	get_ambient_light(
 	const t_object *amb_object,
 	const t_color *color)
 {
@@ -95,7 +95,6 @@ t_color apply_light(
 	const t_hit_record *shape_rec)
 {
 	t_color	result;
-	t_color	specular_light;
 
 	result = create_color(0, 0, 0);
 	if (scene->lights[0])
