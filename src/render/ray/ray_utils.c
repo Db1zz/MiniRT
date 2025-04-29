@@ -18,11 +18,11 @@
 
 void	init_hit_record(t_hit_record *rec)
 {
-	rec->color = create_color(0, 0, 0);
+	rec->color = (t_color){0, 0, 0};
 	rec->front_face = false;
-	rec->intersection_p = create_vector(0, 0, 0);
-	rec->normal = create_vector(0, 0, 0);
-	rec->ray_direction = create_vector(0, 0, 0);
+	rec->intersection_p = (t_vector){0, 0, 0};
+	rec->normal = (t_vector){0, 0, 0};
+	rec->ray_direction = (t_vector){0, 0, 0};
 	rec->obj_type = E_SPHERE;
 	rec->ray_distance = FT_INFINITY;
 }
