@@ -7,7 +7,6 @@ NAME = libft.a
 
 # Project Files
 SRCS =	ft_atoi.c 							\
-		ft_free.c							\
 		ft_rand.c							\
 		ft_atof.c							\
 		ft_strncpy.c 						\
