@@ -53,7 +53,7 @@ static bool	threads_init_semaphores(t_scene *scene)
 	size_t	ta = scene->threads_amount;
 
 	init_semaphore(&scene->global_sem, MINIRT_GLOBAL_SEM_NAME, 1);
-	init_semaphore(&scene->thread_task_sem, MINIRT_THREAD_SEM_NAME, ta);
+	init_semaphore(&scene->thread_task_sem, MINIRT_THREAD_SEM_NAME, 0);
 	return (scene->global_sem && scene->thread_task_sem);
 }
 
