@@ -33,8 +33,8 @@ t_color	apply_light(
 			const t_scene *scene,
 			const t_hit_record *shape_rec);
 
-double	get_diffuse_intensity(
-			const t_light *light,
-			const t_hit_record *shape_rec);
+t_color filter_light(
+	const t_light *light,
+	const t_hit_record *shape_rec);
 
 #endif	// LIGHT_H

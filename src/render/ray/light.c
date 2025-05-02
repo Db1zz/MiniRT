@@ -18,28 +18,14 @@
 #include "bvh.h"
 
 static t_color get_specular_light(
+	t_light *light,
 	const t_ray *camera_ray,
-	const t_scene *scene,
 	const t_hit_record *hit_rec)
 {
-	double specular;
-	t_light *light;
-	t_color result_color;
-	t_color specular_color;
-	int i;
+	double coefficient;
 
-	i = 0;
-	result_color = create_color(0, 0, 0);
-	specular_color = create_color(255, 255, 255);
-	while (scene->lights[i])
-	{
-		light = scene->lights[i]->data;
-		specular = calculate_specular_light(light, camera_ray, hit_rec, 0.6);
-		result_color = clr_add_clr(result_color, clr_mult(specular_color, specular));
-		++i;
-	}
-	result_color = normalize_color(result_color);
-	return (result_color);
+	coefficient = calculate_specular_light(light, camera_ray, hit_rec, 0.6);
+	return (clr_mult(create_color(255, 255, 255), coefficient));
 }
 
 static t_color get_diffuse_light(
@@ -54,7 +40,7 @@ static t_color get_diffuse_light(
 	int i;
 
 	i = 0;
-	rc = clr_mult(shape_rec->color, 0.15);
+	rc = clr_mult(shape_rec->color, 0.1);
 	while (scene->lights[i])
 	{
 		light = scene->lights[i]->data;
@@ -62,12 +48,8 @@ static t_color get_diffuse_light(
 		light_ray = create_light_ray(shape_rec, light);
 		if (ray_hit_light(&light_ray, scene->tree, &light_ray_rec))
 		{
-			rc = clr_add_clr(
-				clr_mult(
-					filter_color(shape_rec->color, light->color),
-					get_diffuse_intensity(light, shape_rec)),
-				rc);
-			rc = clr_add_clr(get_specular_light(camera_ray, scene, shape_rec), rc);
+			rc = clr_add_clr(rc, filter_light(light, shape_rec));
+			rc = clr_add_clr(rc, get_specular_light(light, camera_ray, shape_rec));
 		}
 		if (rc.r >= COLOR_MAX && rc.g >= COLOR_MAX && rc.b >= COLOR_MAX)
 			break;

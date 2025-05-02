@@ -35,7 +35,6 @@ void	parse_light(t_scene *scene, char **line_data)
 	str_to_color(&light->color, line_data[3], scene);
 	add_object_to_array(light, E_LIGHT, 
 		scene->lights, &scene->lights_size);
-	scene->lights_size++;
 }
 #else
 
@@ -55,7 +54,6 @@ void	parse_light(t_scene *scene, char **line_data)
 	str_to_color(&light->color, line_data[3], scene);
 	add_object_to_array(light, E_LIGHT, 
 		scene->lights, &scene->lights_size);
-	scene->lights_size++;
 }
 #endif
 

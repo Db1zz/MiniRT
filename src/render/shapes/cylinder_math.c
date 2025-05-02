@@ -114,23 +114,6 @@ static bool tube_intersection(
 	return (true);
 }
 
-static t_object **init_caps(const t_cylinder *cy, t_vector *p2)
-{
-	t_plane *cap_plane;
-	t_object **caps;
-
-	caps = ft_calloc(2, sizeof(t_object *));
-	cap_plane = malloc(sizeof(t_plane) * 2);cap_plane[0].pos = vec3_mult(cy->pos, 1);
-	cap_plane[0].normal_vec = vec3_mult(cy->axis, -1);
-	cap_plane[0].color = cy->color;
-	cap_plane[1].pos = *p2;
-	cap_plane[1].normal_vec = cy->axis;
-	cap_plane[1].color = cy->color;
-	caps[0] = alloc_new_object(&cap_plane[0], E_PLANE);
-	caps[1] = alloc_new_object(&cap_plane[1], E_PLANE);
-	return (caps);
-}
-
 static bool caps_intersection(
 	const t_cylinder *cy,
 	const t_ray *ray,

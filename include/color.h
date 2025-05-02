@@ -33,6 +33,5 @@ t_color		clr_sub(t_color color, double val);
 t_color		clr_add(t_color color, double val);
 t_color		normalize_color(t_color color);
 t_color		clamp_color(t_color color, double min, double max);
-t_color		filter_color(t_color clr1, t_color clr2);
 
 #endif // COLOR_H
