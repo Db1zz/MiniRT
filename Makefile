@@ -31,22 +31,18 @@ SRCS =	src/minirt.c	\
 		src/render/shapes/aabb.c	\
 		src/render/shapes/bvh.c	\
 		src/render/utilities/bvh_utils.c	\
-		src/render/utilities/antialiasing.c	\
 		src/render/utilities/bvh_print_tree.c	\
 		src/render/utilities/color_math1.c	\
 		src/render/utilities/color_math2.c	\
-		src/render/utilities/color_math3.c	\
 		src/render/utilities/color.c	\
 		src/render/utilities/error.c	\
 		src/render/utilities/interval.c	\
 		src/render/utilities/math_utils.c	\
 		src/render/utilities/object.c	\
-		src/render/utilities/pixel.c	\
 		src/render/utilities/utils.c	\
 		src/render/utilities/vector_math1.c	\
 		src/render/utilities/vector_math2.c	\
 		src/render/utilities/vector_math3.c	\
-		src/render/utilities/vector_math4.c	\
 		src/render/utilities/vector.c	\
 		src/render/utilities/scene.c	\
 		src/render/utilities/timer.c	\

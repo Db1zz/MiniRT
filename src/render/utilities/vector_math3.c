@@ -24,26 +24,23 @@ double	vec3_length(t_vector v)
 	return (sqrt(vec3_length_squared(v)));
 }
 
-t_vector	vec3_random(void)
-{
-	return ((t_vector){random_double(), random_double(), random_double()});
-}
-
-t_vector	vec3_random_range(double min, double max)
+t_vector vec3_cross(t_vector a, t_vector b)
 {
 	return ((t_vector){
-			random_double_range(min, max),
-			random_double_range(min, max),
-			random_double_range(min, max)});
+		a.y * b.z - a.z * b.y,
+		a.z * b.x - a.x * b.z,
+		a.x * b.y - a.y * b.x});
 }
 
-t_vector vec3_random_unit_vec(void)
+t_vector vec3_negate(t_vector a)
 {
-	const double z = 2.0f * random_double() - 1.0f;
-	const double a = 2.0f * M_PI * random_double();
-	const double r = sqrtf(1.0f - z * z);
-	const double x = r * cosf(a);
-	const double y = r * sinf(a);
+	return ((t_vector){-a.x, -a.y, -a.z});
+}
 
-	return (t_vector){x, y, z};
+double vec3_distance(t_vector a, t_vector b)
+{
+	double x;
+
+	x = sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2) + pow(a.z - b.z, 2));
+	return (x);
 }

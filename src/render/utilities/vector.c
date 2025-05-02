@@ -36,11 +36,6 @@ t_errorn	set_vector(t_vector *vector, double x, double y, double z)
 	return (ERR_NO_ERROR);
 }
 
-t_vector	get_random_vector_offset(void)
-{
-	return (create_vector(random_double() - 0.5, random_double() - 0.5, 0));
-}
-
 void	print_vec3(t_vector *vec)
 {
 	printf("Vector: [%f, %f, %f]\n", vec->x, vec->y, vec->z);
