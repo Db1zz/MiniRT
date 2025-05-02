@@ -24,28 +24,53 @@ static void	free_scene_objects(t_object **objects)
 	int	i;
 
 	i = 0;
-	while (objects[i]) {
-		free_object(&objects[i]);
+	while (objects[i])
+		free_object(&objects[i++]);
+}
+
+#ifdef __APPLE__
+/*
+	mlx is a cross-platform library they said))))))
+*/
+	void mlx_destroy_display(void *mlx)
+	{
+		(void)mlx;
+	}
+
+#endif // __APPLE__
+
+void 	kill_free_threads(t_scene *scene)
+{
+	size_t	i;
+
+	i = 0;
+	ft_printf("Killing threads...\n");
+	sem_wait(scene->global_sem);
+	scene->sync.exit_threads = true;
+	sem_post(scene->global_sem);
+	ft_printf("Waiting till each thread will be killed...\n");
+	while (i < scene->threads_amount)
+	{
+		pthread_join(scene->threads_ctx[i].pt, NULL);
 		++i;
 	}
 }
 
-void	free_scene(t_scene **scene)
+void free_scene(t_scene **scene)
 {
 	free_scene_objects((*scene)->ambient_light);
 	free_scene_objects((*scene)->lights);
 	free_scene_objects((*scene)->objects);
+	free_bvh_tree((*scene)->tree);
+	kill_free_threads(*scene);
+	close_semaphore((*scene)->global_sem);
+	close_semaphore((*scene)->thread_task_sem);
 	if ((*scene)->camera)
 		free((*scene)->camera);
 	if ((*scene)->win)
 		mlx_destroy_window((*scene)->mlx, (*scene)->win);
 	if ((*scene)->mlx)
-	{
-		#ifndef __APPLE__	// Temp macro
-			mlx_destroy_display((*scene)->mlx);
-		#endif	// __APPLE__
-		free((*scene)->mlx);
-	}
+		(mlx_destroy_display((*scene)->mlx), free((*scene)->mlx));
 	free(*scene);
 	*scene = NULL;
 }

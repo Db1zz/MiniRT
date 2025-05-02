@@ -13,6 +13,8 @@
 #include "parser.h"
 #include "utils.h"
 #include "minirt_math.h"
+#include "libft.h"
+
 
 void parse_sphere(t_scene *scene, char **line_data)
 {
@@ -90,7 +92,7 @@ void	parse_plane(t_scene *scene, char **line_data)
 	str_to_vector((&plane->pos), line_data[2], false, scene);
 	str_to_color((&plane->color), line_data[3], scene);
 	object = add_object_to_array(plane, E_PLANE, scene->objects, &scene->objects_size);
-	object->box = compute_plane_aabb(plane);
+	object->box = compute_plane_aabb();
 }
 
 void	parse_gyper(t_scene *scene, char **line_data)
@@ -110,5 +112,5 @@ void	parse_gyper(t_scene *scene, char **line_data)
 	gyper->diameter = rt_atof(line_data[4], scene);
 	str_to_color(&gyper->color, line_data[5], scene);
 	object = add_object_to_array(gyper, E_GYPER, scene->objects, &scene->objects_size);
-	object->box = compute_hyperboloid_aabb(gyper);
+	object->box = compute_hyperboloid_aabb();
 }

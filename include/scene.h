@@ -21,6 +21,7 @@
 # define SCENE_RENDER_DISTANCE 10.0f
 
 typedef struct s_ray_thread_ctx t_ray_thread_ctx;
+// typedef struct s_thread_sync t_thread_sync;
 
 typedef struct s_scene
 {
@@ -35,11 +36,11 @@ typedef struct s_scene
 	t_ray_thread_ctx *threads_ctx;
 	t_bvh_node *tree;
 	t_xpm_image *img;
+	t_thread_sync sync;
 	size_t lights_size;
 	size_t ambient_light_size;
 	size_t objects_size;
 	size_t threads_amount;
-	size_t tasks_fineshed;
 	t_error error;
 } t_scene;
 

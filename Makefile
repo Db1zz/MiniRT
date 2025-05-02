@@ -30,8 +30,9 @@ SRCS =	src/minirt.c	\
 		src/render/shapes/aabb_compute.c	\
 		src/render/shapes/aabb.c	\
 		src/render/shapes/bvh.c	\
-		src/render/utilities/bvh_utils.c	\
+		src/render/shapes/bvh_merge_sort.c	\
 		src/render/utilities/bvh_print_tree.c	\
+		src/render/utilities/bvh_utils.c \
 		src/render/utilities/color_math1.c	\
 		src/render/utilities/color_math2.c	\
 		src/render/utilities/color.c	\

@@ -2,7 +2,6 @@
 # define MINIRT_THREADS_H
 
 # include "ray.h"
-# include "minirt.h"
 # include "queue.h"
 # include "bvh.h"
 
@@ -20,6 +19,12 @@ typedef struct s_ray_thread_ctx
 	size_t		end_x;
 	size_t		tid;
 }	t_ray_thread_ctx;
+
+typedef struct s_thread_sync
+{
+	bool	exit_threads;
+	size_t	tasks_fineshed;
+}	t_thread_sync;
 
 bool	open_semaphore(sem_t **sem, const char *sem_name, int sem_size);
 bool	init_semaphore(sem_t **sem, const char *sem_name, int sem_size);

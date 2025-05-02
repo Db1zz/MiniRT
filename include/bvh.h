@@ -27,6 +27,8 @@ void merge_sort_objects_array(
 
 t_bvh_node *create_tree(t_object **objects, int start, int end, int depth);
 
+void free_bvh_tree(t_bvh_node *tree);
+
 t_color ray_hit_tree(const t_ray *ray, const t_bvh_node *tree, const t_scene *scene);
 
 void print_tree(t_bvh_node *tree);

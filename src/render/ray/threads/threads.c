@@ -1,5 +1,8 @@
 #include "minirt_threads.h"
 #include "timer.h"
+#include "scene.h"
+#include "xpm_render.h"
+#include "libft.h"
 
 #include <assert.h>
 #include <unistd.h>
@@ -30,6 +33,19 @@ static void	thread_render(t_ray_thread_ctx *data)
 	}
 }
 
+static bool thread_exit(t_scene *scene)
+{
+	while (true)
+	{
+		if (!sem_trywait(scene->thread_task_sem))
+			return (false);
+		else if (scene->sync.exit_threads)
+			return (true);
+		usleep(1000);
+	}
+	return (false);
+}
+
 static void	*thread_render_routine(void *ray_thread_ctx)
 {
 	t_ray_thread_ctx	*data;
@@ -37,12 +53,11 @@ static void	*thread_render_routine(void *ray_thread_ctx)
 
 	data = (t_ray_thread_ctx *)ray_thread_ctx;
 	scene = data->scene;
-	while (true)
+	while (!thread_exit(scene))
 	{
-		sem_wait(scene->thread_task_sem);
 		thread_render(data);
 		sem_wait(scene->global_sem);
-		++scene->tasks_fineshed;
+		++scene->sync.tasks_fineshed;
 		sem_post(scene->global_sem);
 	}
 	return (NULL);
@@ -65,7 +80,8 @@ bool	init_threads(t_scene *scene)
 	scene->threads_amount = sysconf(_SC_NPROCESSORS_CONF);
 	printf("CPU: %zu\n", scene->threads_amount);
 	scene->threads_ctx = ft_calloc(scene->threads_amount, sizeof(t_ray_thread_ctx));
-	scene->tasks_fineshed = 0;
+	scene->sync.exit_threads = false;
+	scene->sync.tasks_fineshed = 0;
 	threads_ctx = scene->threads_ctx;
 	perv_end = 0;
 	if (!threads_init_semaphores(scene))
@@ -87,12 +103,12 @@ bool	init_threads(t_scene *scene)
 void	threads_render_image(t_scene *scene)
 {
 	struct timeval start_time = getTime();
-	scene->tasks_fineshed = 0;
+	scene->sync.tasks_fineshed = 0;
 	semaphore_increment(scene->thread_task_sem, scene->threads_amount);
 	while (true)
 	{
 		sem_wait(scene->global_sem);
-		if (scene->tasks_fineshed == scene->threads_amount)
+		if (scene->sync.tasks_fineshed == scene->threads_amount)
 		{
 			sem_post(scene->global_sem);
 			break;

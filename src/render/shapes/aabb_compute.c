@@ -2,6 +2,7 @@
 #include "object.h"
 #include "scene.h"
 #include "vector.h"
+#include "libft.h"
 
 t_aabb	*compute_sphere_aabb(t_sphere *sphere)
 {
