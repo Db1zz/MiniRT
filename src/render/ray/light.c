@@ -59,16 +59,20 @@ static t_color get_diffuse_light(
 	return (rc);
 }
 
-static t_color	get_ambient_light(
+static t_color get_ambient_light(
 	const t_object *amb_object,
-	const t_color *color)
+	const t_hit_record *shape_rec)
 {
-	const t_amb_lighting *amb_light;
-	t_color amb_color;
+	const t_amb_lighting *light = (const t_amb_lighting *)amb_object->data;
+	t_color px;
 
-	amb_light = (const t_amb_lighting *)amb_object->data;
-	amb_color = clr_mult(amb_light->color, amb_light->ratio);
-	return (normalize_color(clr_add_clr(*color, amb_color)));
+	px = clr_mult(
+		clr_mult_clr(
+			clr_div(shape_rec->color, 255),
+			clr_div(light->color, 255)),
+		255);
+	px = clr_mult(px, light->ratio);
+	return (normalize_color(px));
 }
 
 t_color apply_light(
@@ -76,12 +80,17 @@ t_color apply_light(
 	const t_scene *scene,
 	const t_hit_record *shape_rec)
 {
-	t_color	result;
+	t_color	diff_spec_color;
+	t_color	ambeint_clr;
+	t_color	result_clr;
 
-	result = create_color(0, 0, 0);
-	if (scene->lights[0])
-		result = get_diffuse_light(camera_ray, scene, shape_rec);
-	// if (scene->ambient_lightings) FIXME
-	// 	result = get_ambient_light(scene->ambient_lightings, &result);
-	return (result);
+	diff_spec_color = create_color(0, 0, 0);
+	ambeint_clr = create_color(0, 0, 0);
+	result_clr = create_color(0, 0, 0);
+	if (scene->lights_size)
+		diff_spec_color = get_diffuse_light(camera_ray, scene, shape_rec);
+	if (scene->ambient_light_size)	
+		ambeint_clr = get_ambient_light(scene->ambient_light[0], shape_rec);
+	result_clr = clr_add_clr(diff_spec_color, ambeint_clr);
+	return (result_clr);
 }
