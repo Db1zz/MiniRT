@@ -45,9 +45,6 @@ void 	kill_free_threads(t_scene *scene)
 
 	i = 0;
 	ft_printf("Killing threads...\n");
-	sem_wait(scene->global_sem);
-	scene->sync.exit_threads = true;
-	sem_post(scene->global_sem);
 	ft_printf("Waiting till each thread will be killed...\n");
 	while (i < scene->threads_amount)
 	{
@@ -63,8 +60,6 @@ void free_scene(t_scene **scene)
 	free_scene_objects((*scene)->objects);
 	free_bvh_tree((*scene)->tree);
 	kill_free_threads(*scene);
-	close_semaphore((*scene)->global_sem);
-	close_semaphore((*scene)->thread_task_sem);
 	if ((*scene)->camera)
 		free((*scene)->camera);
 	if ((*scene)->win)
