@@ -33,17 +33,14 @@ static void	thread_render(t_ray_thread_ctx *data)
 	}
 }
 
-static bool thread_exit(t_scene *scene)
+static bool is_shutdown_requested(t_scene *scene)
 {
-	while (true)
-	{
-		if (!sem_trywait(scene->thread_task_sem))
-			return (false);
-		else if (scene->sync.exit_threads)
-			return (true);
-		usleep(1000);
-	}
-	return (false);
+	bool status;
+
+	sem_wait(scene->global_sem);
+	status = scene->sync.exit_threads;
+	sem_post(scene->global_sem);
+	return (status);
 }
 
 static void	*thread_render_routine(void *ray_thread_ctx)
@@ -53,8 +50,14 @@ static void	*thread_render_routine(void *ray_thread_ctx)
 
 	data = (t_ray_thread_ctx *)ray_thread_ctx;
 	scene = data->scene;
-	while (!thread_exit(scene))
+	while (!is_shutdown_requested(scene))
 	{
+		while (sem_trywait(scene->thread_task_sem))
+		{
+			if (is_shutdown_requested(scene))
+				return (NULL);
+			usleep(1000);
+		}
 		thread_render(data);
 		sem_wait(scene->global_sem);
 		++scene->sync.tasks_fineshed;
@@ -78,7 +81,6 @@ bool	init_threads(t_scene *scene)
 
 	i = 0;
 	scene->threads_amount = sysconf(_SC_NPROCESSORS_CONF);
-	printf("CPU: %zu\n", scene->threads_amount);
 	scene->threads_ctx = ft_calloc(scene->threads_amount, sizeof(t_ray_thread_ctx));
 	scene->sync.exit_threads = false;
 	scene->sync.tasks_fineshed = 0;
@@ -93,7 +95,6 @@ bool	init_threads(t_scene *scene)
 		threads_ctx[i].scene = scene;
 		threads_ctx[i].tid = i;
 		perv_end = threads_ctx[i].end_x;
-		printf("thread[%zu]render_start: %zu, thread[%zu]render_end: %zu\n", i, threads_ctx[i].start_x, i, threads_ctx[i].end_x);
 		pthread_create(&scene->threads_ctx[i].pt, NULL, thread_render_routine, &threads_ctx[i]);
 		++i;
 	}

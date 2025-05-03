@@ -18,22 +18,6 @@
 #include "minirt_math.h"
 #include "aabb.h"
 
-// static t_vector	camera_get_pixel_center(const t_scene *scene, int x, int y)
-// {
-// 	const t_viewport	*viewport = &scene->camera->viewport;
-// 	t_vector			pixel_center;
-// 	t_vector			offset;
-
-// 	offset = create_vector(0, 0, 0);
-// 	// if (scene->antialiasing)
-// 	// 	offset = get_random_vector_offset();
-// 	pixel_center = vec3_add_vec3(viewport->first_pixel,
-// 			vec3_add_vec3(
-// 				vec3_mult(viewport->pdelta_x, y + offset.y),
-// 				vec3_mult(viewport->pdelta_y, x + offset.x)));
-// 	return (pixel_center);
-// }
-
 // x[0] = -camera->orientation_vec
 // x[1] = camera_right
 // x[2] = camera_up
