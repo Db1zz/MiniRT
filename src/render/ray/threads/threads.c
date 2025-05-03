@@ -101,6 +101,33 @@ bool	init_threads(t_scene *scene)
 	return (true);
 }
 
+/*
+	This __linux__ block is needed because keyboard events were flooding the event queue
+	which, caused in visual distortions and laggy output.
+*/
+#ifdef __linux__
+# include <X11/Xutil.h>
+# include "mlx_int.h"
+
+/*
+	XSync() documentation:
+	https://tronche.com/gui/x/xlib/event-handling/XSync.html
+*/
+static void	display_image(t_scene *scene)
+{
+	XSync(((t_xvar *)scene->mlx)->display, True);
+	mlx_put_image_to_window(
+		scene->mlx, scene->win, scene->img->img, 0, 0);
+}
+
+# else
+static void	display_image(t_scene *scene)
+{
+	mlx_put_image_to_window(
+		scene->mlx, scene->win, scene->img->img, 0, 0);
+}
+#endif
+
 void	threads_render_image(t_scene *scene)
 {
 	struct timeval start_time = getTime();
@@ -117,8 +144,8 @@ void	threads_render_image(t_scene *scene)
 		sem_post(scene->global_sem);
 		usleep(1000);
 	}
-	mlx_put_image_to_window(
-		scene->mlx, scene->win, scene->img->img, 0, 0);
+
+	display_image(scene);
 	struct timeval end_time = getTime();
 	printf("Rendered for [m:%ld, s:%ld, ms:%ld]\n",
 		   getMinutesDiff(&start_time, &end_time),
