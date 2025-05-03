@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/mman.h>
-#include <X11/X.h> 
 
 int	exit_minirt(t_scene *scene)
 {
@@ -42,7 +41,7 @@ bool	minirt_init(t_scene *scene)
 			scene->mlx,
 			VIEWPORT_WIDTH,
 			VIEWPORT_HEIGHT);
-	mlx_hook(scene->win, KeyPress | KeyRelease, KeyPressMask | KeyReleaseMask, input_handler, scene);
+	mlx_hook(scene->win, 2, 1, input_handler, scene);
 	mlx_hook(scene->win, 17, 1L << 17, exit_minirt, scene);
 	return (true);
 }
