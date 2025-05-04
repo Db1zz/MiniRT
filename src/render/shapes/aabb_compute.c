@@ -4,24 +4,20 @@
 #include "vector.h"
 #include "libft.h"
 
-t_aabb	*compute_sphere_aabb(t_sphere *sphere)
+t_aabb	compute_sphere_aabb(t_sphere *sphere)
 {
 	t_vector	vec;
-	t_aabb		*aabb;
 	t_vector	a;
 	t_vector	b;
 
 	vec = create_vector(sphere->radius, sphere->radius, sphere->radius);
 	a = vec3_sub_vec3(sphere->pos, vec);
 	b = vec3_add_vec3(sphere->pos, vec);
-	aabb = ft_calloc(1, sizeof(t_aabb));
-	*aabb = create_aabb_from_vectors(&a, &b);
-	return (aabb);
+	return (create_aabb_from_vectors(&a, &b));
 }
 
-t_aabb	*compute_cylinder_aabb(t_cylinder *cylinder)
+t_aabb	compute_cylinder_aabb(t_cylinder *cylinder)
 {
-	t_aabb		*aabb;
 	t_vector	top_center;
 	t_vector	bottom_center;
 	t_vector	min_corner;
@@ -38,36 +34,26 @@ t_aabb	*compute_cylinder_aabb(t_cylinder *cylinder)
 	max_corner.x = fmax(top_center.x, bottom_center.x) + cylinder->radius;
 	max_corner.y = fmax(top_center.y, bottom_center.y) + cylinder->radius;
 	max_corner.z = fmax(top_center.z, bottom_center.z) + cylinder->radius;
-
-	aabb = ft_calloc(1, sizeof(t_aabb));
-	*aabb = create_aabb_from_vectors(&min_corner, &max_corner);
-	return (aabb);
+	return (create_aabb_from_vectors(&min_corner, &max_corner));
 }
 
-t_aabb	*compute_plane_aabb()
+t_aabb	compute_plane_aabb()
 {
-	t_aabb		*aabb;
+	t_aabb		aabb;
 	t_vector	min_corner;
 	t_vector	max_corner;
 
 	min_corner = create_vector(-SCENE_RENDER_DISTANCE, -SCENE_RENDER_DISTANCE, -SCENE_RENDER_DISTANCE);
 	max_corner = create_vector(SCENE_RENDER_DISTANCE, SCENE_RENDER_DISTANCE, SCENE_RENDER_DISTANCE);
-
-	aabb = ft_calloc(1, sizeof(t_aabb));
-	*aabb = create_aabb_from_vectors(&min_corner, &max_corner);
-	return (aabb);
+	return (create_aabb_from_vectors(&min_corner, &max_corner));
 }
 
-t_aabb	*compute_hyperboloid_aabb()
+t_aabb	compute_hyperboloid_aabb()
 {
-	t_aabb		*aabb;
 	t_vector	min_corner;
 	t_vector	max_corner;
 
 	min_corner = create_vector(-SCENE_RENDER_DISTANCE, -SCENE_RENDER_DISTANCE, -SCENE_RENDER_DISTANCE);
 	max_corner = create_vector(SCENE_RENDER_DISTANCE, SCENE_RENDER_DISTANCE, SCENE_RENDER_DISTANCE);
-
-	aabb = ft_calloc(1, sizeof(t_aabb));
-	*aabb = create_aabb_from_vectors(&min_corner, &max_corner);
-	return (aabb);
+	return (create_aabb_from_vectors(&min_corner, &max_corner));
 }

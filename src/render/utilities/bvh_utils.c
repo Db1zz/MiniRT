@@ -3,7 +3,7 @@
 
 bool box_compare_is_less(const t_object *a, const t_object *b, int axis)
 {
-	return (a->box->interval[axis].min < b->box->interval[axis].min);
+	return (a->box.interval[axis].min < b->box.interval[axis].min);
 }
 
 bool box_x_compare_is_less(const t_object *a, const t_object *b)

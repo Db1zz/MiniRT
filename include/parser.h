@@ -8,7 +8,7 @@
 # define PLANE_ARGS 5
 # define SPHERE_ARGS 3
 
-t_scene	*parse_input(int argc, char **argv);
+t_error parse_input(t_scene *scene, int argc, char **argv);
 
 t_object *add_object_to_array(
 	void *object, t_object_type type, t_object **arr, size_t *arr_size);

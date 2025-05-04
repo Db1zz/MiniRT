@@ -7,22 +7,24 @@ MINILIBX_DIR = minilibx
 MINILIBX := $(MINILIBX_DIR)/libmlx.a
 LIBFT = libft/libft.a
 LIBFT_DIR = libft
-SRCS =	src/minirt.c	\
+SRCS =	src/main.c	\
+		src/minirt.c	\
 		src/parser/object_parser.c	\
 		src/parser/parser.c	\
 		src/parser/parser_utils.c	\
 		src/parser/shape_parser.c	\
 		src/render/camera/camera.c	\
 		src/render/camera/viewport.c	\
+		src/render/render.c	\
+		src/render/render_workers.c	\
+		src/render/render_routine.c	\
+		src/render/scene.c	\
+		src/render/scene_add_functions.c	\
 		src/render/ray/light_utils.c	\
 		src/render/ray/light.c	\
 		src/render/ray/ray_reflections.c	\
 		src/render/ray/ray_utils.c	\
 		src/render/ray/ray.c	\
-		src/render/ray/queue/queue.c \
-		src/render/ray/queue/queue_utils.c \
-		src/render/ray/threads/threads.c \
-		src/render/ray/threads/semaphores.c \
 		src/render/shapes/cylinder_math.c	\
 		src/render/shapes/gyper_math.c	\
 		src/render/shapes/plane_math.c	\
@@ -31,6 +33,7 @@ SRCS =	src/minirt.c	\
 		src/render/shapes/aabb.c	\
 		src/render/shapes/bvh.c	\
 		src/render/shapes/bvh_merge_sort.c	\
+		src/render/utilities/pepe_barrier.c	\
 		src/render/utilities/bvh_print_tree.c	\
 		src/render/utilities/bvh_utils.c \
 		src/render/utilities/color_math1.c	\
@@ -45,7 +48,6 @@ SRCS =	src/minirt.c	\
 		src/render/utilities/vector_math2.c	\
 		src/render/utilities/vector_math3.c	\
 		src/render/utilities/vector.c	\
-		src/render/utilities/scene.c	\
 		src/render/utilities/timer.c	\
 		src/render/utilities/xpm_render.c	\
 
@@ -75,7 +77,7 @@ $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
-	@mkdir -p $(OBJS_DIR) $(OBJS_DIR)/render $(OBJS_DIR)/parser $(OBJS_DIR)/render/camera $(OBJS_DIR)/render/ray $(OBJS_DIR)/render/utilities $(OBJS_DIR)/render/shapes $(OBJS_DIR)/render/ray/queue $(OBJS_DIR)/render/ray/threads
+	@mkdir -p $(OBJS_DIR) $(OBJS_DIR)/render $(OBJS_DIR)/parser $(OBJS_DIR)/render/camera $(OBJS_DIR)/render/ray $(OBJS_DIR)/render/utilities $(OBJS_DIR)/render/shapes
 	$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@
 
 $(NAME): $(OBJS)

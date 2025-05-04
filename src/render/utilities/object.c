@@ -14,22 +14,24 @@
 #include "libft.h"
 #include <stdlib.h>
 
-t_object	*alloc_new_object(
-	void			*data,
-	t_object_type	type)
+t_object *object_alloc(
+	void *data,
+	t_aabb box,
+	t_object_type type,
+	size_t id)
 {
 	t_object	*new_object;
 
 	new_object = ft_calloc(1, sizeof(t_object));
 	new_object->data = data;
 	new_object->type = type;
-	new_object->type_name = get_object_type_name(type);
-	new_object->box = NULL;
-	new_object->id = -1;
+	new_object->type_name = object_get_type_name(type);
+	new_object->box = box;
+	new_object->id = id;
 	return (new_object);
 }
 
-const char *get_object_type_name(t_object_type type) {
+const char *object_get_type_name(t_object_type type) {
 	static const char *strs[] = {
 		"Sphere",
 		"Cylinder",
@@ -42,26 +44,13 @@ const char *get_object_type_name(t_object_type type) {
 	return (strs[(int)type]);
 }
 
-void	init_object(
-	t_object *object,
-	void *data,
-	t_object_type type)
-{
-	object->data = data;
-	object->type = type;
-}
-
-void	free_object(t_object **object)
+void	object_destroy(t_object **object)
 {
 	if (!object || !*object)
 		return ;
 	if ((*object)->data) {
 		free((*object)->data);		
 	}
-	if ((*object)->box) {
-		free((*object)->box);
-	}
-
 	free(*object);
 	*object = NULL;
 }

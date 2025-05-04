@@ -57,3 +57,11 @@ bool	hit_aabb(const t_aabb *aabb, const t_ray *r)
 	}
 	return true;
 }
+
+t_aabb aabb_create_empty()
+{
+	return ((t_aabb){
+		.interval[0] = create_interval(0, 0),
+		.interval[1] = create_interval(0, 0),
+		.interval[2] = create_interval(0, 0)});
+}

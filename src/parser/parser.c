@@ -40,18 +40,6 @@ static void line_parser(t_scene *scene, char **line_data)
 		set_error(&scene->error, ERR_UNKNOWN_OBJECT_SPECIFIER, __func__);
 }
 
-t_object	*add_object_to_array(
-	void *object, t_object_type type, t_object **arr, size_t *arr_size)
-{
-	t_object *new_object;
-
-	new_object = alloc_new_object(object, type);
-	new_object->id = *arr_size;
-	arr[(*arr_size)++] = new_object;
-	arr[*arr_size] = NULL;
-	return (new_object);
-}
-
 static void scene_parser(t_scene *scene, int scene_fd)
 {
 	char *line;
@@ -74,25 +62,19 @@ static void scene_parser(t_scene *scene, int scene_fd)
 		set_error(&scene->error, ERR_CAMERA_NOT_FOUND, __func__);
 }
 
-t_scene *parse_input(int argc, char **argv)
+t_error parse_input(t_scene *scene, int argc, char **argv)
 {
 	int fd;
-	t_scene *scene;
 
 	if (argc != 2)
-		return (ft_perror(ERR_ARGC_ERROR, __func__), NULL);
+		return (ft_perror(ERR_ARGC_ERROR, __func__), scene->error);
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
-		return (ft_perror(ERR_FAILED_TO_OPEN_FILE, __func__), NULL);
-	scene = scene_alloc();
-	if (!scene)
-		return (ft_perror(ERR_MALLOC_FAILED, __func__), close(fd), NULL);
+		return (ft_perror(ERR_FAILED_TO_OPEN_FILE, __func__), scene->error);
 	if (scene->error.errorn == ERR_NO_ERROR)
 		scene_parser(scene, fd);
 	if (scene->error.errorn)
-	{
-		(ft_display_error(&scene->error), free_scene(&scene));
-	}
+		ft_display_error(&scene->error);
 	close(fd);
-	return (scene);
+	return (scene->error);
 }

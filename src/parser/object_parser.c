@@ -33,8 +33,7 @@ void	parse_light(t_scene *scene, char **line_data)
 	if (light->ratio < RATIO_MIN || light->ratio > RATIO_MAX)
 		set_error(&scene->error, ERR_RATIO_RANGE_ERROR, __func__);
 	str_to_color(&light->color, line_data[3], scene);
-	add_object_to_array(light, E_LIGHT, 
-		scene->lights, &scene->lights_size);
+	scene_add_light(scene, object_alloc(light, aabb_create_empty(), E_LIGHT, 0));
 }
 #else
 
@@ -52,8 +51,7 @@ void	parse_light(t_scene *scene, char **line_data)
 	if (light->ratio < RATIO_MIN || light->ratio > RATIO_MAX)
 		set_error(&scene->error, ERR_RATIO_RANGE_ERROR, __func__);
 	str_to_color(&light->color, line_data[3], scene);
-	add_object_to_array(light, E_LIGHT, 
-		scene->lights, &scene->lights_size);
+	scene_add_light(scene, object_alloc(light, aabb_create_empty(), E_LIGHT, 0));
 }
 #endif
 
@@ -71,8 +69,8 @@ void	parse_ambient(t_scene *scene, char **line_data)
 		set_error(&scene->error, ERR_RATIO_RANGE_ERROR, __func__);
 	else
 		str_to_color(&amb_lighting->color, line_data[2], scene);
-	add_object_to_array(amb_lighting, E_AMBIENT_LIGHT, 
-		scene->ambient_light, &scene->ambient_light_size);
+	scene_add_ambient_light(scene,
+		object_alloc(amb_lighting, aabb_create_empty(), E_AMBIENT_LIGHT, 0));
 }
 
 void	parse_camera(t_scene *scene, char **line_data)

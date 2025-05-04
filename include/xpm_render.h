@@ -17,7 +17,7 @@ typedef struct s_xpm_image
 	int endian;
 }	t_xpm_image;
 
-void xpm_render_put_pixel(
+void	xpm_render_put_pixel(
 	t_xpm_image *img,
 	unsigned int x,
 	unsigned int y,
@@ -27,5 +27,9 @@ t_xpm_image	*xpm_render_new_img(
 	void *mlx,
 	int width,
 	int height);
+
+void	xpm_render_destroy_img(
+	void *mlx,
+	t_xpm_image *img);
 
 #endif  // XPM_RENDER_H

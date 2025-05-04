@@ -1,7 +1,8 @@
 #include "xpm_render.h"
-#include "mlx.h"
-#include <assert.h>
-#include <stdlib.h>
+
+#include "mlx.h" /* mlx shit */
+
+#include <stdlib.h> /* free */
 
 t_xpm_image	*xpm_render_new_img(void *mlx, int width, int height)
 {
@@ -32,4 +33,10 @@ void	xpm_render_put_pixel(
 	int_color = mlx_get_color_value(img->mlx, rgb_to_int(color));
 	int pos = x * img->size_line + y * img->bytes_per_pixel;
 	*(unsigned int *)(img->data + pos) = int_color;
+}
+
+void	xpm_render_destroy_img(void *mlx, t_xpm_image *img)
+{
+	mlx_destroy_image(mlx, img->img);
+	free(img);
 }

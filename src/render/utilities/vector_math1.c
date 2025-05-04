@@ -13,7 +13,6 @@
 #include "vector.h"
 #include "minirt.h"
 #include "utils.h"
-#include <math.h>
 
 t_vector	vec3_div_vec3(t_vector v1, t_vector v2)
 {

@@ -37,7 +37,7 @@ t_bvh_node *create_tree(t_object **objects, int start, int end, int depth)
 	if (object_span == 0)
 	{
 		tree->objects = objects[start];
-		tree->box = *(objects[start]->box);
+		tree->box = objects[start]->box;
 	}
 	else
 	{

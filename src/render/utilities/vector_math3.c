@@ -11,8 +11,10 @@
 /* ************************************************************************** */
 
 #include "vector.h"
+
 #include "minirt_math.h"
-#include <math.h>
+
+#include <math.h> /* sqrt() | pow() */
 
 double	vec3_length_squared(t_vector v)
 {

@@ -70,17 +70,17 @@ t_color camera_get_pixel_color(
 	return (ray_hit_tree(&ray, scene->tree, scene));
 }
 
-int	move_camera_view_point(int key, t_scene *scene)
+int	camera_move_view_point(int key, t_camera *camera)
 {
 
 	const double	step = 0.5;
-	const t_vector	*ov = &scene->camera->orientation_vec;
+	const t_vector *ov = &camera->orientation_vec;
 	t_vector		*p;
 	double			degrees;
 	int				operation;
 
 	operation = 1;
-	p = &scene->camera->view_point;
+	p = &camera->view_point;
 	if (key == K_A || key == K_D)
 	{
 		degrees = atan2(ov->x, ov->z);
@@ -100,16 +100,14 @@ int	move_camera_view_point(int key, t_scene *scene)
 		p->y += operation * (step * ov->y);
 		p->z += operation * (step * ov->z);
 	}
-
-	threads_render_image(scene);
 	return (key);
 }
 
 // TODO: up and down works wierdly xd
-int change_camera_orientation_vec(int key, t_scene *scene)
+int camera_change_orientation_vector(int key, t_camera *camera)
 {
 	const double	angle = 0.05;
-	const t_vector	*v = &scene->camera->orientation_vec;
+	const t_vector	*v = &camera->orientation_vec;
 	t_vector		rotated;
 	double			theta;
 
@@ -130,8 +128,6 @@ int change_camera_orientation_vec(int key, t_scene *scene)
 		rotated.z = sin(theta) * v->y + cos(theta) * v->z;
 	}
 
-	scene->camera->orientation_vec = vec3_normalize(rotated);
-
-	threads_render_image(scene);
+	camera->orientation_vec = vec3_normalize(rotated);
 	return (key);
 }

@@ -31,7 +31,7 @@ typedef enum e_object_type
 typedef struct s_object
 {
 	void *data;
-	t_aabb *box;
+	t_aabb box;
 	t_object_type type;
 	const char *type_name;
 	size_t id;
@@ -40,9 +40,9 @@ typedef struct s_object
 /*
 	Functions
 */
-t_object *alloc_new_object(void *data, t_object_type type);
-const char *get_object_type_name(t_object_type type);
-void free_object(t_object **object);
+t_object *object_alloc(void *data, t_aabb box, t_object_type type, size_t id);
+const char *object_get_type_name(t_object_type type);
+void object_destroy(t_object **object);
 
 /*
 	Objects

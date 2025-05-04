@@ -6,6 +6,7 @@
 #include "object.h"
 #include "ray.h"
 #include "bvh.h"
+
 #include <math.h>
 
 #define CAMERA_FOV_MIN 0
@@ -24,7 +25,7 @@ t_color camera_get_pixel_color(
 	const t_scene *scene,
 	int x, int y);
 
-int		move_camera_view_point(int key, t_scene *scene);
-int		change_camera_orientation_vec(int key, t_scene *scene);
+int camera_move_view_point(int key, t_camera *camera);
+int camera_change_orientation_vector(int key, t_camera *camera);
 
 #endif // CAMERA_H

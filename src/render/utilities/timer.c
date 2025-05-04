@@ -1,5 +1,6 @@
 #include "timer.h"
-#include <sys/time.h>
+
+#include <sys/time.h> /* timeval | gettimeofday */
 
 struct timeval getTime() {
 	struct timeval time;
