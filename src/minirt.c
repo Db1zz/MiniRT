@@ -65,4 +65,5 @@ int	minirt_routine(int argc, char **argv)
 
 	mlx_loop(minirt.scene.mlx);
 	exit_minirt(&minirt);
+	return (EXIT_SUCCESS);
 }

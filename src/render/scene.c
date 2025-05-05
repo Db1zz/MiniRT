@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 01:46:03 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/04 01:46:03 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:55:57 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 t_error	scene_init(t_scene *scene)
 {
+	scene = ft_memset(scene, 0, sizeof(t_scene));
 	scene->objects = ft_calloc(SCENE_OBJECTS_LIMIT + 1, sizeof(t_object *));
 	scene->lights = ft_calloc(SCENE_LIGHTS_LIMIT + 1, sizeof(t_object *));
 	scene->ambient_light = ft_calloc(SCENE_AMBIENT_LIGHTNING_LIMIT + 1, sizeof(t_object *));
@@ -50,6 +51,7 @@ static void	scene_destroy_object_array(t_object **objects)
 	i = 0;
 	while (objects[i])
 		object_destroy(&objects[i++]);
+	free(objects);
 }
 
 #ifdef __APPLE__

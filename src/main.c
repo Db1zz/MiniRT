@@ -1,4 +1,5 @@
 #include "minirt.h" /* minirt_routine() */
+// #include "libft.h" /* for tests only */
 
 // void lol() __attribute__((destructor))
 // {

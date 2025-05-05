@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 01:45:35 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/04 01:45:35 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:00:42 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 	XSync() documentation:
 	https://tronche.com/gui/x/xlib/event-handling/XSync.html
 */
-static void display_scene(t_scene *scene)
+static void	display_scene(t_scene *scene)
 {
 	XSync(((t_xvar *)scene->mlx)->display, True);
 	mlx_put_image_to_window(
@@ -35,7 +35,7 @@ static void display_scene(t_scene *scene)
 }
 
 #else
-static void display_scene(t_scene *scene)
+static void	display_scene(t_scene *scene)
 {
 	mlx_put_image_to_window(
 		scene->mlx, scene->win, scene->img->img, 0, 0);

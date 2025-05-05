@@ -2,7 +2,7 @@
 NAME = miniRT
 CC = cc
 UNAME_S := $(shell uname -s)
-FLAGS := -Wall -Wextra -O3 -pthread #-Werror
+FLAGS := -Wall -Wextra -O3 -pthread -g #-Werror
 MINILIBX_DIR = minilibx
 MINILIBX := $(MINILIBX_DIR)/libmlx.a
 LIBFT = libft/libft.a
@@ -13,18 +13,20 @@ SRCS =	src/main.c	\
 		src/parser/parser.c	\
 		src/parser/parser_utils.c	\
 		src/parser/shape_parser.c	\
-		src/render/camera/camera.c	\
-		src/render/camera/viewport.c	\
 		src/render/render.c	\
 		src/render/render_workers.c	\
 		src/render/render_routine.c	\
 		src/render/scene.c	\
 		src/render/scene_add_functions.c	\
+		src/render/camera/camera.c	\
+		src/render/camera/viewport.c	\
 		src/render/ray/light_utils.c	\
 		src/render/ray/light.c	\
 		src/render/ray/ray_reflections.c	\
 		src/render/ray/ray_utils.c	\
 		src/render/ray/ray.c	\
+		src/render/shapes/object.c	\
+		src/render/shapes/object_destroyer.c	\
 		src/render/shapes/cylinder_math.c	\
 		src/render/shapes/gyper_math.c	\
 		src/render/shapes/plane_math.c	\
@@ -42,7 +44,6 @@ SRCS =	src/main.c	\
 		src/render/utilities/error.c	\
 		src/render/utilities/interval.c	\
 		src/render/utilities/math_utils.c	\
-		src/render/utilities/object.c	\
 		src/render/utilities/utils.c	\
 		src/render/utilities/vector_math1.c	\
 		src/render/utilities/vector_math2.c	\

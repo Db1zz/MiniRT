@@ -8,6 +8,8 @@
 /*
 	Typedefs
 */
+typedef struct s_object t_object;
+typedef void (*object_destructor)(t_object *);
 
 /*
 	typedef enum e_object_type
@@ -30,19 +32,23 @@ typedef enum e_object_type
 
 typedef struct s_object
 {
-	void *data;
 	t_aabb box;
-	t_object_type type;
+	void *data;
 	const char *type_name;
+	object_destructor destructor; /* NULLABLE */
+	t_object_type type;
 	size_t id;
+	
 } t_object;
+
 
 /*
 	Functions
 */
-t_object *object_alloc(void *data, t_aabb box, t_object_type type, size_t id);
-const char *object_get_type_name(t_object_type type);
-void object_destroy(t_object **object);
+t_object	*object_alloc(void *data, t_aabb box, t_object_type type, size_t id);
+const char	*object_get_type_name(t_object_type type);
+void		object_destroy_cylinder(t_object *cylinder_object);
+void		object_destroy(t_object **object);
 
 /*
 	Objects

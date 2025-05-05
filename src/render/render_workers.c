@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 01:44:58 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/04 01:44:58 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:57:37 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,5 @@ void	render_destroy_workers(t_render_workers_ctx *workers)
 	}
 	pepe_barrier_destroy(&workers->sync.render_start_barrier);
 	pepe_barrier_destroy(&workers->sync.render_end_barrier);
+	free(workers->threads);
 }

@@ -6,11 +6,12 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:25:08 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/08 18:40:40 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:56:57 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "object.h"
+
 #include "libft.h"
 #include <stdlib.h>
 
@@ -28,6 +29,7 @@ t_object *object_alloc(
 	new_object->type_name = object_get_type_name(type);
 	new_object->box = box;
 	new_object->id = id;
+	new_object->destructor = NULL;
 	return (new_object);
 }
 
@@ -48,9 +50,13 @@ void	object_destroy(t_object **object)
 {
 	if (!object || !*object)
 		return ;
-	if ((*object)->data) {
-		free((*object)->data);		
+	if ((*object)->destructor)
+		(*object)->destructor(*object);
+	else
+	{
+		if ((*object)->data)
+			free((*object)->data);
+		free(*object);
 	}
-	free(*object);
 	*object = NULL;
 }

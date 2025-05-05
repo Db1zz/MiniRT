@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:24 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/14 14:55:57 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:44:14 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,26 @@ void parse_sphere(t_scene *scene, char **line_data)
 }
 
 void	cylinder_init_caps(t_cylinder *cy) {
-	t_plane *cap_plane;
-	t_object *cap1;
-	t_object *cap2;
+	t_plane *plane1;
+	t_plane *plane2;
 
 	cy->caps = ft_calloc(2, sizeof(t_object));
-	cap_plane = ft_calloc(2, sizeof(t_plane));
-	cap_plane[0].pos = vec3_mult(cy->pos, 1);
-	cap_plane[0].normal_vec = vec3_mult(cy->axis, -1);
-	cap_plane[0].color = cy->color;
-	cap_plane[1].pos = vec3_add_vec3(cy->pos, vec3_mult(cy->axis, cy->height));
-	cap_plane[1].normal_vec = cy->axis;
-	cap_plane[1].color = cy->color;
-	cap1 = object_alloc(&cap_plane[0], aabb_create_empty(), E_PLANE, 0);
-	cap2 = object_alloc(&cap_plane[1], aabb_create_empty(), E_PLANE, 1);
-	cy->caps[0] = *cap1;
-	cy->caps[1] = *cap2;
-	(free(cap1), free(cap2));
+	plane1 = ft_calloc(1, sizeof(t_plane));
+	plane2 = ft_calloc(1, sizeof(t_plane));
+	plane1->pos = vec3_mult(cy->pos, 1);
+	plane1->normal_vec = vec3_mult(cy->axis, -1);
+	plane1->color = cy->color;
+	plane2->pos = vec3_add_vec3(cy->pos, vec3_mult(cy->axis, cy->height));
+	plane2->normal_vec = cy->axis;
+	plane2->color = cy->color;
+	cy->caps[0].box = aabb_create_empty();
+	cy->caps[0].destructor = NULL;
+	cy->caps[0].type = E_PLANE;
+	cy->caps[0].type_name = object_get_type_name(cy->caps[0].type);
+	cy->caps[0].id = 0;
+	cy->caps[1] = cy->caps[0];
+	cy->caps[0].data = plane1;
+	cy->caps[1].data = plane2;
 }
 
 void	parse_cylinder(t_scene *scene, char **line_data)
@@ -79,6 +82,7 @@ void	parse_cylinder(t_scene *scene, char **line_data)
 	box = compute_cylinder_aabb(cylinder);
 	object = object_alloc(cylinder, box, E_CYLINDER, scene->objects_size);
 	scene_add_object(scene, object);
+	object->destructor = object_destroy_cylinder;
 }
 
 void	parse_plane(t_scene *scene, char **line_data)

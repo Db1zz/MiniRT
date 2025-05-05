@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:41 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/13 15:46:21 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:54:24 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static void scene_parser(t_scene *scene, int scene_fd)
 	char *line;
 	char **splitted_line;
 
+	splitted_line = NULL;
 	while (scene->error.errorn == ERR_NO_ERROR)
 	{
 		line = get_next_line(scene_fd);
@@ -55,6 +56,11 @@ static void scene_parser(t_scene *scene, int scene_fd)
 		{
 			line_parser(scene, splitted_line);
 			free_2dmatrix(splitted_line);
+		} 
+		else if (splitted_line)
+		{
+			free_2dmatrix(splitted_line);
+			splitted_line = NULL;
 		}
 		free(line);
 	}

@@ -37,9 +37,8 @@ t_aabb	compute_cylinder_aabb(t_cylinder *cylinder)
 	return (create_aabb_from_vectors(&min_corner, &max_corner));
 }
 
-t_aabb	compute_plane_aabb()
+t_aabb	compute_plane_aabb()	
 {
-	t_aabb		aabb;
 	t_vector	min_corner;
 	t_vector	max_corner;
 
