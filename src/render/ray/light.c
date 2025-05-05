@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:27:44 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/28 13:42:49 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:18:59 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_color get_specular_light(
 {
 	double coefficient;
 
-	coefficient = calculate_specular_light(light, camera_ray, hit_rec, 0.6);
+	coefficient = calculate_specular_light(light, camera_ray, hit_rec, 1);
 	return (clr_mult(create_color(255, 255, 255), coefficient));
 }
 
@@ -40,7 +40,7 @@ static t_color get_diffuse_light(
 	int i;
 
 	i = 0;
-	rc = clr_mult(shape_rec->color, 0.1);
+	rc = clr_mult(shape_rec->color, 0.05);
 	while (scene->lights[i])
 	{
 		light = scene->lights[i]->data;
@@ -91,6 +91,6 @@ t_color apply_light(
 		diff_spec_color = get_diffuse_light(camera_ray, scene, shape_rec);
 	if (scene->ambient_light_size)	
 		ambeint_clr = get_ambient_light(scene->ambient_light[0], shape_rec);
-	result_clr = clr_add_clr(diff_spec_color, ambeint_clr);
+	result_clr = normalize_color(clr_add_clr(diff_spec_color, ambeint_clr));
 	return (result_clr);
 }

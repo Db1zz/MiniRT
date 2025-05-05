@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:28:07 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/13 17:15:55 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:19:19 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,37 @@
 #include "color.h"
 #include "light.h"
 
-static t_vector reflect(t_vector direction, t_vector surf_normal)
-{
-	const double dot_product = vec3_dot(direction, surf_normal);
+// static t_vector reflect(t_vector direction, t_vector surf_normal)
+// {
+// 	const double dot_product = vec3_dot(direction, surf_normal);
 
-	return (vec3_sub_vec3(direction, vec3_mult(surf_normal, dot_product * 2)));
-}
+// 	return (vec3_sub_vec3(direction, vec3_mult(surf_normal, dot_product * 2)));
+// }
 
-static t_ray create_reflection_ray(const t_hit_record *hit_rec)
-{
-	t_vector origin;
-	t_vector direction;
-	t_ray reflection_ray;
+// static t_ray create_reflection_ray(const t_hit_record *hit_rec)
+// {
+// 	t_vector origin;
+// 	t_vector direction;
+// 	t_ray reflection_ray;
 
-	origin = hit_record_to_ray_origin(hit_rec);
-	direction = reflect(hit_rec->ray_direction, hit_rec->normal);
-	// TODO
-	reflection_ray = create_ray(origin, direction, hit_rec->color, 0);
-	return (reflection_ray);
-}
+// 	origin = hit_record_to_ray_origin(hit_rec);
+// 	direction = reflect(hit_rec->ray_direction, hit_rec->normal);
+// 	// TODO
+// 	reflection_ray = create_ray(origin, direction, hit_rec->color, 0);
+// 	return (reflection_ray);
+// }
 
-static t_color blend_reflection(
-	t_color object_color,
-	t_color reflected_light,
-	double reflection_intensity)
-{
-	return (clr_add_clr(
-		clr_mult(object_color, 1 - reflection_intensity),
-		clr_mult(reflected_light, reflection_intensity)));
-}
+// static t_color blend_reflection(
+// 	t_color object_color,
+// 	t_color reflected_light,
+// 	double reflection_intensity)
+// {
+// 	return (clr_add_clr(
+// 		clr_mult(object_color, 1 - reflection_intensity),
+// 		clr_mult(reflected_light, reflection_intensity)));
+// }
 
-#define REF_INTENSITY 0.35
+// #define REF_INTENSITY 0.35
 
 /*
 	TODO

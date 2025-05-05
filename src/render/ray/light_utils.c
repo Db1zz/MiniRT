@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:27:48 by gonische          #+#    #+#             */
-/*   Updated: 2025/02/11 18:27:49 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:25:37 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ double	calculate_specular_light(
 	t_vector	light_dir;
 	t_vector	view_dir;
 	double		dot;
-	double		specular;
+	double		specular[2];
 
 	light_dir = get_ray_direction(hit_rec->intersection_p, light->pos);
 	view_dir = get_ray_direction(hit_rec->intersection_p, camera_ray->origin);
@@ -32,8 +32,10 @@ double	calculate_specular_light(
 	reflecton_vec = vec3_sub_vec3(vec3_mult(hit_rec->normal, 2.0 * dot), light_dir);
 	reflecton_vec = vec3_normalize(reflecton_vec);
 	dot = fmax(0.0, vec3_dot(reflecton_vec, view_dir));
-	specular = pow(dot, 21);
-	return (specular * specular_reflection_coefficient * light->ratio);
+	specular[0] = pow(dot, 12);
+	specular[1] = vec3_length(light_dir);
+	specular[1] = specular[1] * specular[1];
+	return (specular[0] * specular_reflection_coefficient * light->ratio / specular[1]);
 }
 
 static double	get_diffuse_intensity(
@@ -44,11 +46,11 @@ static double	get_diffuse_intensity(
 	double		dot;
 
 	light_dir = get_ray_direction(shape_rec->intersection_p, light->pos);
-	dot = fmax(0, vec3_dot(shape_rec->normal, light_dir));
+	dot = vec3_dot(shape_rec->normal, light_dir);
 	return (dot * light->ratio);
 }
 
-t_color filter_light(
+t_color	filter_light(
 	const t_light *light,
 	const t_hit_record *shape_rec)
 {
