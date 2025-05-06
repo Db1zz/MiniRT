@@ -31,6 +31,7 @@ t_color	get_color(t_texture *t, double u, double v, t_vector *bump)
 	int	x;
 	int	y;
 	int	color;
+	int tmp;
 
 	x = (int)(u * t->width) % t->width;
 	y = (int)(v * t->height) % t->height;
@@ -39,10 +40,11 @@ t_color	get_color(t_texture *t, double u, double v, t_vector *bump)
 	if (y < 0)
 		y += t->height;
 	color = t->pixels[y * t->width + x];
+	tmp = color;
 	bump->x = (((color >> 16) & 0xFF) / 255.0) * 2.0 - 1.0;
 	bump->y = (((color >> 8) & 0xFF) / 255.0) * 2.0 - 1.0;
 	bump->z = ((color & 0xFF) / 255.0) * 2.0 - 1.0;
-	return (int_to_rgb(color));
+	return (int_to_rgb(tmp));
 }
 
 t_color	apply_texture(
