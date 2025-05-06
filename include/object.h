@@ -74,9 +74,10 @@ typedef struct s_cylinder
 
 typedef struct s_plane
 {
-	t_vector pos;
-	t_color color;
-	t_vector normal_vec;
+	t_vector	pos;
+	t_color		color;
+	t_vector	normal_vec;
+	t_texture	*texture;
 } t_plane;
 
 typedef struct s_gyper
@@ -89,4 +90,3 @@ typedef struct s_gyper
 } t_gyper;
 
 #endif // OBJECTS_H
-	   // grisha was here

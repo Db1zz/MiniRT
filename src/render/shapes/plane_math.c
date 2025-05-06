@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane_math.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: gwagner <gwagner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:28:33 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/13 17:33:04 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/06 10:16:42 by gwagner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ static void set_plane_hit_rec(
 										vec3_mult(ray->direction, rec->ray_distance));
 	rec->normal = vec3_normalize(pl->normal_vec);
 	rec->obj_type = E_PLANE;
-	rec->color = pl->color;
+	if (pl->texture)
+		rec->color = get_plane_color(pl, rec);
+	else
+		rec->color = pl->color;
 	rec->ray_direction = ray->direction;
 }
 

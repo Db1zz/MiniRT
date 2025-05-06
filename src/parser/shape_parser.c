@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shape_parser.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: gwagner <gwagner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:24 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/05 13:44:14 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/06 10:04:14 by gwagner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,10 @@ void	parse_plane(t_scene *scene, char **line_data)
 	plane = rt_calloc(1, sizeof(t_plane), scene);
 	if (!plane)
 		return;
-	str_to_vector(&plane->normal_vec, line_data[1], true, scene);
-	str_to_vector((&plane->pos), line_data[2], false, scene);
+	str_to_vector((&plane->pos), line_data[1], false, scene);
+	str_to_vector(&plane->normal_vec, line_data[2], true, scene);
 	str_to_color((&plane->color), line_data[3], scene);
+	plane->texture = parse_texture(scene, line_data[4]);
 	box = compute_plane_aabb();
 	object = object_alloc(plane, box, E_PLANE, scene->objects_size);
 	scene_add_object(scene, object);

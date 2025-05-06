@@ -13,6 +13,7 @@ SRCS =	src/main.c	\
 		src/parser/parser.c	\
 		src/parser/parser_utils.c	\
 		src/parser/shape_parser.c	\
+		src/parser/texture_parser.c \
 		src/render/render.c	\
 		src/render/render_workers.c	\
 		src/render/render_routine.c	\
@@ -25,6 +26,7 @@ SRCS =	src/main.c	\
 		src/render/ray/ray_reflections.c	\
 		src/render/ray/ray_utils.c	\
 		src/render/ray/ray.c	\
+		src/render/ray/texture.c \
 		src/render/shapes/object.c	\
 		src/render/shapes/object_destroyer.c	\
 		src/render/shapes/cylinder_math.c	\
