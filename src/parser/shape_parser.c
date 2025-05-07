@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:24 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/07 18:53:12 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/07 19:05:34 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,11 @@ void	cylinder_init_caps(t_cylinder *cy) {
 	plane1->normal_vec = vec3_mult(cy->axis, -1);
 	plane1->color = cy->color;
 	plane1->texture = NULL;
+	plane1->check_board = false;
 	plane2->pos = vec3_add_vec3(cy->pos, vec3_mult(cy->axis, cy->height));
 	plane2->normal_vec = cy->axis;
 	plane2->color = cy->color;
+	plane2->check_board = false;
 	plane2->texture = NULL;
 	cy->caps[0].box = aabb_create_empty();
 	cy->caps[0].destructor = NULL;
@@ -70,7 +72,6 @@ void	parse_cylinder(t_scene *scene, char **line_data)
 
 	if (scene->objects_size > SCENE_OBJECTS_LIMIT)
 		return (set_error(&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
-
 	cylinder = rt_calloc(1, sizeof(t_cylinder), scene);
 	if (!cylinder)
 		return;
