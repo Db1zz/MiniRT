@@ -14,10 +14,9 @@ void    get_plane_uv(
 	t_vector	up;
 
 	diff = vec3_sub_vec3(rec->intersection_p, plane->pos);
-	if (fabs(plane->normal_vec.y) > 0.999)
+	up = create_vector(0, 1, 0);
+	if (fabs(vec3_dot(up, plane->normal_vec)) > 0.999)
 		up = create_vector(1, 0, 0);
-	else
-		up = create_vector(0, 1, 0);
 	tan = vec3_normalize(vec3_cross(up, plane->normal_vec));
 	bitan = vec3_normalize(vec3_cross(plane->normal_vec, tan));
 	*u = (vec3_dot(diff, tan) / TEXTURE_SC) \
@@ -31,7 +30,6 @@ t_color	get_color(t_texture *t, double u, double v, t_vector *bump)
 	int	x;
 	int	y;
 	int	color;
-	int tmp;
 
 	x = (int)(u * t->width) % t->width;
 	y = (int)(v * t->height) % t->height;
@@ -40,11 +38,10 @@ t_color	get_color(t_texture *t, double u, double v, t_vector *bump)
 	if (y < 0)
 		y += t->height;
 	color = t->pixels[y * t->width + x];
-	tmp = color;
 	bump->x = (((color >> 16) & 0xFF) / 255.0) * 2.0 - 1.0;
 	bump->y = (((color >> 8) & 0xFF) / 255.0) * 2.0 - 1.0;
 	bump->z = ((color & 0xFF) / 255.0) * 2.0 - 1.0;
-	return (int_to_rgb(tmp));
+	return (int_to_rgb(color));
 }
 
 t_color	apply_texture(
