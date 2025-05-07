@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:41 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/05 13:54:24 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:27:46 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,20 @@ static void line_parser(t_scene *scene, char **line_data)
 		set_error(&scene->error, ERR_UNKNOWN_OBJECT_SPECIFIER, __func__);
 }
 
+static bool	validate_file_extension(const char *file_name, const char *extension)
+{
+	size_t	i;
+
+	i = 0;
+	if (!file_name || !extension)
+		return (false);
+	while (file_name[i] && file_name[i] != '.')
+		++i;
+	if (file_name[i] != '.')
+		return (false);
+	return (!ft_strcmp(file_name + i, extension));
+}
+
 static void scene_parser(t_scene *scene, int scene_fd)
 {
 	char *line;
@@ -68,19 +82,21 @@ static void scene_parser(t_scene *scene, int scene_fd)
 		set_error(&scene->error, ERR_CAMERA_NOT_FOUND, __func__);
 }
 
-t_error parse_input(t_scene *scene, int argc, char **argv)
+t_error	parse_input(t_scene *scene, int argc, char **argv)
 {
-	int fd;
+	int	fd;
 
 	if (argc != 2)
-		return (ft_perror(ERR_ARGC_ERROR, __func__), scene->error);
+		return (create_error(ERR_ARGC_ERROR, __func__));
+	if (!validate_file_extension(argv[1], ".rt"))
+		return (create_error(ERR_INVALID_FILE_EXTENSION, __func__));
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
-		return (ft_perror(ERR_FAILED_TO_OPEN_FILE, __func__), scene->error);
+		return (create_error(ERR_FAILED_TO_OPEN_FILE, __func__));
 	if (scene->error.errorn == ERR_NO_ERROR)
 		scene_parser(scene, fd);
 	if (scene->error.errorn)
-		ft_display_error(&scene->error);
+		return (close(fd), scene->error);
 	close(fd);
-	return (scene->error);
+	return (create_error(ERR_NO_ERROR, NULL));
 }

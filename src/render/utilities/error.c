@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:24:53 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/07 19:10:44 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:27:19 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static const char	*parser_errorn_to_msg(t_errorn errorn)
 		"Multiple instances if an object",
 		"Cannot convert string to vector",
 		"Camera not found",
-		"Exceeding limits for objects"
+		"Exceeding limits for objects",
+		"Invalid file extension, expected: .rt"
 	};
 
 	if (errorn < PARSER_ERRN_MIN || errorn > PARSER_ERRN_MAX)

@@ -38,10 +38,22 @@ static int	minirt_input_handler(int key, t_minirt_ctx *minirt)
 bool	minirt_init(t_minirt_ctx *minirt, int argc, char **argv)
 {
 	size_t	num_workers;
+	t_error	err;
 
 	scene_init(&minirt->scene);
-	if (parse_input(&minirt->scene, argc, argv).errorn)
-		return (scene_destroy(&minirt->scene), false);
+	err = parse_input(&minirt->scene, argc, argv);
+	if (err.errorn)
+		return (ft_display_error(&err), scene_destroy(&minirt->scene), false);
+	minirt->scene.mlx = mlx_init();
+	minirt->scene.win = mlx_new_window(
+		minirt->scene.mlx,
+		VIEWPORT_WIDTH,
+		VIEWPORT_HEIGHT,
+		"The rats have taken over");
+		minirt->scene.img = xpm_render_new_img(
+		minirt->scene.mlx,
+		VIEWPORT_WIDTH,
+		VIEWPORT_HEIGHT);
 	update_viewport(minirt->scene.camera);
 	num_workers = sysconf(_SC_NPROCESSORS_CONF);
 	scene_update_tree(&minirt->scene);
@@ -58,7 +70,7 @@ int	minirt_routine(int argc, char **argv)
 	t_minirt_ctx minirt;
 
 	if (!minirt_init(&minirt, argc, argv))
-	return (EXIT_FAILURE);
+		return (EXIT_FAILURE);
 
 	print_tree(minirt.scene.tree);
 	render_scene(&minirt.scene, &minirt.workers);
