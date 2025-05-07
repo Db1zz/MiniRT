@@ -6,7 +6,7 @@
 /*   By: gwagner <gwagner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:28 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/07 16:45:17 by gwagner          ###   ########.fr       */
+/*   Updated: 2025/05/07 17:11:34 by gwagner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_texture	*parse_texture(t_scene *scene, char *filename)
 		return (NULL);
 	texture = malloc(sizeof(t_texture));
 	img = mlx_xpm_file_to_image(
-			scene->mlx, "./textures/sand.xpm", &texture->width, &texture->height);
+			scene->mlx, filename, &texture->width, &texture->height);
 	texture->pixels = (int *)mlx_get_data_addr(img, &x, &y, &z);
 	return (texture);
 }

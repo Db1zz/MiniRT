@@ -6,7 +6,7 @@
 /*   By: gwagner <gwagner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:24 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/06 10:04:14 by gwagner          ###   ########.fr       */
+/*   Updated: 2025/05/07 17:12:02 by gwagner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,11 @@ void	cylinder_init_caps(t_cylinder *cy) {
 	plane1->pos = vec3_mult(cy->pos, 1);
 	plane1->normal_vec = vec3_mult(cy->axis, -1);
 	plane1->color = cy->color;
+	plane1->texture = NULL;
 	plane2->pos = vec3_add_vec3(cy->pos, vec3_mult(cy->axis, cy->height));
 	plane2->normal_vec = cy->axis;
 	plane2->color = cy->color;
+	plane2->texture = NULL;
 	cy->caps[0].box = aabb_create_empty();
 	cy->caps[0].destructor = NULL;
 	cy->caps[0].type = E_PLANE;
