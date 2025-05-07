@@ -57,6 +57,12 @@ t_color	apply_texture(
 	t_vector	rot_axis;
 
 	get_plane_uv(&u, &v, plane, rec);
+	if (plane->check_board)
+	{
+		if (((int)floor(u * BOARD_SIZE) + (int)floor(v * BOARD_SIZE)) % 2 == 0)
+			return (create_color(0,0,0));
+		return (create_color(255,255,255));
+	}
 	color = get_color(plane->texture, u, v, &bump);
 	bump = vec3_normalize(bump);
 	rot_axis = vec3_normalize(vec3_cross(plane->normal_vec, bump));
@@ -73,7 +79,6 @@ t_color get_plane_color(
 	)
 {
 	t_color	col;
-
 	col = apply_texture(plane, rec);
 	return (col);
 }

@@ -1,7 +1,9 @@
 #ifndef TEXTURE_H
 # define TEXTURE_H
 
-#define TEXTURE_SC 20.0
+# define TEXTURE_SC 20.0
+# define BOARD_SIZE 50
+
 
 typedef struct s_plane t_plane;
 typedef struct s_hit_record t_hit_record;
@@ -10,9 +12,11 @@ typedef struct s_color t_color;
 
 typedef struct s_texture
 {
-	int	height;
-	int	width;
-	int	*pixels;
+	void	*img;
+	void	*mlx;
+	int		height;
+	int		width;
+	int		*pixels;
 }	t_texture;
 
 t_texture	*parse_texture(t_scene *scene, char *filename);

@@ -44,16 +44,6 @@ bool	minirt_init(t_minirt_ctx *minirt, int argc, char **argv)
 	err = parse_input(&minirt->scene, argc, argv);
 	if (err.errorn)
 		return (ft_display_error(&err), scene_destroy(&minirt->scene), false);
-	minirt->scene.mlx = mlx_init();
-	minirt->scene.win = mlx_new_window(
-		minirt->scene.mlx,
-		VIEWPORT_WIDTH,
-		VIEWPORT_HEIGHT,
-		"The rats have taken over");
-		minirt->scene.img = xpm_render_new_img(
-		minirt->scene.mlx,
-		VIEWPORT_WIDTH,
-		VIEWPORT_HEIGHT);
 	update_viewport(minirt->scene.camera);
 	num_workers = sysconf(_SC_NPROCESSORS_CONF);
 	scene_update_tree(&minirt->scene);

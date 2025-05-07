@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:24:53 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/07 15:27:19 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/07 18:31:20 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static const char	*parser_errorn_to_msg(t_errorn errorn)
 		"Cannot convert string to vector",
 		"Camera not found",
 		"Exceeding limits for objects",
-		"Invalid file extension, expected: .rt"
+		"Invalid file extension, expected: .rt",
+		"Invalid file path for the texture"
 	};
 
 	if (errorn < PARSER_ERRN_MIN || errorn > PARSER_ERRN_MAX)

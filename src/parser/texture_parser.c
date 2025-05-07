@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_parser.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gwagner <gwagner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:28 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/07 17:11:34 by gwagner          ###   ########.fr       */
+/*   Updated: 2025/05/07 18:41:43 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #include "mlx.h"
 #include "scene.h"
 #include "minirt.h"
+#include "libft.h"
 
 t_texture	*parse_texture(t_scene *scene, char *filename)
 {
 	t_texture	*texture;
-	void		*img;
 	int			x;
 	int			y;
 	int			z;
@@ -26,8 +26,11 @@ t_texture	*parse_texture(t_scene *scene, char *filename)
 	if (!filename)
 		return (NULL);
 	texture = malloc(sizeof(t_texture));
-	img = mlx_xpm_file_to_image(
+	texture->img = mlx_xpm_file_to_image(
 			scene->mlx, filename, &texture->width, &texture->height);
-	texture->pixels = (int *)mlx_get_data_addr(img, &x, &y, &z);
+	texture->mlx = scene->mlx;
+	if (!texture->img)
+		return (set_error(&scene->error, ERR_OPEN_TEXTURE_FAILURE, __func__), free(texture), NULL);
+	texture->pixels = (int *)mlx_get_data_addr(texture->img, &x, &y, &z);
 	return (texture);
 }

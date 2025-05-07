@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 01:46:03 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/07 15:18:16 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/07 18:40:13 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,16 @@ t_error	scene_init(t_scene *scene)
 	scene->objects = ft_calloc(SCENE_OBJECTS_LIMIT + 1, sizeof(t_object *));
 	scene->lights = ft_calloc(SCENE_LIGHTS_LIMIT + 1, sizeof(t_object *));
 	scene->ambient_light = ft_calloc(SCENE_AMBIENT_LIGHTNING_LIMIT + 1, sizeof(t_object *));
+	scene->mlx = mlx_init();
+	scene->win = mlx_new_window(
+		scene->mlx,
+		VIEWPORT_WIDTH,
+		VIEWPORT_HEIGHT,
+		"The rats have taken over");
+		scene->img = xpm_render_new_img(
+		scene->mlx,
+		VIEWPORT_WIDTH,
+		VIEWPORT_HEIGHT);
 	return (scene->error);
 }
 

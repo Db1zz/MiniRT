@@ -48,6 +48,7 @@ typedef struct s_object
 t_object	*object_alloc(void *data, t_aabb box, t_object_type type, size_t id);
 const char	*object_get_type_name(t_object_type type);
 void		object_destroy_cylinder(t_object *cylinder_object);
+void		object_destroy_plane(t_object *plane_object);
 void		object_destroy(t_object **object);
 
 /*
@@ -78,6 +79,7 @@ typedef struct s_plane
 	t_color		color;
 	t_vector	normal_vec;
 	t_texture	*texture;
+	bool		check_board;
 } t_plane;
 
 typedef struct s_gyper
