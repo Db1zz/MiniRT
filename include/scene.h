@@ -15,7 +15,7 @@
 # define SCENE_AMBIENT_LIGHTNING_LIMIT 10
 # define SCENE_OBJECTS_LIMIT 1024
 # define SCENE_ANTIALIASING_SAMPLES 10
-# define SCENE_RENDER_DISTANCE 10.0f
+# define SCENE_RENDER_DISTANCE 1000.0f
 
 typedef struct s_ray_thread_ctx t_ray_thread_ctx;
 

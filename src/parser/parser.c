@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:41 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/07 15:27:46 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:09:20 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static bool	validate_file_extension(const char *file_name, const char *extension
 static void scene_parser(t_scene *scene, int scene_fd)
 {
 	char *line;
+	char *c;
 	char **splitted_line;
 
 	splitted_line = NULL;
@@ -68,6 +69,9 @@ static void scene_parser(t_scene *scene, int scene_fd)
 		splitted_line = ft_split(line, ' ');
 		if (splitted_line && splitted_line[0][0] != '\n')
 		{
+			c = ft_strchr(splitted_line, '\n');
+			if (*c == '\n')
+				*c = '\0';
 			line_parser(scene, splitted_line);
 			free_2dmatrix(splitted_line);
 		} 
@@ -78,7 +82,7 @@ static void scene_parser(t_scene *scene, int scene_fd)
 		}
 		free(line);
 	}
-	if (!scene->camera)
+	if (!scene->camera && !scene->error.errorn)
 		set_error(&scene->error, ERR_CAMERA_NOT_FOUND, __func__);
 }
 
