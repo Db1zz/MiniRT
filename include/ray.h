@@ -60,9 +60,14 @@ bool ray_hit_multiple_shapes(
 	const t_object **shapes,
 	t_hit_record *result_rec);
 
-bool ray_hit_light(
+bool ray_hit_light_and_tree(
 	const t_ray *light_ray,
 	const t_bvh_node *tree,
+	t_hit_record *result_rec);
+
+bool ray_hit_light(
+	const t_ray *light_ray,
+	const t_object **objects,
 	t_hit_record *result_rec);
 
 bool ray_hit_tree_routine(
@@ -71,10 +76,8 @@ bool ray_hit_tree_routine(
 	t_hit_record *rec,
 	t_hit_record *temp);
 
-t_color ray_reflect(
-	const t_ray *camera_ray,
-	const t_scene *scene,
-	const t_hit_record *camera_hit_rec);
+t_color ray_hit_routine(
+	const t_ray *ray, const t_scene *scene);
 
 bool ray_hit_sphere(
 	const t_ray *ray,

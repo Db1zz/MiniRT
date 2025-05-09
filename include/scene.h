@@ -9,13 +9,22 @@
 # include "queue.h"
 
 # include <pthread.h>
-# include <semaphore.h>
 
-# define SCENE_LIGHTS_LIMIT 10
-# define SCENE_AMBIENT_LIGHTNING_LIMIT 10
-# define SCENE_OBJECTS_LIMIT 1024
-# define SCENE_ANTIALIASING_SAMPLES 10
-# define SCENE_RENDER_DISTANCE 1000.0f
+# ifdef BONUS
+
+#  define SCENE_LIGHTS_LIMIT 10
+#  define SCENE_AMBIENT_LIGHTNING_LIMIT 10
+#  define SCENE_OBJECTS_LIMIT 1024
+#  define SCENE_RENDER_DISTANCE 1000.0f
+
+#  else
+
+#  define SCENE_LIGHTS_LIMIT 1
+#  define SCENE_AMBIENT_LIGHTNING_LIMIT 1
+#  define SCENE_OBJECTS_LIMIT 1024
+#  define SCENE_RENDER_DISTANCE 1000.0f
+
+# endif // #ifdef BONUS
 
 typedef struct s_ray_thread_ctx t_ray_thread_ctx;
 

@@ -50,6 +50,14 @@ static double	get_diffuse_intensity(
 	return (dot * light->ratio);
 }
 
+t_color	apply_diffuse_light(
+	const t_light *light,
+	const t_hit_record *shape_rec)
+{
+	return (
+		clr_mult(shape_rec->color, get_diffuse_intensity(light, shape_rec)));
+}
+
 t_color	filter_light(
 	const t_light *light,
 	const t_hit_record *shape_rec)

@@ -28,7 +28,9 @@ static t_color get_specular_light(
 	return (clr_mult(create_color(255, 255, 255), coefficient));
 }
 
-static t_color get_diffuse_light(
+#ifdef BONUS
+
+static t_color	get_diffuse_light(
 	const t_ray *camera_ray,
 	const t_scene *scene,
 	const t_hit_record *shape_rec)
@@ -46,7 +48,7 @@ static t_color get_diffuse_light(
 		light = scene->lights[i]->data;
 		init_hit_record(&light_ray_rec);
 		light_ray = create_light_ray(shape_rec, light);
-		if (ray_hit_light(&light_ray, scene->tree, &light_ray_rec))
+		if (ray_hit_light_and_tree(&light_ray, scene->tree, &light_ray_rec))
 		{
 			rc = clr_add_clr(rc, filter_light(light, shape_rec));
 			rc = clr_add_clr(rc, get_specular_light(light, camera_ray, shape_rec));
@@ -58,6 +60,35 @@ static t_color get_diffuse_light(
 	rc = normalize_color(rc);
 	return (rc);
 }
+
+#else  // #ifdef BONUS
+
+static t_color get_diffuse_light(
+	const t_ray *camera_ray,
+	const t_scene *scene,
+	const t_hit_record *shape_rec)
+{
+	t_light *light;
+	t_ray light_ray;
+	t_hit_record light_ray_rec;
+	t_color rc;
+
+	if (!scene->lights[0])
+		return (create_color(0,0,0));
+	light = (t_light *)scene->lights[0]->data;
+	rc = clr_mult(shape_rec->color, 0.05);
+	init_hit_record(&light_ray_rec);
+	light_ray = create_light_ray(shape_rec, light);
+	if (ray_hit_light_and_tree(&light_ray, scene->tree, &light_ray_rec))
+	{
+		rc = clr_add_clr(rc, apply_diffuse_light(light, shape_rec));
+		rc = clr_add_clr(rc, get_specular_light(light, camera_ray, shape_rec));
+	}
+	rc = normalize_color(rc);
+	return (rc);
+}
+
+#endif
 
 static t_color get_ambient_light(
 	const t_object *amb_object,
@@ -76,7 +107,7 @@ static t_color get_ambient_light(
 }
 
 t_color apply_light(
-	const t_ray *camera_ray,
+	const t_ray	*camera_ray,
 	const t_scene *scene,
 	const t_hit_record *shape_rec)
 {

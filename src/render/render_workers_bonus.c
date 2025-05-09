@@ -10,12 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "render.h"
+#include "render_bonus.h"
 
 #include "scene.h" /* scene */
-#include "libft.h" /* ft_calloc */
+#include "libft.h" /* ft_calloc() */
 
 #include <sys/types.h> /* sysconf */
+#include <stdlib.h> /* free() */
 
 void	render_init_workers(
 	t_render_workers_ctx *workers,

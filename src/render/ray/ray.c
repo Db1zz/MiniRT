@@ -71,7 +71,7 @@ t_color ray_get_background_color(const t_ray *ray)
 	return (create_color(color_vec.x, color_vec.y, color_vec.z));
 }
 
-bool ray_hit_light(
+bool ray_hit_light_and_tree(
 	const t_ray *light_ray,
 	const t_bvh_node *tree,
 	t_hit_record *result_rec)
@@ -79,21 +79,28 @@ bool ray_hit_light(
 	t_hit_record	temp_rec;
 
 	init_hit_record(&temp_rec);
-	if (ray_hit_tree_routine(light_ray, tree, result_rec, &temp_rec)) {
+	if (ray_hit_tree_routine(light_ray, tree, result_rec, &temp_rec))
 		return (light_ray->length <= result_rec->ray_distance - EPSILON);
-	}
 	return (true);
 }
 
-// t_color ray_send(
-// 	const t_ray *ray,
-// 	const t_scene *scene)
-// {
-// 	t_hit_record rec;
+bool ray_hit_light(
+	const t_ray *light_ray,
+	const t_object **objects,
+	t_hit_record *result_rec)
+{
+	if (ray_hit_multiple_shapes(light_ray, objects, result_rec))
+		return (light_ray->length <= result_rec->ray_distance - EPSILON);
+	return (true);
+}
 
-// 	init_hit_record(&rec);
+t_color ray_hit_routine(
+	const t_ray *ray, const t_scene *scene)
+{
+	t_hit_record	rec;
 
-// 	if (!ray_hit_objects(ray, (const t_object **)scene->objects, &rec))
-// 		return (ray_get_background_color(ray));
-// 	return (apply_light(ray, scene, &rec));
-// }
+	init_hit_record(&rec);
+	if (!ray_hit_multiple_shapes(ray, (const t_object **)scene->objects, &rec))
+		return (ray_get_background_color(ray));
+	return (apply_light(ray, scene, &rec));
+}

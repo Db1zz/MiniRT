@@ -10,17 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "render.h"
+#include "render_bonus.h"
 
 #include "scene.h" /* scene | viewport macro */
+#include "viewport.h" /* VIEWPORT_WIDTH */
+#include "camera.h" /* camera_get_pixel_color() */
 
-static void render_worker_render(t_render_thread_ctx *ctx)
+static void	render_worker_render(t_render_thread_ctx *ctx)
 {
-	t_xpm_image *img = ctx->scene->img;
+	t_xpm_image *img;
 	t_color	ray_color;
 	size_t x;
 	size_t y;
 
+	img = ctx->scene->img;
 	x = ctx->start_x;
 	while (x < ctx->end_x)
 	{

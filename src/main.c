@@ -1,13 +1,21 @@
-#include "minirt.h" /* minirt_routine() */
 // #include "libft.h" /* for tests only */
 
-// void lol() __attribute__((destructor))
-// {
-// 	printf("aboba\n");
-// }
+#ifdef BONUS
+# include "minirt_bonus.h"
+
+int main(int argc, char **argv)
+{
+	minirt_routine_bonus(argc, argv);
+	return (EXIT_SUCCESS);
+}
+
+#else
+# include "minirt.h" /* minirt_routine() */
 
 int main(int argc, char **argv)
 {
 	minirt_routine(argc, argv);
 	return (EXIT_SUCCESS);
 }
+
+#endif	// #ifdef BONUS

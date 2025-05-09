@@ -11,9 +11,12 @@
 /* ************************************************************************** */
 
 #include "viewport.h"
-#include "minirt_math.h"
-#include "scene.h"
-#include "minirt.h"
+
+#include "minirt_math.h" /* FT_PI */
+#include "vector.h" /* t_vector | functions */
+#include "camera.h" /* t_camera */
+
+#include <math.h> /* tan() */
 
 double	fov_to_height(double fov)
 {

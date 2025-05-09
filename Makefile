@@ -9,14 +9,17 @@ LIBFT = libft/libft.a
 LIBFT_DIR = libft
 SRCS =	src/main.c	\
 		src/minirt.c	\
+		src/minirt_bonus.c	\
 		src/parser/object_parser.c	\
 		src/parser/parser.c	\
 		src/parser/parser_utils.c	\
 		src/parser/shape_parser.c	\
+		src/parser/shape_parser_bonus.c	\
 		src/parser/texture_parser.c \
 		src/render/render.c	\
-		src/render/render_workers.c	\
-		src/render/render_routine.c	\
+		src/render/render_bonus.c	\
+		src/render/render_workers_bonus.c	\
+		src/render/render_routine_bonus.c	\
 		src/render/scene.c	\
 		src/render/scene_add_functions.c	\
 		src/render/camera/camera.c	\

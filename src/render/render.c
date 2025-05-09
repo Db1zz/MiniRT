@@ -5,55 +5,35 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/04 01:45:35 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/05 13:00:42 by gonische         ###   ########.fr       */
+/*   Created: 2025/05/08 14:04:07 by gonische          #+#    #+#             */
+/*   Updated: 2025/05/08 14:04:07 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "render.h"
 
-#include "scene.h" /* scene | viewport macro */
-#include "timer.h" /* timer */
+#include "camera.h" /* camera_get_pixel_color() */
+#include "xpm_render.h" /* xpm_render_put_pixel() */
+#include "mlx.h" /* mlx_put_image_to_window() */
+#include "viewport.h" /* VIEWPORT_HEIGHT | VIEWPORT_WIDTH */
 
-/*
-	This __linux__ block is needed because keyboard events were flooding the event queue
-	which, caused in visual distortions and laggy output.
-*/
-#ifdef __linux__
-#include <X11/Xutil.h> /* XSync() */
-#include "mlx_int.h" /* (t_xvar *) cast */
-
-/*
-	XSync() documentation:
-	https://tronche.com/gui/x/xlib/event-handling/XSync.html
-*/
-static void	display_scene(t_scene *scene)
+void	render_scene(t_scene *scene)
 {
-	XSync(((t_xvar *)scene->mlx)->display, True);
-	mlx_put_image_to_window(
-		scene->mlx, scene->win, scene->img->img, 0, 0);
-}
+	size_t	x;
+	size_t	y;
+	t_color ray_color;
 
-#else
-static void	display_scene(t_scene *scene)
-{
-	mlx_put_image_to_window(
-		scene->mlx, scene->win, scene->img->img, 0, 0);
-}
-#endif
-
-void	render_scene(t_scene *scene, t_render_workers_ctx *workers)
-{
-	struct timeval start_time;
-	struct timeval end_time;
-
-	start_time = getTime();
-	pepe_barrier_wait(&workers->sync.render_start_barrier);
-	pepe_barrier_wait(&workers->sync.render_end_barrier);
-	display_scene(scene);
-	end_time = getTime();
-	printf("Rendered for [m:%ld, s:%ld, ms:%ld]\n",
-		   getMinutesDiff(&start_time, &end_time),
-		   getSecondsDiff(&start_time, &end_time),
-		   getMilisecondsDiff(&start_time, &end_time));
+	x = 0;
+	while (x < VIEWPORT_HEIGHT)
+	{
+		y = 0;
+		while (y < VIEWPORT_WIDTH)
+		{
+			ray_color = camera_get_pixel_color(scene->camera, scene, x, y);
+			xpm_render_put_pixel(scene->img, x, y, &ray_color);
+			y++;
+		}
+		x++;
+	}
+	mlx_put_image_to_window(scene->mlx, scene->win, scene->img->img, 0, 0);
 }

@@ -5,7 +5,14 @@
 #include "viewport.h"
 #include "object.h"
 #include "ray.h"
+#include "camera.h"
 #include "bvh.h"
+
+#ifdef __APPLE__
+#include "key_macos.h"
+#elif __linux__
+#include "key_linux.h"
+#endif
 
 #include <math.h>
 

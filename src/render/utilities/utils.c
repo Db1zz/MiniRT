@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-#include <stdio.h>
+#include "libft.h" /* ft_bzero */
 
 void	*rt_calloc(
 	size_t count,
