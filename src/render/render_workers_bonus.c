@@ -30,8 +30,8 @@ void	render_init_workers(
 
 	i = 0;
 	workers->num_threads = num_workers;
-	pepe_barrier_init(&workers->sync.render_start_barrier, NULL, num_workers+1);
-	pepe_barrier_init(&workers->sync.render_end_barrier, NULL, num_workers+1);
+	pepe_barrier_init(&workers->sync.render_start_barrier, NULL, num_workers + 1);
+	pepe_barrier_init(&workers->sync.render_end_barrier, NULL, num_workers + 1);
 	workers->sync.to_finish = false;
 	workers->threads = ft_calloc(num_workers, sizeof(t_render_thread_ctx));
 	base = VIEWPORT_HEIGHT / num_workers;
@@ -62,7 +62,7 @@ void	render_spawn_workers(t_render_workers_ctx *workers)
 			NULL,
 			render_worker_routine,
 			&workers->threads[i]);
-			++i;
+		++i;
 	}
 }
 

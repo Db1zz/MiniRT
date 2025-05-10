@@ -26,7 +26,7 @@ double	vec3_length(t_vector v)
 	return (sqrt(vec3_length_squared(v)));
 }
 
-t_vector vec3_cross(t_vector a, t_vector b)
+t_vector	vec3_cross(t_vector a, t_vector b)
 {
 	return ((t_vector){
 		a.y * b.z - a.z * b.y,
@@ -34,14 +34,14 @@ t_vector vec3_cross(t_vector a, t_vector b)
 		a.x * b.y - a.y * b.x});
 }
 
-t_vector vec3_negate(t_vector a)
+t_vector	vec3_negate(t_vector a)
 {
 	return ((t_vector){-a.x, -a.y, -a.z});
 }
 
-double vec3_distance(t_vector a, t_vector b)
+double	vec3_distance(t_vector a, t_vector b)
 {
-	double x;
+	double	x;
 
 	x = sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2) + pow(a.z - b.z, 2));
 	return (x);

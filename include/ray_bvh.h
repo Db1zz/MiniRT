@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   ray_bvh.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/09 13:49:13 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/09 13:49:13 by gonische         ###   ########.fr       */
+/*   Created: 2025/05/10 00:52:10 by gonische          #+#    #+#             */
+/*   Updated: 2025/05/10 00:52:10 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#ifndef RAY_BVH_H
+# define RAY_BVH_H
 
-# include "scene.h" /* t_scene */
-# include "render.h" /* render_scene() */
+# include "ray.h"
 
-# ifdef __APPLE__
-#  include "key_macos.h"
-# elif __linux__
-#  include "key_linux.h"
-# endif
+# include "hit_record.h" /* t_hit_record */
+# include "bvh.h"		/* t_bvh_node */
 
-typedef struct s_minirt_ctx
-{
-	t_scene	scene;
-}	t_minirt_ctx;
+bool	ray_hit_bvh(
+			const t_ray *ray,
+			const t_bvh_node *tree,
+			t_hit_record *rec,
+			t_hit_record *temp);
 
-int	minirt_routine(int argc, char **argv);
-
-#endif // MINIRT_H    // fedia was herrr
+#endif // RAY_BVH_H

@@ -1,36 +1,65 @@
-#ifndef BVH_H
-#define BVH_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bvh.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/09 12:51:23 by gonische          #+#    #+#             */
+/*   Updated: 2025/05/09 12:51:23 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "aabb.h"
-#include "object.h"
-#include "ray.h"
-#include <stdbool.h>
+#ifndef BVH_H
+# define BVH_H
+
+# include "aabb.h"
+# include "object.h"
+# include <stdbool.h>
 
 typedef struct s_bvh_node
 {
-	t_aabb box;
-	const t_object *objects; // DO NOT FREE THEM
-	struct s_bvh_node *left;
-	struct s_bvh_node *right;
-} t_bvh_node;
+	t_aabb				box;
+	const t_object		*objects;
+	struct s_bvh_node	*left;
+	struct s_bvh_node	*right;
+}	t_bvh_node;
 
-typedef bool (*obj_comparator)(const t_object *, const t_object *);
+typedef bool	(*t_obj_comparator)(const t_object *, const t_object *);
 
-bool box_compare_is_less(const t_object *a, const t_object *b, int axis);
-bool box_x_compare_is_less(const t_object *a, const t_object *b);
-bool box_y_compare_is_less(const t_object *a, const t_object *b);
-bool box_z_compare_is_less(const t_object *a, const t_object *b);
-obj_comparator randomize_comparator();
+t_obj_comparator	randomize_comparator(void);
 
-void merge_sort_objects_array(
-	t_object **objects, int start, int end, obj_comparator comparator);
+bool				box_compare_is_less(
+						const t_object *a,
+						const t_object *b,
+						int axis);
 
-t_bvh_node *create_tree(t_object **objects, int start, int end, int depth);
+bool				box_x_compare_is_less(
+						const t_object *a,
+						const t_object *b);
 
-void free_bvh_tree(t_bvh_node *tree);
+bool				box_y_compare_is_less(
+						const t_object *a,
+						const t_object *b);
 
-t_color ray_hit_tree(const t_ray *ray, const t_bvh_node *tree, const t_scene *scene);
+bool				box_z_compare_is_less(
+						const t_object *a,
+						const t_object *b);
 
-void print_tree(t_bvh_node *tree);
+void				merge_sort_objects_array(
+						t_object **objects,
+						int start,
+						int end,
+						t_obj_comparator comparator);
+
+t_bvh_node			*create_tree(
+						t_object **objects,
+						int start,
+						int end,
+						int depth);
+
+void				free_bvh_tree(t_bvh_node *tree);
+
+void				print_tree(t_bvh_node *tree);
 
 #endif // BVH_H

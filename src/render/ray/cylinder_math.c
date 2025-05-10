@@ -2,9 +2,8 @@
 #include "ray.h"
 #include "vector.h"
 
-#ifndef EPSILON
-#define EPSILON 1e-4
-#endif // EPSILON
+#include "ray_shapes.h" /* ray_hit_plane() */
+#include "minirt_math.h" /* FT_EPSILON */
 
 #define A 0
 #define B 1
@@ -32,7 +31,7 @@ static bool find_cylinder_solutions(
 	s[1] = (-p[B] - qp) / (2 * p[A]);
 	if (s[0] != s[0] && s[1] != s[1])
 		return (false);
-	if (s[0] < EPSILON && s[1] < EPSILON)
+	if (s[0] < FT_EPSILON && s[1] < FT_EPSILON)
 		return (false);
 	return (true);
 }
@@ -54,8 +53,8 @@ static t_vector calc_cylinder_normal(
 	double s;
 	bool dist_valid[2];
 
-	dist_valid[0] = dist[0] >= 0 && dist[0] <= cy->height && s2[0] > EPSILON;
-	dist_valid[1] = dist[1] >= 0 && dist[1] <= cy->height && s2[1] > EPSILON;
+	dist_valid[0] = dist[0] >= 0 && dist[0] <= cy->height && s2[0] > FT_EPSILON;
+	dist_valid[1] = dist[1] >= 0 && dist[1] <= cy->height && s2[1] > FT_EPSILON;
 	(set_double(&r_dist, dist[1]), set_double(&s, s2[1]));
 	if (dist_valid[0] || dist_valid[1])
 	{
@@ -76,7 +75,6 @@ static void set_cylinder_hit_rec(
 	t_hit_record *rec)
 {
 	rec->color = cy->color;
-	rec->obj_type = E_CYLINDER;
 	rec->ray_distance = distance;
 	rec->ray_direction = ray->direction;
 	rec->normal = *normal;
@@ -103,11 +101,11 @@ static bool tube_intersection(
 									 vec3_mult(ray->direction, s2[1]),
 									 vec3_sub_vec3(cy->pos, ray->origin)));
 
-	if (!((dist[0] >= 0 && dist[0] <= cy->height && s2[0] > EPSILON) || (dist[1] >= 0 && dist[1] <= cy->height && s2[1] > EPSILON)))
+	if (!((dist[0] >= 0 && dist[0] <= cy->height && s2[0] > FT_EPSILON) || (dist[1] >= 0 && dist[1] <= cy->height && s2[1] > FT_EPSILON)))
 		return (false);
-	if (dist[0] >= 0 && dist[0] <= cy->height && s2[0] > EPSILON && !(dist[1] >= 0 && dist[1] <= cy->height && s2[1] > EPSILON))
+	if (dist[0] >= 0 && dist[0] <= cy->height && s2[0] > FT_EPSILON && !(dist[1] >= 0 && dist[1] <= cy->height && s2[1] > FT_EPSILON))
 		s2[1] = s2[0];
-	else if (dist[1] >= 0 && dist[1] <= cy->height && s2[1] > EPSILON && !(dist[0] >= 0 && dist[0] <= cy->height && s2[0] > EPSILON))
+	else if (dist[1] >= 0 && dist[1] <= cy->height && s2[1] > FT_EPSILON && !(dist[0] >= 0 && dist[0] <= cy->height && s2[0] > FT_EPSILON))
 		s2[0] = s2[1];
 	normal = calc_cylinder_normal(cy, ray, s2, dist);
 	set_cylinder_hit_rec(cy, ray, &normal, s2[0] < s2[1] ? s2[0] : s2[1], rec);

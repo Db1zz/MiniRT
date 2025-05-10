@@ -24,22 +24,26 @@ SRCS =	src/main.c	\
 		src/render/scene_add_functions.c	\
 		src/render/camera/camera.c	\
 		src/render/camera/viewport.c	\
+		src/render/ray/aabb_math.c	\
 		src/render/ray/light_utils.c	\
 		src/render/ray/light.c	\
-		src/render/ray/ray_reflections.c	\
+		src/render/ray/hit_record.c	\
 		src/render/ray/ray_utils.c	\
-		src/render/ray/ray.c	\
-		src/render/ray/texture.c \
-		src/render/shapes/object.c	\
-		src/render/shapes/object_destroyer.c	\
-		src/render/shapes/cylinder_math.c	\
-		src/render/shapes/gyper_math.c	\
-		src/render/shapes/plane_math.c	\
-		src/render/shapes/sphere_math.c	\
-		src/render/shapes/aabb_compute.c	\
-		src/render/shapes/aabb.c	\
-		src/render/shapes/bvh.c	\
-		src/render/shapes/bvh_merge_sort.c	\
+		src/render/ray/ray_shapes.c	\
+		src/render/ray/ray_routine.c	\
+		src/render/ray/ray_light.c	\
+		src/render/ray/ray_bvh.c	\
+		src/render/ray/cylinder_math.c	\
+		src/render/ray/gyper_math.c	\
+		src/render/ray/plane_math.c	\
+		src/render/ray/sphere_math.c	\
+		src/render/ray/aabb_compute.c	\
+		src/render/ray/aabb.c	\
+		src/render/ray/bvh.c	\
+		src/render/ray/bvh_merge_sort.c	\
+		src/render/ray/plane_texture.c	\
+		src/render/object/object.c	\
+		src/render/object/object_destroyer.c	\
 		src/render/utilities/pepe_barrier.c	\
 		src/render/utilities/bvh_print_tree.c	\
 		src/render/utilities/bvh_utils.c \
@@ -83,7 +87,7 @@ $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
-	@mkdir -p $(OBJS_DIR) $(OBJS_DIR)/render $(OBJS_DIR)/parser $(OBJS_DIR)/render/camera $(OBJS_DIR)/render/ray $(OBJS_DIR)/render/utilities $(OBJS_DIR)/render/shapes
+	@mkdir -p $(OBJS_DIR) $(OBJS_DIR)/render $(OBJS_DIR)/parser $(OBJS_DIR)/render/camera $(OBJS_DIR)/render/ray $(OBJS_DIR)/render/utilities $(OBJS_DIR)/render/object
 	$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@
 
 $(NAME): $(OBJS)

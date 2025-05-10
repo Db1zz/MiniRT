@@ -14,7 +14,7 @@
 #include "ray.h"
 #include "math.h"
 
-double	calculate_specular_light(
+double	calculate_specular_intensity(
 	const t_light *light,
 	const t_ray *camera_ray,
 	const t_hit_record *hit_rec,
@@ -29,16 +29,18 @@ double	calculate_specular_light(
 	light_dir = get_ray_direction(hit_rec->intersection_p, light->pos);
 	view_dir = get_ray_direction(hit_rec->intersection_p, camera_ray->origin);
 	dot = vec3_dot(hit_rec->normal, light_dir);
-	reflecton_vec = vec3_sub_vec3(vec3_mult(hit_rec->normal, 2.0 * dot), light_dir);
+	reflecton_vec
+		= vec3_sub_vec3(vec3_mult(hit_rec->normal, 2.0 * dot), light_dir);
 	reflecton_vec = vec3_normalize(reflecton_vec);
 	dot = fmax(0.0, vec3_dot(reflecton_vec, view_dir));
 	specular[0] = pow(dot, 12);
 	specular[1] = vec3_length(light_dir);
 	specular[1] = specular[1] * specular[1];
-	return (specular[0] * specular_reflection_coefficient * light->ratio / specular[1]);
+	return (specular[0]
+		* specular_reflection_coefficient * light->ratio / specular[1]);
 }
 
-static double	get_diffuse_intensity(
+double	calculate_diffuse_intensity(
 	const t_light *light,
 	const t_hit_record *shape_rec)
 {
@@ -50,24 +52,24 @@ static double	get_diffuse_intensity(
 	return (dot * light->ratio);
 }
 
-t_color	apply_diffuse_light(
+t_color	calculate_diffuse_color(
 	const t_light *light,
 	const t_hit_record *shape_rec)
 {
-	return (
-		clr_mult(shape_rec->color, get_diffuse_intensity(light, shape_rec)));
+	return (clr_mult(shape_rec->color,
+			calculate_diffuse_intensity(light, shape_rec)));
 }
 
-t_color	filter_light(
+t_color	apply_light_filter(
 	const t_light *light,
 	const t_hit_record *shape_rec)
 {
-	t_color px;
+	t_color	px;
 
 	px = clr_mult(
 			clr_mult_clr(
 				clr_div(shape_rec->color, 255),
 				clr_div(light->color, 255)),
 			255);
-	return (clr_mult(px, get_diffuse_intensity(light, shape_rec)));
+	return (clr_mult(px, calculate_diffuse_intensity(light, shape_rec)));
 }

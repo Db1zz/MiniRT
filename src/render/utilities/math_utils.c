@@ -56,11 +56,10 @@ bool	quadratic(double a, double b, double c, double *result)
 	return (true);
 }
 
-int rand_int(int min, int max) {
+int	rand_int(int min, int max) {
 	int	randomized_value;
 
 	randomized_value = random_double_range(min, max + 1);
 	assert(randomized_value >= min && randomized_value <= max);
-
 	return (randomized_value);
 }

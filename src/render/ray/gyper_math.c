@@ -1,4 +1,7 @@
-#include "minirt.h"
+#include "ray.h"
+
+#include <stdlib.h> /* NULL */
+#include <math.h> /* pow() | sqrt() | fmin() */
 
 void set_gyper_rec(t_gyper *hy, const t_ray *ray, t_hit_record *rec, double t)
 {
@@ -9,7 +12,6 @@ void set_gyper_rec(t_gyper *hy, const t_ray *ray, t_hit_record *rec, double t)
 		2 * rec->intersection_p.y / hy->squish.y,
 		-2 * rec->intersection_p.z / hy->squish.z));
 	rec->color = hy->color;
-	rec->obj_type = E_GYPER;
 	rec->ray_direction = ray->direction;
 }
 

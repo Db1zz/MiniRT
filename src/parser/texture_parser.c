@@ -30,7 +30,11 @@ t_texture	*parse_texture(t_scene *scene, char *filename)
 			scene->mlx, filename, &texture->width, &texture->height);
 	texture->mlx = scene->mlx;
 	if (!texture->img)
-		return (set_error(&scene->error, ERR_OPEN_TEXTURE_FAILURE, __func__), free(texture), NULL);
+	{
+		set_error(&scene->error, ERR_OPEN_TEXTURE_FAILURE, __func__);
+		free(texture);
+		return (NULL);
+	}
 	texture->pixels = (int *)mlx_get_data_addr(texture->img, &x, &y, &z);
 	return (texture);
 }

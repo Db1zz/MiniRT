@@ -21,7 +21,7 @@ void	render_scene(t_scene *scene)
 {
 	size_t	x;
 	size_t	y;
-	t_color ray_color;
+	t_color	ray_color;
 
 	x = 0;
 	while (x < VIEWPORT_HEIGHT)
@@ -29,7 +29,7 @@ void	render_scene(t_scene *scene)
 		y = 0;
 		while (y < VIEWPORT_WIDTH)
 		{
-			ray_color = camera_get_pixel_color(scene->camera, scene, x, y);
+			ray_color = scene_calculate_pixel_color(scene->camera, scene, x, y);
 			xpm_render_put_pixel(scene->img, x, y, &ray_color);
 			y++;
 		}

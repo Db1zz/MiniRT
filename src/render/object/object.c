@@ -12,8 +12,9 @@
 
 #include "object.h"
 
-#include "libft.h"
-#include <stdlib.h>
+#include "libft.h" /* ft_calloc() */
+
+#include <stdlib.h> /* free() */
 
 t_object *object_alloc(
 	void *data,

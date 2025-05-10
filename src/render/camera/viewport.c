@@ -14,27 +14,23 @@
 
 #include "minirt_math.h" /* FT_PI */
 #include "vector.h" /* t_vector | functions */
-#include "camera.h" /* t_camera */
 
 #include <math.h> /* tan() */
 
-double	fov_to_height(double fov)
+static double	fov_to_height(double fov)
 {
 	return (tan((FT_PI * 0.5 * fov) / 180));
 }
 
-void	update_viewport(t_camera *cam)
+void	update_viewport(t_viewport *vp, double fov, t_vector view_point)
 {
-	t_viewport	*vp;
-
-	vp = &cam->viewport;
-	vp->height = fov_to_height(cam->fov);
+	vp->height = fov_to_height(fov);
 	vp->width = ((double)VIEWPORT_WIDTH / VIEWPORT_HEIGHT) * vp->height;
 	vp->horizontal_vec = create_vector(vp->width, 0, 0);
 	vp->verical_vec = create_vector(0, -vp->height, 0);
 	vp->upper_left = vec3_sub_vec3(
 			vec3_sub_vec3(
-				vec3_sub_vec3(cam->view_point, create_vector(0, 0, 1)),
+				vec3_sub_vec3(view_point, create_vector(0, 0, 1)),
 				vec3_div(vp->horizontal_vec, 2.0)),
 			vec3_div(vp->verical_vec, 2.0));
 	vp->pdelta_x = vec3_div(vp->horizontal_vec, VIEWPORT_WIDTH);

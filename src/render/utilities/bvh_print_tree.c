@@ -1,7 +1,9 @@
 #include "bvh.h"
-#include "aabb.h"
+
 #include "object.h"
 #include "libft.h"
+
+#include <stdio.h>
 #include <stdlib.h>
 
 static void	print_spaces(int x)
@@ -42,14 +44,14 @@ static void	print_tree_routine(
 {
 	if (tree == NULL)
 		return;
-
 	if (tree->left && tree->right)
 	{
 		print_tree_line("|-", "N\n", level, buffer);
 		buffer[level] = '|';
 		print_tree_routine(tree->left, level + 1, buffer, buffer_size);
 	}
-	if (tree->objects) {
+	if (tree->objects)
+	{
 		print_tree_line("└─", tree->objects->type_name, level, buffer);
 		printf(": %zu\n", tree->objects->id);
 	}

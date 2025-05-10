@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minirt_math.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/09 12:35:34 by gonische          #+#    #+#             */
+/*   Updated: 2025/05/09 12:35:34 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINIRT_MATH_H
 # define MINIRT_MATH_H
 
-# ifndef EPSILON
-#  define EPSILON 1e-4
-# endif // EPSILON
+# ifndef FT_EPSILON
+#  define FT_EPSILON 1e-4
+# endif // FT_EPSILON
 
-# include <math.h>
+# include <math.h> /* INFINITY */
 # include <stdbool.h>
 
 /* Useful math constants */

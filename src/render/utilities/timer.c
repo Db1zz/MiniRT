@@ -1,30 +1,66 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   timer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/10 01:16:31 by gonische          #+#    #+#             */
+/*   Updated: 2025/05/10 01:16:31 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "timer.h"
 
-#include <sys/time.h> /* timeval | gettimeofday */
+struct timeval	get_time(void)
+{
+	struct timeval	time;
 
-struct timeval getTime() {
-	struct timeval time;
 	gettimeofday(&time, NULL);
 	return (time);
 }
 
-time_t getMinutesDiff(const struct timeval *start_time, const struct timeval *end_time) {
-  return (((getTimeInMilliseconds(end_time) - getTimeInMilliseconds(start_time)) / 1000) / 60) % 60;
+time_t	get_minutes_diff(
+	const struct timeval *start_time,
+	const struct timeval *end_time)
+{
+	const time_t	ms_start = get_time_in_milliseconds(start_time);
+	const time_t	ms_end = get_time_in_milliseconds(end_time);
+
+	return ((((ms_end - ms_start) / 1000) / 60) % 60);
 }
 
-time_t getSecondsDiff(const struct timeval *start_time, const struct timeval *end_time) {
-  return ((getTimeInMilliseconds(end_time) - getTimeInMilliseconds(start_time)) / 1000) % 60;
+time_t	get_seconds_diff(
+	const struct timeval *start_time,
+	const struct timeval *end_time)
+{
+	const time_t	ms_start = get_time_in_milliseconds(start_time);
+	const time_t	ms_end = get_time_in_milliseconds(end_time);
+
+	return (((ms_end - ms_start) / 1000) % 60);
 }
 
-time_t getMilisecondsDiff(const struct timeval *start_time, const struct timeval *end_time) {
-  return (((getTimeInMilliseconds(end_time) - getTimeInMilliseconds(start_time))) % 1000);
+time_t	get_milliseconds_diff(
+	const struct timeval *start_time,
+	const struct timeval *end_time)
+{
+	const time_t	ms_start = get_time_in_milliseconds(start_time);
+	const time_t	ms_end = get_time_in_milliseconds(end_time);
+
+	return ((ms_end - ms_start) % 1000);
 }
 
-time_t getMicrosecondsDiff(const struct timeval *start_time, const struct timeval *end_time) {
-  return ((getTimeInMilliseconds(end_time) - getTimeInMilliseconds(start_time)) % 1000);
+time_t	get_microseconds_diff(
+	const struct timeval *start_time,
+	const struct timeval *end_time)
+{
+	const time_t	ms_start = get_time_in_milliseconds(start_time);
+	const time_t	ms_end = get_time_in_milliseconds(end_time);
+
+	return ((ms_end - ms_start) % 1000);
 }
 
-time_t getTimeInMilliseconds(const struct timeval *time)
+time_t	get_time_in_milliseconds(const struct timeval *time)
 {
 	return (time->tv_sec * 1000 + time->tv_usec / 1000);
 }

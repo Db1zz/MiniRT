@@ -11,8 +11,11 @@
 /* ************************************************************************** */
 
 #include "color.h"
+
 #include "libft.h"
 #include "minirt.h"
+
+#include <stdio.h>
 
 t_color	create_color(double r, double g, double b)
 {

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minirt_bonus.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/10 01:01:07 by gonische          #+#    #+#             */
+/*   Updated: 2025/05/10 01:01:07 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt_bonus.h"
 
 #include "parser.h"
@@ -16,7 +28,7 @@ static int	exit_minirt(t_minirt_ctx *minirt)
 
 static int	minirt_movement_handler(int key, t_minirt_ctx *minirt)
 {
-	int ret;
+	int	ret;
 
 	ret = key;
 	if (key == K_D || key == K_S || key == K_A || key == K_W)
@@ -47,7 +59,7 @@ static bool	minirt_init(t_minirt_ctx *minirt, int argc, char **argv)
 	err = parse_input(&minirt->scene, argc, argv);
 	if (err.errorn)
 		return (ft_display_error(&err), scene_destroy(&minirt->scene), false);
-	update_viewport(minirt->scene.camera);
+	camera_update_viewport(minirt->scene.camera);
 	num_workers = sysconf(_SC_NPROCESSORS_CONF);
 	scene_update_tree(&minirt->scene);
 	render_init_workers(&minirt->workers, num_workers, &minirt->scene);
@@ -57,17 +69,14 @@ static bool	minirt_init(t_minirt_ctx *minirt, int argc, char **argv)
 	return (true);
 }
 
-
 int	minirt_routine_bonus(int argc, char **argv)
 {
-	t_minirt_ctx minirt;
+	t_minirt_ctx	minirt;
 
 	if (!minirt_init(&minirt, argc, argv))
 		return (EXIT_FAILURE);
-
 	print_tree(minirt.scene.tree);
 	render_scene_bonus(&minirt.scene, &minirt.workers);
-
 	mlx_loop(minirt.scene.mlx);
 	exit_minirt(&minirt);
 	return (EXIT_SUCCESS);

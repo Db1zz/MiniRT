@@ -12,7 +12,7 @@
 
 #include "scene.h"
 
-static t_error scene_add(
+static t_error	scene_add(
 	t_object **array,
 	size_t *array_size,
 	size_t array_max_size,
@@ -29,26 +29,26 @@ static t_error scene_add(
 t_error	scene_add_object(t_scene *scene, t_object *object)
 {
 	return (scene_add(
-		scene->objects,
-		&(scene->objects_size),
-		SCENE_OBJECTS_LIMIT,
-		object));
+			scene->objects,
+			&(scene->objects_size),
+			SCENE_OBJECTS_LIMIT,
+			object));
 }
 
 t_error	scene_add_light(t_scene *scene, t_object *light)
 {
 	return (scene_add(
-		scene->lights, 
-		&(scene->lights_size), 
-		SCENE_LIGHTS_LIMIT, 
-		light));
+			scene->lights,
+			&(scene->lights_size),
+			SCENE_LIGHTS_LIMIT,
+			light));
 }
 
 t_error	scene_add_ambient_light(t_scene *scene, t_object *ambient_light)
 {
 	return (scene_add(
-		scene->ambient_light, 
-		&(scene->ambient_light_size),
-		SCENE_AMBIENT_LIGHTNING_LIMIT,
-		ambient_light));
+			scene->ambient_light,
+			&(scene->ambient_light_size),
+			SCENE_AMBIENT_LIGHTNING_LIMIT,
+			ambient_light));
 }

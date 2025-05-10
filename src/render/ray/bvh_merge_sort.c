@@ -4,7 +4,7 @@ static void merge(
 	t_object **objects_start,
 	int left_size,
 	int right_size,
-	obj_comparator comparator)
+	t_obj_comparator comparator)
 {
 	const int sorting_size = right_size + left_size;
 	t_object *buffer[left_size + right_size];
@@ -41,7 +41,7 @@ void merge_sort_objects_array(
 	t_object **objects,
 	int start,
 	int end,
-	obj_comparator comparator)
+	t_obj_comparator comparator)
 {
 	int mittel;
 	int left_size;

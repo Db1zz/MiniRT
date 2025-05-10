@@ -10,79 +10,79 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
 #include "light.h"
-#include "ray.h"
-#include "math.h"
-#include "minirt_math.h"
-#include "bvh.h"
 
-static t_color get_specular_light(
+#include "light.h" /* t_light | light functions */
+#include "ray_light.h" /* create_light_ray_from_hit() */
+
+static t_color	calculate_specular_lighting(
 	t_light *light,
 	const t_ray *camera_ray,
 	const t_hit_record *hit_rec)
 {
-	double coefficient;
+	double	coefficient;
 
-	coefficient = calculate_specular_light(light, camera_ray, hit_rec, 1);
+	coefficient = calculate_specular_intensity(light, camera_ray, hit_rec, 1);
 	return (clr_mult(create_color(255, 255, 255), coefficient));
 }
 
 #ifdef BONUS
 
-static t_color	get_diffuse_light(
+static t_color	get_diffuse_lighting(
 	const t_ray *camera_ray,
 	const t_scene *scene,
 	const t_hit_record *shape_rec)
 {
-	t_light *light;
-	t_ray light_ray;
-	t_hit_record light_ray_rec;
-	t_color rc;
-	int i;
+	t_light			*light;
+	t_ray			light_ray;
+	t_hit_record	lr_rec;
+	t_color			rc;
+	int				i;
 
 	i = 0;
 	rc = clr_mult(shape_rec->color, 0.05);
 	while (scene->lights[i])
 	{
 		light = scene->lights[i]->data;
-		init_hit_record(&light_ray_rec);
-		light_ray = create_light_ray(shape_rec, light);
-		if (ray_hit_light_and_tree(&light_ray, scene->tree, &light_ray_rec))
+		init_hit_record(&lr_rec);
+		light_ray = create_light_ray_from_hit(shape_rec, light);
+		if (light_ray_is_light_visible_in_bvh(&light_ray, scene->tree, &lr_rec))
 		{
-			rc = clr_add_clr(rc, filter_light(light, shape_rec));
-			rc = clr_add_clr(rc, get_specular_light(light, camera_ray, shape_rec));
+			rc = clr_add_clr(rc, apply_light_filter(light, shape_rec));
+			rc = clr_add_clr(rc,
+					calculate_specular_lighting(light, camera_ray, shape_rec));
 		}
 		if (rc.r >= COLOR_MAX && rc.g >= COLOR_MAX && rc.b >= COLOR_MAX)
-			break;
+			break ;
 		++i;
 	}
 	rc = normalize_color(rc);
 	return (rc);
 }
 
-#else  // #ifdef BONUS
+#else // #ifdef BONUS
 
-static t_color get_diffuse_light(
+static t_color	get_diffuse_lighting(
 	const t_ray *camera_ray,
 	const t_scene *scene,
 	const t_hit_record *shape_rec)
 {
-	t_light *light;
-	t_ray light_ray;
-	t_hit_record light_ray_rec;
-	t_color rc;
+	t_light			*light;
+	t_ray			light_ray;
+	t_hit_record	lr_rec;
+	t_color			rc;
 
 	if (!scene->lights[0])
-		return (create_color(0,0,0));
+		return (create_color(0, 0, 0));
 	light = (t_light *)scene->lights[0]->data;
 	rc = clr_mult(shape_rec->color, 0.05);
-	init_hit_record(&light_ray_rec);
-	light_ray = create_light_ray(shape_rec, light);
-	if (ray_hit_light_and_tree(&light_ray, scene->tree, &light_ray_rec))
+	init_hit_record(&lr_rec);
+	light_ray = create_light_ray_from_hit(shape_rec, light);
+	if (light_ray_is_light_visible_in_bvh(&light_ray, scene->tree, &lr_rec))
 	{
-		rc = clr_add_clr(rc, apply_diffuse_light(light, shape_rec));
-		rc = clr_add_clr(rc, get_specular_light(light, camera_ray, shape_rec));
+		rc = clr_add_clr(rc, calculate_diffuse_color(light, shape_rec));
+		rc = clr_add_clr(rc,
+				calculate_specular_lighting(light, camera_ray, shape_rec));
 	}
 	rc = normalize_color(rc);
 	return (rc);
@@ -90,24 +90,24 @@ static t_color get_diffuse_light(
 
 #endif
 
-static t_color get_ambient_light(
+static t_color	get_ambient_lighting(
 	const t_object *amb_object,
 	const t_hit_record *shape_rec)
 {
-	const t_amb_lighting *light = (const t_amb_lighting *)amb_object->data;
-	t_color px;
+	const t_amb_lighting	*light = (const t_amb_lighting *)amb_object->data;
+	t_color					px;
 
 	px = clr_mult(
-		clr_mult_clr(
-			clr_div(shape_rec->color, 255),
-			clr_div(light->color, 255)),
-		255);
+			clr_mult_clr(
+				clr_div(shape_rec->color, 255),
+				clr_div(light->color, 255)),
+			255);
 	px = clr_mult(px, light->ratio);
 	return (normalize_color(px));
 }
 
-t_color apply_light(
-	const t_ray	*camera_ray,
+t_color	compute_object_illumination(
+	const t_ray *camera_ray,
 	const t_scene *scene,
 	const t_hit_record *shape_rec)
 {
@@ -119,9 +119,9 @@ t_color apply_light(
 	ambeint_clr = create_color(0, 0, 0);
 	result_clr = create_color(0, 0, 0);
 	if (scene->lights_size)
-		diff_spec_color = get_diffuse_light(camera_ray, scene, shape_rec);
-	if (scene->ambient_light_size)	
-		ambeint_clr = get_ambient_light(scene->ambient_light[0], shape_rec);
+		diff_spec_color = get_diffuse_lighting(camera_ray, scene, shape_rec);
+	if (scene->ambient_light_size)
+		ambeint_clr = get_ambient_lighting(scene->ambient_light[0], shape_rec);
 	result_clr = normalize_color(clr_add_clr(diff_spec_color, ambeint_clr));
 	return (result_clr);
 }

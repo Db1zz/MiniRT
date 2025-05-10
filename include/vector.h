@@ -1,10 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vector.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/09 13:35:03 by gonische          #+#    #+#             */
+/*   Updated: 2025/05/09 13:35:03 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef VECTOR_H
 # define VECTOR_H
 
-# include "ft_error.h"
-# include "color.h"
-# include <math.h>
-# include <stdio.h>
+# include "ft_error.h" /* t_errorn */
 
 // # include <immintrin.h> // SIMD optimizations
 
@@ -37,6 +46,6 @@ t_vector	vec3_negate(t_vector a);
 double		vec3_distance(t_vector a, t_vector b);
 
 // debug functions
-void print_vec3(t_vector *vec);
+void		print_vec3(t_vector *vec);
 
 #endif // VECTOR_H

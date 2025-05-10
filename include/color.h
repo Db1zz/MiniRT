@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   color.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/09 12:48:38 by gonische          #+#    #+#             */
+/*   Updated: 2025/05/09 12:48:38 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef COLOR_H
 # define COLOR_H
 
@@ -33,6 +45,5 @@ t_color		clr_mult(t_color color, double val);
 t_color		clr_sub(t_color color, double val);
 t_color		clr_add(t_color color, double val);
 t_color		normalize_color(t_color color);
-t_color		clamp_color(t_color color, double min, double max);
 
 #endif // COLOR_H

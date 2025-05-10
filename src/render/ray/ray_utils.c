@@ -16,50 +16,16 @@
 #include "light.h"
 #include "libft.h"
 
-void	init_hit_record(t_hit_record *rec)
+t_ray	create_ray(
+	t_vector origin,
+	t_vector direction,
+	t_color color,
+	double length)
 {
-	rec->color = (t_color){0, 0, 0};
-	rec->front_face = false;
-	rec->intersection_p = (t_vector){0, 0, 0};
-	rec->normal = (t_vector){0, 0, 0};
-	rec->ray_direction = (t_vector){0, 0, 0};
-	rec->obj_type = E_SPHERE;
-	rec->ray_distance = FT_INFINITY;
+	return ((t_ray){origin, direction, color, length});
 }
 
-t_hit_record *get_closest_hit(
-	t_hit_record *first,
-	t_hit_record *second)
-{
-	if (first->ray_distance > second->ray_distance)
-		return (second);
-	return (first);
-}
-
-t_vector hit_record_to_ray_origin(const t_hit_record *rec)
-{
-	return (vec3_add_vec3(rec->intersection_p,
-						  vec3_mult(rec->normal, EPSILON)));
-}
-
-t_vector get_ray_direction(t_vector origin, t_vector endpoint)
+t_vector	get_ray_direction(t_vector origin, t_vector endpoint)
 {
 	return (vec3_normalize(vec3_sub_vec3(endpoint, origin)));
-}
-
-t_ray create_light_ray(
-	const t_hit_record *shape_rec,
-	const t_light *light)
-{
-	t_vector ray_origin;
-	t_vector ray_direction;
-	double length;
-	t_ray light_ray;
-
-	ray_origin = hit_record_to_ray_origin(shape_rec);
-	ray_direction = vec3_sub_vec3(light->pos, ray_origin);
-	length = vec3_length(ray_direction);
-	ray_direction = vec3_normalize(ray_direction);
-	light_ray = create_ray(ray_origin, ray_direction, light->color, length);
-	return (light_ray);
 }

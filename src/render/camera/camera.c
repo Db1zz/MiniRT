@@ -6,7 +6,7 @@
 
 #include <math.h> /* tan() | cos() | sin() */
 
-static t_vector camera_calculate_ray_direction(
+t_vector camera_calculate_ray_direction(
 	const t_camera *camera,
 	int x_pos, int y_pos)
 {
@@ -103,15 +103,7 @@ int camera_change_orientation_vector(int key, t_camera *camera)
 	return (key);
 }
 
-t_color camera_get_pixel_color(
-	const t_camera *camera,
-	const t_scene *scene,
-	int x, int y)
+void	camera_update_viewport(t_camera *camera)
 {
-	t_vector ray_direction;
-	t_ray ray;
-
-	ray_direction = camera_calculate_ray_direction(camera, y, x);
-	ray = create_ray(camera->view_point, ray_direction, create_color(0, 0, 0), 0);
-	return (ray_hit_tree(&ray, scene->tree, scene));
+	update_viewport(&camera->viewport, camera->fov, camera->view_point);
 }
