@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   aabb.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/12 14:32:25 by gonische          #+#    #+#             */
+/*   Updated: 2025/05/12 14:33:27 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "aabb.h"
 
 #include "vector.h" /* t_vector */
@@ -18,15 +30,19 @@ t_aabb	create_aabb_from_vectors(const t_vector *a, const t_vector *b)
 t_aabb	create_aabb_from_aabb(const t_aabb *a, const t_aabb *b)
 {
 	t_aabb	aabb;
+	int		axis;
 
-	for (int axis = 0; axis < 3; ++axis)
+	axis = 0;
+	while (axis < 3)
 	{
-		aabb.interval[axis] = interval_expansion(&a->interval[axis], &b->interval[axis]);
+		aabb.interval[axis]
+			= interval_expansion(&a->interval[axis], &b->interval[axis]);
+		++axis;
 	}
 	return (aabb);
 }
 
-t_aabb aabb_create_empty()
+t_aabb	aabb_create_empty(void)
 {
 	return ((t_aabb){
 		.interval[0] = create_interval(0, 0),

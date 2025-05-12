@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pepe_barrier.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/12 14:23:27 by gonische          #+#    #+#             */
+/*   Updated: 2025/05/12 14:23:27 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pepe_barrier.h"
 
 #include <stdlib.h> /* malloc | free */
@@ -33,10 +45,8 @@ void	pepe_barrier_wait(t_pepe_barrier *barrier)
 			barrier->barrier_locked = false;
 		pthread_mutex_unlock(&(barrier->lock));
 	}
-
 	while (barrier->barrier_locked)
 		usleep(1000);
-
 	if (!pthread_mutex_lock(&(barrier->lock)))
 	{
 		barrier->total_thread -= 1;

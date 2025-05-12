@@ -17,8 +17,8 @@
 t_vector	vec3_div_vec3(t_vector v1, t_vector v2)
 {
 	return ((t_vector){div_c(v1.x, v2.x),
-			div_c(v1.y, v2.y),
-			div_c(v1.z, v2.z)});
+		div_c(v1.y, v2.y),
+		div_c(v1.z, v2.z)});
 }
 
 t_vector	vec3_mult_vec3(t_vector v1, t_vector v2)

@@ -15,25 +15,21 @@
 
 # include <sys/time.h> /* timeval | gettimeofday */
 
-struct timeval	getTime(void);
+struct timeval	get_time(void);
 
-time_t			getMinutesDiff(
-					const struct timeval *start_time,
-					const struct timeval *end_time);
+time_t	get_minutes_diff(
+			const struct timeval *start_time,
+			const struct timeval *end_time);
 
-time_t			getSecondsDiff(
-					const struct timeval *start_time,
-					const struct timeval *end_time);
+time_t	get_seconds_diff(
+			const struct timeval *start_time,
+			const struct timeval *end_time);
 
-time_t			getMilisecondsDiff(
-					const struct timeval *start_time,
-					const struct timeval *end_time);
+time_t	get_milliseconds_diff(
+			const struct timeval *start_time,
+			const struct timeval *end_time);
 
-time_t			getMicrosecondsDiff(
-					const struct timeval *start_time,
-					const struct timeval *end_time);
-
-time_t			getTimeInMilliseconds(
-					const struct timeval *start_time);
+time_t	get_time_in_milliseconds(
+			const struct timeval *time);
 
 #endif  // TIMER_H

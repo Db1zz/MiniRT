@@ -13,65 +13,19 @@
 #include "ft_error.h"
 #include <stdio.h>
 
-static const char	*standard_error_to_msg(t_errorn errorn)
+void	ft_perror(t_errorn errorn, const char *func)
 {
-	static const char	*msgs[] = {
-		"Function parameter == NULL",
-		"Malloc failed",
-		"Failed to obtain FD from open()",
-		"Invalid function arguments"
-	};
-
-	return (msgs[errorn - STANDARD_ERROR_MIN]);
-}
-
-static const char	*parser_errorn_to_msg(t_errorn errorn)
-{
-	static const char	*msgs[] = {
-		"Light->ratio should be in range 0 - 1.0",
-		"Type converstion failed",
-		"Cannot convert non-numeric string to a number",
-		"ft_split failed to split string",
-		"Cannot convert string to color",
-		"ft_atoi failed to convert string to a number",
-		"Failed to normalize vector",
-		"Unknown object specifier",
-		"Multiple instances if an object",
-		"Cannot convert string to vector",
-		"Camera not found",
-		"Exceeding limits for objects",
-		"Invalid file extension, expected: .rt",
-		"Invalid file path for the texture"
-	};
-
-	if (errorn < PARSER_ERRN_MIN || errorn > PARSER_ERRN_MAX)
-		return (NULL);
-	return (msgs[errorn - PARSER_ERRN_MIN]);
-}
-
-static const char	*minirt_errorn_to_msg(t_errorn errorn)
-{
-	static const char	*msgs[] = {
-		"Incorrect amount of arguments. Try: ./miniRT scenes/test.rt",
-		"Color values should be in range 0 - 255",
-		"FOV value should be in range 0 - 180",
-	};
-
-	return (msgs[errorn - MINIRT_ERRORN_MIN]);
-}
-
-void	ft_perror(t_errorn errorn, const char *func) {
 	const char	*msg;
 
 	if (errorn == ERR_NO_ERROR)
 		return ;
 	msg = NULL;
 	if (errorn >= STANDARD_ERROR_MIN && errorn <= STANDARD_ERROR_MAX)
-		msg = standard_error_to_msg(errorn);
+		msg = get_standard_error_to_msg(errorn);
 	else if (errorn >= PARSER_ERRN_MIN && errorn <= PARSER_ERRN_MAX)
-		msg = parser_errorn_to_msg(errorn);
+		msg = get_parser_errorn_to_msg(errorn);
 	else if (errorn >= MINIRT_ERRORN_MIN && errorn <= MINIRT_ERRORN_MAX)
-		msg = minirt_errorn_to_msg(errorn);
+		msg = get_minirt_errorn_to_msg(errorn);
 	if (msg == NULL)
 		printf("Error in %s: incorrect error number\n", __func__);
 	else
@@ -89,6 +43,7 @@ void	set_error(t_error *error, t_errorn errorn, const char *func)
 	error->func = func;
 }
 
-t_error	create_error(t_errorn errorn, const char *func) {
+t_error	create_error(t_errorn errorn, const char *func)
+{
 	return ((t_error){errorn, func});
 }

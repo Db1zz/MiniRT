@@ -18,7 +18,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-static void line_parser(t_scene *scene, char **line_data)
+static void	line_parser(t_scene *scene, char **line_data)
 {
 	if (ft_strcmp("sp", line_data[0]) == 0)
 		parse_sphere(scene, line_data);
@@ -35,12 +35,14 @@ static void line_parser(t_scene *scene, char **line_data)
 	else if (ft_strcmp("C", line_data[0]) == 0)
 		parse_camera(scene, line_data);
 	else if (line_data[0][0] == '#')
-		return;
+		return ;
 	else
 		set_error(&scene->error, ERR_UNKNOWN_OBJECT_SPECIFIER, __func__);
 }
 
-static bool	validate_file_extension(const char *file_name, const char *extension)
+static bool	validate_file_extension(
+	const char *file_name,
+	const char *extension)
 {
 	size_t	i;
 
@@ -54,18 +56,18 @@ static bool	validate_file_extension(const char *file_name, const char *extension
 	return (!ft_strcmp(file_name + i, extension));
 }
 
-static void scene_parser(t_scene *scene, int scene_fd)
+static void	scene_parser(t_scene *scene, int scene_fd)
 {
-	char *line;
-	char *c;
-	char **splitted_line;
+	char	*line;
+	char	*c;
+	char	**splitted_line;
 
 	splitted_line = NULL;
 	while (scene->error.errorn == ERR_NO_ERROR)
 	{
 		line = get_next_line(scene_fd);
 		if (!line)
-			break;
+			break ;
 		c = ft_strchr(line, '\n');
 		if (c && *c == '\n')
 			*c = '\0';

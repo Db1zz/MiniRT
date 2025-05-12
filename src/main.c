@@ -10,8 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h" /* minirt_routine() */
-#include "minirt_bonus.h" /* minirt_routine_bonus */
+#ifdef BONUS
+# include "minirt_bonus.h" /* minirt_routine_bonus */
+#else
+# include "minirt.h" /* minirt_routine() */
+#endif // ifdef BONUS
+
 // #include "libft.h" /* for tests only */
 
 #ifdef BONUS

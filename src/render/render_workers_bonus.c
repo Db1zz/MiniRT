@@ -18,6 +18,18 @@
 #include <sys/types.h> /* sysconf */
 #include <stdlib.h> /* free() */
 
+static void	set_worker_resolution(
+	t_render_thread_ctx *thread_data,
+	size_t perv_end,
+	size_t base,
+	size_t remainder)
+{
+	thread_data->start_x = perv_end;
+	thread_data->end_x = perv_end + base;
+	if (thread_data->tid < remainder)
+		thread_data->end_x += 1;
+}
+
 void	render_init_workers(
 	t_render_workers_ctx *workers,
 	size_t num_workers,
@@ -30,8 +42,8 @@ void	render_init_workers(
 
 	i = 0;
 	workers->num_threads = num_workers;
-	pepe_barrier_init(&workers->sync.render_start_barrier, NULL, num_workers + 1);
-	pepe_barrier_init(&workers->sync.render_end_barrier, NULL, num_workers + 1);
+	pepe_barrier_init(&workers->sync.render_start_barrier, 0, num_workers + 1);
+	pepe_barrier_init(&workers->sync.render_end_barrier, 0, num_workers + 1);
 	workers->sync.to_finish = false;
 	workers->threads = ft_calloc(num_workers, sizeof(t_render_thread_ctx));
 	base = VIEWPORT_HEIGHT / num_workers;
@@ -39,14 +51,11 @@ void	render_init_workers(
 	perv_end = 0;
 	while (i < num_workers)
 	{
-		workers->threads[i].start_x = perv_end;
-		workers->threads[i].end_x = perv_end + base;
-		if (i < remainder)
-			workers->threads[i].end_x += 1;
-		perv_end = workers->threads[i].end_x;
 		workers->threads[i].tid = i;
 		workers->threads[i].scene = scene;
 		workers->threads[i].sync = &workers->sync;
+		set_worker_resolution(&workers->threads[i], perv_end, base, remainder);
+		perv_end = workers->threads[i].end_x;
 		++i;
 	}
 }

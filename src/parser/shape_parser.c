@@ -15,19 +15,18 @@
 #include "minirt_math.h"
 #include "libft.h"
 
-
-void parse_sphere(t_scene *scene, char **line_data)
+void	parse_sphere(t_scene *scene, char **line_data)
 {
-	t_sphere *sphere;
-	t_object *object;
-	t_aabb	box;
+	t_sphere	*sphere;
+	t_object	*object;
+	t_aabb		box;
 
 	if (scene->objects_size > SCENE_OBJECTS_LIMIT)
-		return (set_error(&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
-
+		return (set_error(
+				&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
 	sphere = rt_calloc(1, sizeof(t_sphere), scene);
 	if (!sphere)
-		return;
+		return ;
 	str_to_vector(&sphere->pos, line_data[1], false, scene);
 	sphere->diameter = rt_atof(line_data[2], scene);
 	sphere->radius = sphere->diameter * 0.5;
@@ -37,9 +36,10 @@ void parse_sphere(t_scene *scene, char **line_data)
 	scene_add_object(scene, object);
 }
 
-void	cylinder_init_caps(t_cylinder *cy) {
-	t_plane *plane1;
-	t_plane *plane2;
+void	cylinder_init_caps(t_cylinder *cy)
+{
+	t_plane	*plane1;
+	t_plane	*plane2;
 
 	cy->caps = ft_calloc(2, sizeof(t_object));
 	plane1 = ft_calloc(1, sizeof(t_plane));
@@ -71,10 +71,11 @@ void	parse_cylinder(t_scene *scene, char **line_data)
 	t_aabb		box;
 
 	if (scene->objects_size > SCENE_OBJECTS_LIMIT)
-		return (set_error(&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
+		return (set_error(
+				&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
 	cylinder = rt_calloc(1, sizeof(t_cylinder), scene);
 	if (!cylinder)
-		return;
+		return ;
 	str_to_vector(&cylinder->pos, line_data[1], false, scene);
 	str_to_vector(&cylinder->axis, line_data[2], true, scene);
 	cylinder->diameter = rt_atof(line_data[3], scene);
@@ -92,15 +93,16 @@ void	parse_cylinder(t_scene *scene, char **line_data)
 
 void	parse_plane(t_scene *scene, char **line_data)
 {
-	t_plane *plane;
-	t_object *object;
-	t_aabb	box;
+	t_plane		*plane;
+	t_object	*object;
+	t_aabb		box;
 
 	if (scene->objects_size > SCENE_OBJECTS_LIMIT)
-		return (set_error(&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
+		return (set_error(
+				&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
 	plane = rt_calloc(1, sizeof(t_plane), scene);
 	if (!plane)
-		return;
+		return ;
 	str_to_vector((&plane->pos), line_data[1], false, scene);
 	str_to_vector(&plane->normal_vec, line_data[2], true, scene);
 	str_to_color((&plane->color), line_data[3], scene);
@@ -116,14 +118,14 @@ void	parse_gyper(t_scene *scene, char **line_data)
 {
 	t_gyper		*gyper;
 	t_object	*object;
-	t_aabb	box;
+	t_aabb		box;
 
 	if (scene->objects_size > SCENE_OBJECTS_LIMIT)
-		return (set_error(&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
-
+		return (set_error(
+				&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
 	gyper = rt_calloc(1, sizeof(t_gyper), scene);
 	if (!gyper)
-		return;
+		return ;
 	str_to_vector(&gyper->pos, line_data[1], false, scene);
 	str_to_vector(&gyper->axis, line_data[2], true, scene);
 	str_to_vector(&gyper->squish, line_data[3], true, scene);

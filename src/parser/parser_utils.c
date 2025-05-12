@@ -87,7 +87,8 @@ bool	is_string_number(const char *number, t_scene *scene)
 	while (number[i])
 	{
 		if (!ft_isdigit(number[i]) && number[i] != '\n')
-			return (set_error(&scene->error, ERR_STRING_IS_NOT_NUM, __func__), false);
+			return (set_error(
+					&scene->error, ERR_STRING_IS_NOT_NUM, __func__), false);
 		i++;
 	}
 	return (true);

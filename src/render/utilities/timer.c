@@ -50,16 +50,6 @@ time_t	get_milliseconds_diff(
 	return ((ms_end - ms_start) % 1000);
 }
 
-time_t	get_microseconds_diff(
-	const struct timeval *start_time,
-	const struct timeval *end_time)
-{
-	const time_t	ms_start = get_time_in_milliseconds(start_time);
-	const time_t	ms_end = get_time_in_milliseconds(end_time);
-
-	return ((ms_end - ms_start) % 1000);
-}
-
 time_t	get_time_in_milliseconds(const struct timeval *time)
 {
 	return (time->tv_sec * 1000 + time->tv_usec / 1000);

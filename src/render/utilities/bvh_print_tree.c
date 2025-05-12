@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bvh_print_tree.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/12 14:15:35 by gonische          #+#    #+#             */
+/*   Updated: 2025/05/12 14:15:35 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "bvh.h"
 
 #include "object.h"
@@ -8,18 +20,22 @@
 
 static void	print_spaces(int x)
 {
-	int i = 0;
+	int	i;
 
-	while (i++ < x)
+	i = 0;
+	while (i < x)
+	{
 		printf(" ");
+		++i;
+	}
 }
 
 static void	print_tree_line(
 	const char *tree_symbol, const char *node_str, int level, char *buffer)
 {
-	int i;
-	int spaces_consumed;
-	int printed;
+	int	i;
+	int	spaces_consumed;
+	int	printed;
 
 	i = 0;
 	printed = 0;
@@ -43,7 +59,7 @@ static void	print_tree_routine(
 	t_bvh_node *tree, int level, char *buffer, size_t buffer_size)
 {
 	if (tree == NULL)
-		return;
+		return ;
 	if (tree->left && tree->right)
 	{
 		print_tree_line("|-", "N\n", level, buffer);
@@ -67,11 +83,13 @@ static void	print_tree_routine(
 		buffer[level - 1] = ':';
 }
 
+#define PRINT_TREE_BUFFER_SIZE 1024
+
 void	print_tree(t_bvh_node *tree)
 {
-	size_t buffer_size = 1024;
-	char buffer[buffer_size + 1];
+	char	buffer[PRINT_TREE_BUFFER_SIZE + 1];
+
 	buffer[0] = '\0';
 	printf("N\n");
-	print_tree_routine(tree, 0, buffer, buffer_size);
+	print_tree_routine(tree, 0, buffer, PRINT_TREE_BUFFER_SIZE);
 }

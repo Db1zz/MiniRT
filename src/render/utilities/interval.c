@@ -32,16 +32,8 @@ bool	interval_surrounds(double val, const t_interval *interval)
 	return (interval->min < val && interval->max > val);
 }
 
-double	interval_clamp(const t_interval *interval, double x)
-{
-	if (x > interval->max)
-		return interval->max;
-	else if (x < interval->min)
-		return interval->min;
-	return (x);
-}
-
 t_interval	interval_expansion(const t_interval *i1, const t_interval *i2)
+
 {
 	t_interval	expanded_interval;
 

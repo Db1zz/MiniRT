@@ -49,7 +49,9 @@ int	rgb_to_int(const t_color *color)
 	return (65536 * (int)color->r + 256 * (int)color->g + (int)color->b);
 }
 
-void	print_color(t_color *c)
-{
-	printf("Color: [%f, %f, %f]\n", c->r, c->g, c->b);
-}
+/*
+	void	print_color(t_color *c)
+	{
+		printf("Color: [%f, %f, %f]\n", c->r, c->g, c->b);
+	}
+*/

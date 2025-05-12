@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:12 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/08 15:58:00 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:37:52 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	parse_light(t_scene *scene, char **line_data)
 	t_light	*light;
 
 	if (scene->lights_size > 0)
-		return (set_error(&scene->error, ERR_MULTIPLE_OBJECTS_INSTANCES, __func__));
+		return (set_error(
+				&scene->error, ERR_MULTIPLE_OBJECTS_INSTANCES, __func__));
 	light = rt_calloc(1, sizeof(t_light), scene);
 	if (!light)
 		return ;
@@ -33,7 +34,8 @@ void	parse_light(t_scene *scene, char **line_data)
 	if (light->ratio < RATIO_MIN || light->ratio > RATIO_MAX)
 		set_error(&scene->error, ERR_RATIO_RANGE_ERROR, __func__);
 	str_to_color(&light->color, line_data[3], scene);
-	scene_add_light(scene, object_alloc(light, aabb_create_empty(), E_LIGHT, 0));
+	scene_add_light(scene,
+		object_alloc(light, aabb_create_empty(), E_LIGHT, 0));
 }
 #else
 
@@ -42,7 +44,8 @@ void	parse_light(t_scene *scene, char **line_data)
 	t_light	*light;
 
 	if (scene->lights_size > SCENE_LIGHTS_LIMIT)
-		return (set_error(&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
+		return (set_error(
+				&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
 	light = rt_calloc(1, sizeof(t_light), scene);
 	if (!light)
 		return ;
@@ -51,7 +54,8 @@ void	parse_light(t_scene *scene, char **line_data)
 	if (light->ratio < RATIO_MIN || light->ratio > RATIO_MAX)
 		set_error(&scene->error, ERR_RATIO_RANGE_ERROR, __func__);
 	str_to_color(&light->color, line_data[3], scene);
-	scene_add_light(scene, object_alloc(light, aabb_create_empty(), E_LIGHT, 0));
+	scene_add_light(scene,
+		object_alloc(light, aabb_create_empty(), E_LIGHT, 0));
 }
 #endif
 
@@ -60,7 +64,8 @@ void	parse_ambient(t_scene *scene, char **line_data)
 	t_amb_lighting	*amb_lighting;
 
 	if (scene->ambient_light_size > 0)
-		return (set_error(&scene->error, ERR_MULTIPLE_OBJECTS_INSTANCES,__func__));
+		return (set_error(
+				&scene->error, ERR_MULTIPLE_OBJECTS_INSTANCES, __func__));
 	amb_lighting = rt_calloc(1, sizeof(t_amb_lighting), scene);
 	if (!amb_lighting)
 		return ;
@@ -78,7 +83,8 @@ void	parse_camera(t_scene *scene, char **line_data)
 	t_camera	*camera;
 
 	if (scene->camera != NULL)
-		return (set_error(&scene->error, ERR_MULTIPLE_OBJECTS_INSTANCES, __func__));
+		return (set_error(
+				&scene->error, ERR_MULTIPLE_OBJECTS_INSTANCES, __func__));
 	camera = rt_calloc(1, sizeof(t_camera), scene);
 	if (!camera)
 		return ;

@@ -21,6 +21,7 @@ SRCS =	src/main.c	\
 		src/render/render_workers_bonus.c	\
 		src/render/render_routine_bonus.c	\
 		src/render/scene.c	\
+		src/render/scene_destroy.c	\
 		src/render/scene_add_functions.c	\
 		src/render/camera/camera.c	\
 		src/render/camera/viewport.c	\
@@ -51,6 +52,7 @@ SRCS =	src/main.c	\
 		src/render/utilities/color_math2.c	\
 		src/render/utilities/color.c	\
 		src/render/utilities/error.c	\
+		src/render/utilities/error_messages.c	\
 		src/render/utilities/interval.c	\
 		src/render/utilities/math_utils.c	\
 		src/render/utilities/utils.c	\

@@ -16,7 +16,7 @@
 
 #include <stdlib.h> /* free() */
 
-t_object *object_alloc(
+t_object	*object_alloc(
 	void *data,
 	t_aabb box,
 	t_object_type type,
@@ -34,8 +34,9 @@ t_object *object_alloc(
 	return (new_object);
 }
 
-const char *object_get_type_name(t_object_type type) {
-	static const char *strs[] = {
+const char	*object_get_type_name(t_object_type type)
+{
+	static const char	*strs[] = {
 		"Sphere",
 		"Cylinder",
 		"Plane",

@@ -64,9 +64,12 @@ typedef struct s_error
 	const char		*func;
 }	t_error;
 
-void	ft_perror(t_errorn errorn, const char *func);
-void	ft_display_error(const t_error *error);
-void	set_error(t_error *error, t_errorn errorn, const char *func);
-t_error	create_error(t_errorn errorn, const char *func);
+const char	*get_standard_error_to_msg(t_errorn errorn);
+const char	*get_parser_errorn_to_msg(t_errorn errorn);
+const char	*get_minirt_errorn_to_msg(t_errorn errorn);
+void		ft_perror(t_errorn errorn, const char *func);
+void		ft_display_error(const t_error *error);
+void		set_error(t_error *error, t_errorn errorn, const char *func);
+t_error		create_error(t_errorn errorn, const char *func);
 
 #endif	// FT_ERROR_H

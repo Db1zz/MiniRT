@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shape_parser_bonus.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/12 14:38:01 by gonische          #+#    #+#             */
+/*   Updated: 2025/05/12 14:38:01 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 #include "vector.h" /* t_vector */
@@ -9,16 +21,16 @@
 
 void	parse_plane(t_scene *scene, char **line_data)
 {
-	t_plane *plane;
-	t_object *object;
-	t_aabb box;
+	t_plane		*plane;
+	t_object	*object;
+	t_aabb		box;
 
 	if (scene->objects_size > SCENE_OBJECTS_LIMIT)
-		return (set_error(&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
-
+		return (set_error(
+				&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
 	plane = rt_calloc(1, sizeof(t_plane), scene);
 	if (!plane)
-		return;
+		return ;
 	str_to_vector((&plane->pos), line_data[1], false, scene);
 	str_to_vector(&plane->normal_vec, line_data[2], true, scene);
 	str_to_color((&plane->color), line_data[3], scene);

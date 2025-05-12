@@ -49,16 +49,7 @@ static void	display_scene(t_scene *scene)
 
 void	render_scene_bonus(t_scene *scene, t_render_workers_ctx *workers)
 {
-	struct timeval	start_time;
-	struct timeval	end_time;
-
-	start_time = getTime();
 	pepe_barrier_wait(&workers->sync.render_start_barrier);
 	pepe_barrier_wait(&workers->sync.render_end_barrier);
 	display_scene(scene);
-	end_time = getTime();
-	ft_printf("Rendered for [m:%ld, s:%ld, ms:%ld]\n",
-		getMinutesDiff(&start_time, &end_time),
-		getSecondsDiff(&start_time, &end_time),
-		getMilisecondsDiff(&start_time, &end_time));
 }

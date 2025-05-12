@@ -46,43 +46,6 @@ void	scene_update_tree(t_scene *scene)
 	scene->tree = create_tree(scene->objects, 0, scene->objects_size - 1, 0);
 }
 
-static void	scene_destroy_object_array(t_object **objects)
-{
-	int	i;
-
-	i = 0;
-	while (objects[i])
-		object_destroy(&objects[i++]);
-	free(objects);
-}
-
-#ifdef __APPLE__
-/*
-	mlx is a cross-platform library they said))))))
-*/
-void	mlx_destroy_display(void *mlx)
-{
-	(void)mlx;
-}
-
-#endif // __APPLE__
-
-void	scene_destroy(t_scene *scene)
-{
-	scene_destroy_object_array(scene->ambient_light);
-	scene_destroy_object_array(scene->lights);
-	scene_destroy_object_array(scene->objects);
-	free_bvh_tree(scene->tree);
-	if (scene->img)
-		xpm_render_destroy_img(scene->mlx, scene->img);
-	if (scene->camera)
-		free(scene->camera);
-	if (scene->win)
-		mlx_destroy_window(scene->mlx, scene->win);
-	if (scene->mlx)
-		(mlx_destroy_display(scene->mlx), free(scene->mlx));
-}
-
 t_color	scene_calculate_pixel_color(
 	const t_camera *camera,
 	const t_scene *scene,

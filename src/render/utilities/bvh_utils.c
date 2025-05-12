@@ -1,29 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bvh_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/12 14:23:08 by gonische          #+#    #+#             */
+/*   Updated: 2025/05/12 14:23:08 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "bvh.h"
 #include "minirt_math.h"
 
-bool box_compare_is_less(const t_object *a, const t_object *b, int axis)
+bool	box_compare_is_less(const t_object *a, const t_object *b, int axis)
 {
 	return (a->box.interval[axis].min < b->box.interval[axis].min);
 }
 
-bool box_x_compare_is_less(const t_object *a, const t_object *b)
+bool	box_x_compare_is_less(const t_object *a, const t_object *b)
 {
 	return (box_compare_is_less(a, b, 0));
 }
 
-bool box_y_compare_is_less(const t_object *a, const t_object *b)
+bool	box_y_compare_is_less(const t_object *a, const t_object *b)
 {
 	return (box_compare_is_less(a, b, 1));
 }
 
-bool box_z_compare_is_less(const t_object *a, const t_object *b)
+bool	box_z_compare_is_less(const t_object *a, const t_object *b)
 {
 	return (box_compare_is_less(a, b, 2));
 }
 
-t_obj_comparator randomize_comparator()
+t_obj_comparator	randomize_comparator(void)
 {
-	static const t_obj_comparator comparator_array[3] = {
+	static const t_obj_comparator	comparator_array[3] = {
 		box_x_compare_is_less,
 		box_y_compare_is_less,
 		box_z_compare_is_less};
