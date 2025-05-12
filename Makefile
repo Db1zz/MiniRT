@@ -2,7 +2,7 @@
 NAME = miniRT
 CC = cc
 UNAME_S := $(shell uname -s)
-FLAGS := -Wall -Wextra -O3 -g #-Werror
+FLAGS := -Wall -Wextra -O3 -g -fsanitize=address #-Werror
 MINILIBX_DIR = minilibx
 MINILIBX := $(MINILIBX_DIR)/libmlx.a
 LIBFT = libft/libft.a
@@ -13,6 +13,7 @@ SRCS =	src/main.c	\
 		src/parser/object_parser.c	\
 		src/parser/parser.c	\
 		src/parser/parser_utils.c	\
+		src/parser/parser_utils2.c	\
 		src/parser/shape_parser.c	\
 		src/parser/shape_parser_bonus.c	\
 		src/parser/texture_parser.c \

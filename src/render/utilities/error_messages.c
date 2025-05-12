@@ -41,7 +41,8 @@ const char	*get_parser_errorn_to_msg(t_errorn errorn)
 		"Camera not found",
 		"Exceeding limits for objects",
 		"Invalid file extension, expected: .rt",
-		"Invalid file path for the texture"};
+		"Invalid file path for the texture",
+		"An invalid number of parameters was provided to init the entity"};
 
 	if (errorn < PARSER_ERRN_MIN || errorn > PARSER_ERRN_MAX)
 		return (NULL);

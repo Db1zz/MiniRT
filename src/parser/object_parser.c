@@ -27,8 +27,10 @@ void	parse_light(t_scene *scene, char **line_data)
 		return (set_error(
 				&scene->error, ERR_MULTIPLE_OBJECTS_INSTANCES, __func__));
 	light = rt_calloc(1, sizeof(t_light), scene);
+	if (!check_amount_of_arguments(line_data, 4))
+		return (set_error(&scene->error, ERR_ENTITY_ARGS, __func__));
 	if (!light)
-		return ;
+		return (set_error(&scene->error, ERR_MALLOC_FAILED, __func__));
 	str_to_vector(&light->pos, line_data[1], false, scene);
 	light->ratio = rt_atof(line_data[2], scene);
 	if (light->ratio < RATIO_MIN || light->ratio > RATIO_MAX)
@@ -46,9 +48,11 @@ void	parse_light(t_scene *scene, char **line_data)
 	if (scene->lights_size > SCENE_LIGHTS_LIMIT)
 		return (set_error(
 				&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
+	if (!check_amount_of_arguments(line_data, 4))
+		return (set_error(&scene->error, ERR_ENTITY_ARGS, __func__));
 	light = rt_calloc(1, sizeof(t_light), scene);
 	if (!light)
-		return ;
+		return (set_error(&scene->error, ERR_MALLOC_FAILED, __func__));
 	str_to_vector(&light->pos, line_data[1], false, scene);
 	light->ratio = rt_atof(line_data[2], scene);
 	if (light->ratio < RATIO_MIN || light->ratio > RATIO_MAX)
@@ -66,9 +70,11 @@ void	parse_ambient(t_scene *scene, char **line_data)
 	if (scene->ambient_light_size > 0)
 		return (set_error(
 				&scene->error, ERR_MULTIPLE_OBJECTS_INSTANCES, __func__));
+	if (!check_amount_of_arguments(line_data, 3))
+		return (set_error(&scene->error, ERR_ENTITY_ARGS, __func__));
 	amb_lighting = rt_calloc(1, sizeof(t_amb_lighting), scene);
 	if (!amb_lighting)
-		return ;
+		return (set_error(&scene->error, ERR_MALLOC_FAILED, __func__));
 	amb_lighting->ratio = rt_atof(line_data[1], scene);
 	if (amb_lighting->ratio < RATIO_MIN || amb_lighting->ratio > RATIO_MAX)
 		set_error(&scene->error, ERR_RATIO_RANGE_ERROR, __func__);
@@ -85,9 +91,11 @@ void	parse_camera(t_scene *scene, char **line_data)
 	if (scene->camera != NULL)
 		return (set_error(
 				&scene->error, ERR_MULTIPLE_OBJECTS_INSTANCES, __func__));
+	if (!check_amount_of_arguments(line_data, 4))
+		return (set_error(&scene->error, ERR_ENTITY_ARGS, __func__));
 	camera = rt_calloc(1, sizeof(t_camera), scene);
 	if (!camera)
-		return ;
+		return (set_error(&scene->error, ERR_MALLOC_FAILED, __func__));
 	str_to_vector(&camera->view_point, line_data[1], false, scene);
 	str_to_vector(&camera->orientation_vec, line_data[2], false, scene);
 	if (is_string_number(line_data[3], scene))

@@ -28,9 +28,11 @@ void	parse_plane(t_scene *scene, char **line_data)
 	if (scene->objects_size > SCENE_OBJECTS_LIMIT)
 		return (set_error(
 				&scene->error, ERR_OBJECTS_AMOUNT_EXCEED_LIMITS, __func__));
+	if (!check_amount_of_arguments(line_data, 5))
+		return (set_error(&scene->error, ERR_ENTITY_ARGS, __func__));
 	plane = rt_calloc(1, sizeof(t_plane), scene);
 	if (!plane)
-		return ;
+		return (set_error(&scene->error, ERR_MALLOC_FAILED, __func__));
 	str_to_vector((&plane->pos), line_data[1], false, scene);
 	str_to_vector(&plane->normal_vec, line_data[2], true, scene);
 	str_to_color((&plane->color), line_data[3], scene);

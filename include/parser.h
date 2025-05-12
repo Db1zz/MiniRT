@@ -82,4 +82,8 @@ double		rt_atof(
 				const char *str,
 				t_scene *scene);
 
+bool		 check_amount_of_arguments(
+				char **line_data,
+				int expected_amount);
+
 #endif // PARSER_H
