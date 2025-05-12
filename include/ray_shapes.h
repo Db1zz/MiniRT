@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_shapes.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: gwagner <gwagner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 00:55:38 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/10 00:55:38 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:56:54 by gwagner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,21 @@ bool	ray_hit_gyper(
 			const t_ray *ray,
 			const t_object *gyper,
 			t_hit_record *rec);
+
+t_vector	calc_cylinder_normal(
+	const t_cylinder *cy,
+	const t_ray *ray,
+	double *s2,
+	double *dist);
+
+bool	find_cylinder_solutions(
+	const t_cylinder *cy,
+	const t_ray *ray,
+	double *s);
+
+bool	tube_intersection(
+	const t_cylinder *cy,
+	const t_ray *ray,
+	t_hit_record *rec);
 
 #endif // RAY_SHAPES_H

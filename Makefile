@@ -36,6 +36,7 @@ SRCS =	src/main.c	\
 		src/render/ray/ray_light.c	\
 		src/render/ray/ray_bvh.c	\
 		src/render/ray/cylinder_math.c	\
+		src/render/ray/cylinder_math2.c	\
 		src/render/ray/gyper_math.c	\
 		src/render/ray/plane_math.c	\
 		src/render/ray/sphere_math.c	\

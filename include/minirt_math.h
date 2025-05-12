@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt_math.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: gwagner <gwagner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:35:34 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/09 12:35:34 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:56:07 by gwagner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ double	random_double_range(double min, double max);
 double	clamp_value(double val, double min, double max);
 bool	quadratic(double a, double b, double c, double *result);
 int		rand_int(int min, int max);
+void	set_double(double *var, double val);
 
 #endif // MINIRT_MATH_H

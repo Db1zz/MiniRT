@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   timer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: gwagner <gwagner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 01:16:31 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/10 01:16:31 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:57:33 by gwagner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "timer.h"
+#include <stdlib.h>
 
 struct timeval	get_time(void)
 {
