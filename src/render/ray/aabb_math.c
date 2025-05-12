@@ -36,10 +36,10 @@ void	compare_t(double t0, double t1, t_interval *ray_t)
 
 bool	ray_hit_aabb(const t_ray *r, const t_aabb *aabb)
 {
-	t_interval	ray_t;
-	int			axis;
-	double		t[2];
-	double		adinv;
+	t_interval			ray_t;
+	int					axis;
+	double				t[2];
+	double				adinv;
 	const t_interval	*ax;
 
 	ray_t = create_interval(0, FT_INFINITY);
