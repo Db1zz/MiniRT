@@ -6,14 +6,13 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 01:45:35 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/08 16:38:45 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:17:56 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "render_bonus.h"
 
 #include "scene.h" /* scene | viewport macro */
-#include "timer.h" /* timer */
 #include "mlx.h" /* mlx_put_image_to_window() */
 #include "libft.h" /* ft_printf() */
 

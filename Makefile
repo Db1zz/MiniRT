@@ -2,7 +2,7 @@
 NAME = miniRT
 CC = cc
 UNAME_S := $(shell uname -s)
-FLAGS := -Wall -Wextra -O3 -g -fsanitize=address #-Werror
+FLAGS := -Wall -Wextra -Werror -O3
 MINILIBX_DIR = minilibx
 MINILIBX := $(MINILIBX_DIR)/libmlx.a
 LIBFT = libft/libft.a
@@ -63,7 +63,6 @@ SRCS =	src/main.c	\
 		src/render/utilities/vector_math2.c	\
 		src/render/utilities/vector_math3.c	\
 		src/render/utilities/vector.c	\
-		src/render/utilities/timer.c	\
 		src/render/utilities/xpm_render.c	\
 
 SRCS_DIR = src
