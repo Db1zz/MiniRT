@@ -24,6 +24,7 @@ SRCS =	src/main.c	\
 		src/render/scene_destroy.c	\
 		src/render/scene_add_functions.c	\
 		src/render/camera/camera.c	\
+		src/render/camera/camera2.c	\
 		src/render/camera/viewport.c	\
 		src/render/ray/aabb_math.c	\
 		src/render/ray/light_utils.c	\
