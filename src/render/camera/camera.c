@@ -6,7 +6,7 @@
 /*   By: gwagner <gwagner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:12:36 by gwagner           #+#    #+#             */
-/*   Updated: 2025/05/12 15:38:48 by gwagner          ###   ########.fr       */
+/*   Updated: 2025/05/12 15:42:03 by gwagner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ t_vector	camera_calculate_ray_direction(
 	return (vec3_normalize(vec3_sub_vec3(x[7], camera->view_point)));
 }
 
-void	camera_move_helper(t_vector *p, int *operation, const t_vector *ov, int key)
+void	camera_move_helper(t_vector *p, int *operation,
+	const t_vector *ov, int key)
 {
 	if (key == K_W || key == K_S)
 	{
