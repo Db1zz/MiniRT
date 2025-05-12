@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: gwagner <gwagner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:33 by gonische          #+#    #+#             */
-/*   Updated: 2025/04/03 22:18:57 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:25:35 by gwagner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ bool	is_string_number(const char *number, t_scene *scene)
 		|| (!ft_isdigit(number[i]) && number[i] != '-' && number[i] != '+'))
 		return (set_error(&scene->error, ERR_NULL_PARAMETER, __func__), false);
 	if (number[i] == '-')
-		i += 2;
-	else
+		i++;
+	while (ft_isdigit(number[i]))
 		i++;
 	if (number[i] == '.')
 		i++;
