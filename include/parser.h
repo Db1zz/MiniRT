@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:46:48 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/12 17:29:56 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:02:34 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,7 @@ double		rt_atof(
 bool		check_amount_of_arguments(
 				char **line_data,
 				int expected_amount);
+
+bool		check_range(double val, double min, double max);
 
 #endif // PARSER_H

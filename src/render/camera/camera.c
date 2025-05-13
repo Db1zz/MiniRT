@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gwagner <gwagner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:12:36 by gwagner           #+#    #+#             */
-/*   Updated: 2025/05/12 15:42:03 by gwagner          ###   ########.fr       */
+/*   Updated: 2025/05/13 16:46:33 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ t_vector	norminet(t_vector ov)
 
 	if (ov.y > 0 && ov.x == 0 && ov.z == 0)
 		x = vec3_negate(vec3_normalize(vec3_cross(ov, (t_vector){0, 0, 1})));
+	else if (ov.y < 0 && ov.x == 0 && ov.z == 0)
+		x = vec3_normalize(vec3_cross(ov, (t_vector){0, 0, -1}));
 	else
 		x = vec3_negate(vec3_normalize(vec3_cross(ov, (t_vector){0, 1, 0})));
 	return (x);

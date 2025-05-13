@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 02:27:51 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/10 02:27:51 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:27:25 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,22 @@ t_ray	create_light_ray_from_hit(
 	light_ray = create_ray(ray_origin, ray_direction, light->color, length);
 	return (light_ray);
 }
-
+#include <stdio.h>
 bool	light_ray_is_light_visible_in_bvh(
 	const t_ray *light_ray,
 	const t_bvh_node *tree,
+	const t_hit_record *shape_rec,
 	t_hit_record *result_rec)
 {
 	t_hit_record	temp_rec;
 
 	init_hit_record(&temp_rec);
 	if (ray_hit_bvh(light_ray, tree, result_rec, &temp_rec))
-		return (light_ray->length <= result_rec->ray_distance - FT_EPSILON);
+	{
+		printf("%d\n", result_rec->front_face);
+		return (light_ray->length <= result_rec->ray_distance - FT_EPSILON
+			&& (shape_rec->front_face == result_rec->front_face));
+	}
 	return (true);
 }
 

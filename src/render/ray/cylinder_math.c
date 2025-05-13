@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder_math.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gwagner <gwagner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:43:28 by gwagner           #+#    #+#             */
-/*   Updated: 2025/05/12 16:56:16 by gwagner          ###   ########.fr       */
+/*   Updated: 2025/05/13 16:40:38 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ void	set_rec_cy(
 		*rec = cap;
 }
 
+#include <stdio.h>
+
 bool	ray_hit_cylinder(
 	const t_ray *ray,
 	const t_object *cylinder_object,
@@ -119,6 +121,8 @@ bool	ray_hit_cylinder(
 	hit[1] = caps_intersection(cylinder, ray, &cap_rec);
 	set_rec_cy(rec, cylinder_rec, cap_rec, hit);
 	if (hit[0] || hit[1])
+	{
 		return (true);
+	}
 	return (false);
 }

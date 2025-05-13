@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:28:33 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/07 18:54:07 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:25:18 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ bool	ray_hit_plane(
 		return (false);
 	plane = (t_plane *)plane_object->data;
 	denom = vec3_dot(ray->direction, plane->normal_vec);
+	rec->front_face = false;
 	if (fabs(denom) > FT_EPSILON)
 	{
 		t = vec3_dot(vec3_sub_vec3(plane->pos, ray->origin),

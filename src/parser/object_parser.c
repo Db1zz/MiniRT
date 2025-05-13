@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:12 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/12 14:37:52 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:09:34 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	parse_light(t_scene *scene, char **line_data)
 	if (scene->lights_size > 0)
 		return (set_error(
 				&scene->error, ERR_MULTIPLE_OBJECTS_INSTANCES, __func__));
-	light = rt_calloc(1, sizeof(t_light), scene);
 	if (!check_amount_of_arguments(line_data, 4))
 		return (set_error(&scene->error, ERR_ENTITY_ARGS, __func__));
+	light = rt_calloc(1, sizeof(t_light), scene);
 	if (!light)
 		return (set_error(&scene->error, ERR_MALLOC_FAILED, __func__));
 	str_to_vector(&light->pos, line_data[1], false, scene);
@@ -97,7 +97,8 @@ void	parse_camera(t_scene *scene, char **line_data)
 	if (!camera)
 		return (set_error(&scene->error, ERR_MALLOC_FAILED, __func__));
 	str_to_vector(&camera->view_point, line_data[1], false, scene);
-	str_to_vector(&camera->orientation_vec, line_data[2], false, scene);
+	str_to_vector(&camera->orientation_vec, line_data[2], true, scene);
+	print_vec3(&camera->orientation_vec);
 	if (is_string_number(line_data[3], scene))
 		camera->fov = ft_atoi(line_data[3]);
 	if (camera->fov < CAMERA_FOV_MIN || camera->fov > CAMERA_FOV_MAX)

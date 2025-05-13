@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:24 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/07 19:05:34 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:08:55 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void	parse_cylinder(t_scene *scene, char **line_data)
 	str_to_vector(&cylinder->pos, line_data[1], false, scene);
 	str_to_vector(&cylinder->axis, line_data[2], true, scene);
 	cylinder->diameter = rt_atof(line_data[3], scene);
+	if (cylinder->diameter <= 0)
+		return (free(cylinder), set_error(&scene->error, ERR_RATIO_RANGE_ERROR, __func__));
 	cylinder->radius = cylinder->diameter / 2;
 	cylinder->height = rt_atof(line_data[4], scene);
 	str_to_color(&cylinder->color, line_data[5], scene);

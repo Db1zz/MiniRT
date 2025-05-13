@@ -2,7 +2,7 @@
 NAME = miniRT
 CC = cc
 UNAME_S := $(shell uname -s)
-FLAGS := -Wall -Wextra -Werror -O3
+FLAGS := -Wall -Wextra -Werror -O3 -g
 MINILIBX_DIR = minilibx
 MINILIBX := $(MINILIBX_DIR)/libmlx.a
 LIBFT = libft/libft.a

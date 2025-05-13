@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:27:44 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/05 16:18:59 by gonische         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:02:46 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static t_color	get_diffuse_lighting(
 	rc = clr_mult(shape_rec->color, 0.05);
 	init_hit_record(&lr_rec);
 	light_ray = create_light_ray_from_hit(shape_rec, light);
-	if (light_ray_is_light_visible_in_bvh(&light_ray, scene->tree, &lr_rec))
+	if (light_ray_is_light_visible_in_bvh(&light_ray, scene->tree, shape_rec, &lr_rec))
 	{
 		rc = clr_add_clr(rc, calculate_diffuse_color(light, shape_rec));
 		rc = clr_add_clr(rc,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gwagner <gwagner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:29:33 by gonische          #+#    #+#             */
-/*   Updated: 2025/05/12 17:25:35 by gwagner          ###   ########.fr       */
+/*   Updated: 2025/05/13 16:04:15 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ bool	check_str_numbers(char **numbers, int expected_size, t_scene *scene)
 void	str_to_color(t_color *color, const char *str, t_scene *scene)
 {
 	char	**data;
+	t_error	error;
 
 	if (!color || !str)
 		return (set_error(&scene->error, ERR_NULL_PARAMETER, __func__));
@@ -44,7 +45,12 @@ void	str_to_color(t_color *color, const char *str, t_scene *scene)
 		return (set_error(&scene->error, ERR_SPLIT_FAILED, __func__));
 	if (!check_str_numbers(data, COLOR_MAX_SIZE, scene))
 		return (set_error(&scene->error, ERR_STR_TO_COLOR_FAILED, __func__));
-	set_color(color, ft_atoi(data[0]), ft_atoi(data[1]), ft_atoi(data[2]));
+	error.errorn = set_color(color, ft_atoi(data[0]), ft_atoi(data[1]), ft_atoi(data[2]));
+	if (error.errorn)
+	{
+		scene->error = error;
+		error.func = __func__;
+	}
 	free_2dmatrix(data);
 }
 
@@ -67,7 +73,12 @@ void	str_to_vector(
 	set_vector(result, ft_atof(data[0]), ft_atof(data[1]), ft_atof(data[2]));
 	free_2dmatrix(data);
 	if (normalize)
-		*result = vec3_normalize(*result);
+	{
+		if ((check_range(result->x, -1, 1), check_range(result->y, -1, 1), check_range(result->z, -1, 1)))
+			*result = vec3_normalize(*result);
+		else
+			return (set_error(&scene->error, ERR_STR_TO_VECTOR_FAILED, __func__));
+	}
 }
 
 bool	is_string_number(const char *number, t_scene *scene)
